@@ -5,9 +5,12 @@
  */
 package com.entities;
 
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -26,5 +29,28 @@ public class CompraFacade extends AbstractFacade<Compra> {
     public CompraFacade() {
         super(Compra.class);
     }
+    
+    public List<Compra> findByOrdenId(Date fi, Date ff, Proveedor prov) {
+        TypedQuery<Compra> q = null;
+        
+        if(prov==null){
+                 q = em.createNamedQuery("Compra.findByFecha",Compra.class)
+                .setParameter("fi", fi)
+                .setParameter("ff", ff);
+        } 
+        if(null!=fi && prov!=null){
+             q = em.createNamedQuery("Compra.findByIdcompra",Compra.class)
+                .setParameter("fi", fi)
+                .setParameter("ff", ff)
+                .setParameter("prov", prov.getIdproveedor());
+        }        
+        if(null==fi){
+             q = em.createNamedQuery("Compra.findByProveedor",Compra.class)               
+                .setParameter("prov", prov.getIdproveedor());
+        }
+       
+        
+        return q.getResultList();
+    }    
     
 }
