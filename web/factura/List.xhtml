@@ -15,87 +15,116 @@
 
         <ui:define name="body">
             <h:form id="FacturaListForm">
-                <p:panel header="#{bundle.ListFacturaTitle}">
-                    <p:dataTable id="datalist" value="#{facturaController.items}" var="item"
-                                 selectionMode="single" selection="#{facturaController.selected}"
-                                 paginator="true"
-                                 rowKey="#{item.idfactura}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
+                 <div style="position: absolute; right: 20px;">
+                <p:commandButton id="buscarButton"   icon="ui-icon-search" value="Ctrl+B"  update=":BuscarForm" oncomplete="PF('BUscarDialog').show()" disabled="#{!empty facturaController.selected}"/>                
+                <p:commandButton actionListener="#{facturaController.prepareCreate()}"   icon="ui-icon-plus" value="F6" update="@form" disabled="#{!empty facturaController.selected}"/>
+                <p:commandButton actionListener="#{facturaController.create()}"   icon="ui-icon-disk" value="F7" update="FacturaListForm :growl" disabled="#{empty facturaController.selected}"/>
+                <p:commandButton actionListener="#{facturaController.limpiar()}"   icon="ui-icon-closethick" value="F9" update="@form" disabled="#{empty facturaController.selected}"/>
+                </div>
+
+            <p:panel header="Ventas" >
+                    <p:panelGrid columns="6"  style=" border-style: hidden !important;" rendered="#{facturaController.selected != null}">
+                        
+                        <p:outputLabel value="#{bundle.CreateFacturaLabel_usuarioIdusuario}" for="usuarioIdusuario" />
+                        <p:selectOneMenu id="usuarioIdusuario" value="#{facturaController.selected.usuarioIdusuario}" required="true" requiredMessage="#{bundle.EditFacturaRequiredMessage_usuarioIdusuario}">                            
+                        <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
+                                           var="usuarioIdusuarioItem"
+                                           itemLabel="#{usuarioIdusuarioItem.usuario}"
+                                           itemValue="#{usuarioIdusuarioItem}"/>
+                        </p:selectOneMenu>
+                     
+                        <p:outputLabel value="#{bundle.CreateFacturaLabel_clienteIdcliente}" for="clienteIdcliente" />
+                        <p:selectOneMenu id="clienteIdcliente" value="#{facturaController.selected.clienteIdcliente}" required="true" requiredMessage="#{bundle.EditFacturaRequiredMessage_clienteIdcliente}">
+                            <f:selectItems value="#{clienteController.itemsAvailableSelectOne}"
+                                           var="clienteIdclienteItem"
+                                           itemLabel="#{clienteIdclienteItem.nombre}"
+                                           itemValue="#{clienteIdclienteItem}"/>
+                        </p:selectOneMenu>                          
+                            
+                        <p:outputLabel value="#{bundle.CreateFacturaLabel_documento}" for="documento" />    
+                        <p:inputText id="documento" value="#{facturaController.selected.documento}" title="#{bundle.CreateFacturaTitle_documento}" />
+                        
+                        <p:outputLabel value="#{bundle.CreateFacturaLabel_fecha}" for="fecha" />                        
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{facturaController.selected.fecha}" title="#{bundle.EditFacturaTitle_fecha}"  showOn="button"/>
+                        
+                        <p:outputLabel value="#{bundle.CreateFacturaLabel_iva}" for="iva" />
+                        <p:inputText id="iva" value="#{facturaController.selected.iva}" title="#{bundle.CreateFacturaTitle_iva}" />
+                        
+                        <p:outputLabel value="#{bundle.CreateFacturaLabel_retencion}" for="retencion" />                        
+                        <p:inputText id="retencion" value="#{facturaController.selected.retencion}" title="#{bundle.CreateFacturaTitle_retencion}" />
+                        
+                        
+                                    
+                      
+                    </p:panelGrid>   
+                <p:panel>
+                    <p:panelGrid columns="8"  style=" border-style: hidden !important;" rendered="#{facturaController.selected != null}">
+                        <p:outputLabel value="Producto" for="productoIdproducto" />
+                        <p:selectOneMenu id="productoIdproducto" value="#{facturaController.productoIdproducto}" required="true" requiredMessage="#{bundle.EditCompraDetRequiredMessage_productoIdproducto}">
+                            <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
+                                           var="productoIdproductoItem"
+                                           itemValue="#{productoIdproductoItem}"
+                                           itemLabel="#{productoIdproductoItem.nombre}"
+                                           />
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{bundle.CreateCompraDetLabel_cantidad}" for="tcantidad" />
+                         <p:inputNumber id="tcantidad" value="#{facturaController.cantidad}"  minValue="1" maxValue="10000"/>  
+                        
+                        <p:outputLabel value="#{bundle.CreateCompraDetLabel_precio}" for="vprecio" /> 
+                        <p:inputNumber id="vprecio" value="#{facturaController.precio}"   />  
+                        
+                        <p:commandButton actionListener="#{facturaController.addDetalle()}"   icon="ui-icon-plus" style="margin-top: 0px !important;"  update="@form"/>
+                    </p:panelGrid>
+                </p:panel>  
+                <p:panel header="Detalle" >
+                    <p:dataTable id="datalist" value="#{facturaController.detFactura}" var="item"
+                                 selectionMode="single" selection="#{facturaDetController.selected}"
+                                  scrollable="true" scrollHeight="250"
+                                  rowKey="#{item.idfacturaDet}"
+                                 rows="30"
+                                 
                                  >
+                         <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Producto"/>
+                            </f:facet>
+                            <h:outputText value="#{item.productoIdproducto.nombre}"/>
+                        </p:column>
+                       
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
-
+                        
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListFacturaTitle_idfactura}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idfactura}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListFacturaTitle_documento}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.documento}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListFacturaTitle_fecha}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.fecha}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListFacturaTitle_cantidad}"/>
+                                <h:outputText value="#{bundle.ListCompraDetTitle_cantidad}"/>
                             </f:facet>
                             <h:outputText value="#{item.cantidad}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListFacturaTitle_iva}"/>
+                                <h:outputText value="#{bundle.ListCompraDetTitle_precio}"/>
                             </f:facet>
-                            <h:outputText value="#{item.iva}"/>
+                            
+                            <h:outputText value="#{item.precio}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListFacturaTitle_retencion}"/>
+                                <h:outputText value="Total"/>
                             </f:facet>
-                            <h:outputText value="#{item.retencion}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListFacturaTitle_total}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.total}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListFacturaTitle_usuarioIdusuario}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.usuarioIdusuario}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListFacturaTitle_clienteIdcliente}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.clienteIdcliente}"/>
-                        </p:column>
-                        <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{facturaController.prepareCreate}" update=":FacturaCreateForm" oncomplete="PF('FacturaCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":FacturaViewForm" oncomplete="PF('FacturaViewDialog').show()" disabled="#{empty facturaController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":FacturaEditForm" oncomplete="PF('FacturaEditDialog').show()" disabled="#{empty facturaController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{facturaController.destroy}" update=":growl,datalist" disabled="#{empty facturaController.selected}"/>
-                        </f:facet>
+                            
+                          
+                        </p:column>                        
+                       
+                   
+                        
                     </p:dataTable>
-                </p:panel>
+                    
+                     
+                </p:panel>                
+                
+            </p:panel>
             </h:form>
-
-            <ui:include src="Create.xhtml"/>
-            <ui:include src="Edit.xhtml"/>
-            <ui:include src="View.xhtml"/>
+            <ui:include src="Buscar.xhtml"/>
         </ui:define>
     </ui:composition>
 

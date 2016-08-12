@@ -38,6 +38,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Factura.findAll", query = "SELECT f FROM Factura f"),
     @NamedQuery(name = "Factura.findByIdfactura", query = "SELECT f FROM Factura f WHERE f.idfactura = :idfactura"),
+    @NamedQuery(name = "Factura.findByIdcliente", query = "SELECT f FROM Factura f WHERE f.clienteIdcliente.idcliente = :cliente"),    
+    @NamedQuery(name = "Factura.findByIdclienteFecha", query = "SELECT f FROM Factura f WHERE f.clienteIdcliente.idcliente = :cliente and f.fecha between :fi and :ff"),  
     @NamedQuery(name = "Factura.findByDocumento", query = "SELECT f FROM Factura f WHERE f.documento = :documento"),
     @NamedQuery(name = "Factura.findByFecha", query = "SELECT f FROM Factura f WHERE f.fecha = :fecha"),
     @NamedQuery(name = "Factura.findByCantidad", query = "SELECT f FROM Factura f WHERE f.cantidad = :cantidad"),

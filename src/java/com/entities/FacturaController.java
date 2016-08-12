@@ -4,6 +4,9 @@ import com.entities.util.JsfUtil;
 import com.entities.util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -23,11 +26,80 @@ public class FacturaController implements Serializable {
 
     @EJB
     private com.entities.FacturaFacade ejbFacade;
+    @EJB
+    private com.entities.UsuarioFacade usuarioFacade; 
+    @EJB
+    private com.entities.CorrelativoFacade correlativoFacade;     
     private List<Factura> items = null;
     private Factura selected;
+    private List<FacturaDet> detFactura = new ArrayList<FacturaDet>();
+    private Cliente cliente;
+    private Date finicio;
+    private Date ffinal;
+    private Producto productoIdproducto;
+    private int cantidad;
+    private BigDecimal precio;       
 
     public FacturaController() {
     }
+
+    public List<FacturaDet> getDetFactura() {
+        return detFactura;
+    }
+
+    public void setDetFactura(List<FacturaDet> detFactura) {
+        this.detFactura = detFactura;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Date getFinicio() {
+        return finicio;
+    }
+
+    public void setFinicio(Date finicio) {
+        this.finicio = finicio;
+    }
+
+    public Date getFfinal() {
+        return ffinal;
+    }
+
+    public void setFfinal(Date ffinal) {
+        this.ffinal = ffinal;
+    }
+
+    public Producto getProductoIdproducto() {
+        return productoIdproducto;
+    }
+
+    public void setProductoIdproducto(Producto productoIdproducto) {
+        this.productoIdproducto = productoIdproducto;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public BigDecimal getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(BigDecimal precio) {
+        this.precio = precio;
+    }
+    
+    
 
     public Factura getSelected() {
         return selected;
@@ -49,11 +121,37 @@ public class FacturaController implements Serializable {
 
     public Factura prepareCreate() {
         selected = new Factura();
+        selected.setFecha(new Date());
+        Usuario usuario = usuarioFacade.find(1);
+        
+        selected.setUsuarioIdusuario(usuario);
+        selected.setCantidad(0);
+        selected.setTotal(new BigDecimal("0"));        
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
+        
+        List<Correlativo> lcort = correlativoFacade.findByNombre("Factura");
+        if(!lcort.isEmpty()){
+            Correlativo c= lcort.get(0);
+            int nuevoValor= c.getValorActual()+1;
+            String vcorrelativo = c.getPrefijo()+nuevoValor;
+            c.setValorActual(nuevoValor);
+            correlativoFacade.edit(c);
+            selected.setDocumento(vcorrelativo);
+        
+        }else{
+            selected.setDocumento("No corelt");
+        }
+        for(FacturaDet d :detFactura){
+            System.out.println("d"+d);
+            System.out.println("cantidad"+d.getCantidad());
+            System.out.println("precio"+d.getPrecio());
+        }
+       
+        selected.setFacturaDetList(detFactura);        
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FacturaCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -73,9 +171,9 @@ public class FacturaController implements Serializable {
     }
 
     public List<Factura> getItems() {
-        if (items == null) {
+       /* if (items == null) {
             items = getFacade().findAll();
-        }
+        }*/
         return items;
     }
 
@@ -155,5 +253,36 @@ public class FacturaController implements Serializable {
         }
 
     }
+    
+    public void limpiar(){
+        selected= null;
+        
+    }   
+    
+    public void addDetalle(){
+        
+       int id= 1;
+       if(detFactura!= null){
+       id= detFactura.size()+1;
+       }
+        
+        FacturaDet detalle = new FacturaDet();
+        detalle.setIdfacturaDet(id);
+        detalle.setFacturaIdfactura(selected);
+        detalle.setCantidad(cantidad);
+        detalle.setPrecio(precio);
+        //detalle.setTotal(precio.multiply(new BigDecimal(cantidad)));
+        
+        detalle.setProductoIdproducto(productoIdproducto);
+        
+        selected.setCantidad(selected.getCantidad()+cantidad);
+        selected.setTotal(selected.getTotal().add(precio.multiply(new BigDecimal(cantidad))));
+        this.detFactura.add(detalle);
+        
+    }    
+    
+   public void buscar(){
+    items = this.ejbFacade.findByClienteFecha(finicio, ffinal, cliente);
+    }    
 
 }

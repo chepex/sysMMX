@@ -32,13 +32,13 @@ public class CompraController implements Serializable {
     private com.entities.UsuarioFacade usuarioFacade;    
     private List<Compra> items = null;
     private Compra selected;
-    private Producto productoIdproducto;
-    private int cantidad;
-    private BigDecimal precio;
     private List<CompraDet> detCompra = new ArrayList<CompraDet>();
     private Proveedor proveedor;
     private Date finicio;
     private Date ffinal;
+    private Producto productoIdproducto;
+    private int cantidad;
+    private BigDecimal precio;    
     
     
 
@@ -291,9 +291,6 @@ public class CompraController implements Serializable {
     
     public void buscar(){
     items = this.ejbFacade.findByOrdenId(finicio, ffinal, proveedor);
-    
-    
-    
     }
     
     public void selecionar(){
