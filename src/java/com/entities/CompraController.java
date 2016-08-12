@@ -27,6 +27,8 @@ public class CompraController implements Serializable {
     @EJB
     private com.entities.CompraFacade ejbFacade;
     @EJB
+    private com.entities.CorrelativoFacade correlativoFacade;    
+    @EJB
     private com.entities.UsuarioFacade usuarioFacade;    
     private List<Compra> items = null;
     private Compra selected;
@@ -143,11 +145,24 @@ public class CompraController implements Serializable {
     }
 
     public void create() {
+        List<Correlativo> lcort = correlativoFacade.findByNombre("Compra");
+        if(!lcort.isEmpty()){
+            Correlativo c= lcort.get(0);
+            int nuevoValor= c.getValorActual()+1;
+            String vcorrelativo = c.getPrefijo()+nuevoValor;
+            c.setValorActual(nuevoValor);
+            correlativoFacade.edit(c);
+             selected.setDocumento(vcorrelativo);
+        
+        }else{
+            selected.setDocumento("No corelt");
+        }
         for(CompraDet d :detCompra){
             System.out.println("d"+d);
             System.out.println("cantidad"+d.getCantidad());
             System.out.println("precio"+d.getPrecio());
         }
+       
         selected.setCompraDetList(detCompra);
          
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CompraCreated"));
@@ -254,12 +269,18 @@ public class CompraController implements Serializable {
     
     public void addDetalle(){
         
-       
+       int id= 1;
+       if(detCompra!= null){
+       id= detCompra.size()+1;
+       }
+        
         CompraDet detalle = new CompraDet();
-        detalle.setIdcompraDet(detCompra.size()+1);
+        detalle.setIdcompraDet(id);
         detalle.setCompraIdcompra(selected);
         detalle.setCantidad(cantidad);
         detalle.setPrecio(precio);
+        detalle.setTotal(precio.multiply(new BigDecimal(cantidad)));
+        
         detalle.setProductoIdproducto(productoIdproducto);
         
         selected.setCantidad(selected.getCantidad()+cantidad);
@@ -282,7 +303,7 @@ public class CompraController implements Serializable {
     
     public void limpiar(){
         selected= null;
-        this.detCompra = null;
+        this.detCompra =  new ArrayList<CompraDet>();
         this.cantidad =0;
         this.precio = new BigDecimal("0");
     }    

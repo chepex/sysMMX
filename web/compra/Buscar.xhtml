@@ -21,10 +21,10 @@
                         </p:selectOneMenu>
                   
                     <p:outputLabel value="Fecha Inicial" for="finicio" />                    
-                    <p:calendar id="finicio" pattern="dd/MM/yyyy"  value="#{compraController.finicio}" showOn="button"/>                    
+                    <p:calendar id="finicio" pattern="dd-MM-yyyy"  value="#{compraController.finicio}" showOn="button"/>                    
                     
                     <p:outputLabel value="Fecha Final" for="ffinal" />                    
-                    <p:calendar id="ffinal" pattern="dd/MM/yyyy"  value="#{compraController.ffinal}" showOn="button"/>                                        
+                    <p:calendar id="ffinal" pattern="dd-MM-yyyy"  value="#{compraController.ffinal}" showOn="button"/>                                        
                     
                     <p:commandButton actionListener="#{compraController.buscar}" value="Buscar"   icon="ui-icon-search" update="@form" />
                     
