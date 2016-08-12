@@ -35,7 +35,7 @@ public List<Factura> findByClienteFecha(Date fi, Date ff, Cliente client) {
          
   
         if(null!=fi && client!=null){
-             q = em.createNamedQuery("Factura.findAll",Factura.class)
+             q = em.createNamedQuery("Factura.findByDocumentoFecha",Factura.class)
                 .setParameter("fi", fi)
                 .setParameter("ff", ff)
                 .setParameter("cliente", client.getIdcliente());

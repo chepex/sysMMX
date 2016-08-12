@@ -256,7 +256,9 @@ public class FacturaController implements Serializable {
     
     public void limpiar(){
         selected= null;
-        
+         this.detFactura =  new ArrayList<FacturaDet>();
+        this.cantidad =0;
+        this.precio = new BigDecimal("0");
     }   
     
     public void addDetalle(){
@@ -284,5 +286,12 @@ public class FacturaController implements Serializable {
    public void buscar(){
     items = this.ejbFacade.findByClienteFecha(finicio, ffinal, cliente);
     }    
+   
+   public void selecionar(){
+        if(selected.getFacturaDetList() !=null){
+            this.detFactura = selected.getFacturaDetList();
+        }
+    
+    }   
 
 }

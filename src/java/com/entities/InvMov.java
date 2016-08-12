@@ -38,6 +38,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "InvMov.findAll", query = "SELECT i FROM InvMov i"),
     @NamedQuery(name = "InvMov.findByIdinvMov", query = "SELECT i FROM InvMov i WHERE i.idinvMov = :idinvMov"),
     @NamedQuery(name = "InvMov.findByNumDocto", query = "SELECT i FROM InvMov i WHERE i.numDocto = :numDocto"),
+    @NamedQuery(name = "InvMov.findByDocumento", query = "SELECT i FROM InvMov i WHERE i.documentoIddocumento.iddocumento = :docto"),    
+    @NamedQuery(name = "InvMov.findByDocumentoFecha", query = "SELECT i FROM InvMov i WHERE i.documentoIddocumento.iddocumento = :docto and i.fecha between :fi and :ff"),        
     @NamedQuery(name = "InvMov.findByFecha", query = "SELECT i FROM InvMov i WHERE i.fecha = :fecha"),
     @NamedQuery(name = "InvMov.findByEstado", query = "SELECT i FROM InvMov i WHERE i.estado = :estado"),
     @NamedQuery(name = "InvMov.findByCantidad", query = "SELECT i FROM InvMov i WHERE i.cantidad = :cantidad"),
@@ -64,7 +66,7 @@ public class InvMov implements Serializable {
     @Column(name = "id_proveedor")
     private Integer idProveedor;
     @Column(name = "num_referencia")
-    private Integer numReferencia;
+    private String numReferencia;
     @JoinColumn(name = "usuario_idusuario", referencedColumnName = "idusuario")
     @ManyToOne(optional = false)
     private Usuario usuarioIdusuario;
@@ -80,6 +82,16 @@ public class InvMov implements Serializable {
     public InvMov() {
     }
 
+    public String getNumReferencia() {
+        return numReferencia;
+    }
+
+    public void setNumReferencia(String numReferencia) {
+        this.numReferencia = numReferencia;
+    }
+
+    
+    
     public InvMov(Integer idinvMov) {
         this.idinvMov = idinvMov;
     }
@@ -132,13 +144,7 @@ public class InvMov implements Serializable {
         this.idProveedor = idProveedor;
     }
 
-    public Integer getNumReferencia() {
-        return numReferencia;
-    }
-
-    public void setNumReferencia(Integer numReferencia) {
-        this.numReferencia = numReferencia;
-    }
+    
 
     public Usuario getUsuarioIdusuario() {
         return usuarioIdusuario;

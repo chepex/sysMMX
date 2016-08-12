@@ -4,6 +4,9 @@ import com.entities.util.JsfUtil;
 import com.entities.util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -23,12 +26,91 @@ public class InvMovController implements Serializable {
 
     @EJB
     private com.entities.InvMovFacade ejbFacade;
+    @EJB
+    private com.entities.UsuarioFacade usuarioFacade; 
+
+    @EJB
+    private com.entities.ProductoFacade productoFacade;    
+
+    @EJB
+    private com.ejb.SB_inventario sb_inventario;     
+    
     private List<InvMov> items = null;
     private InvMov selected;
+    private Date finicio;
+    private Date ffinal;
+    private Producto productoIdproducto;
+    private int cantidad;
+    private BigDecimal precio;   
+    private Documento documento;    
+    private List<InvDetm> detInvmov = new ArrayList<InvDetm>();
+     
 
     public InvMovController() {
     }
 
+    public List<InvDetm> getDetInvmov() {
+        return detInvmov;
+    }
+
+    public void setDetInvmov(List<InvDetm> detInvmov) {
+        this.detInvmov = detInvmov;
+    }
+
+    
+    
+    public Documento getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(Documento documento) {
+        this.documento = documento;
+    }
+    
+    
+
+    public Date getFinicio() {
+        return finicio;
+    }
+
+    public void setFinicio(Date finicio) {
+        this.finicio = finicio;
+    }
+
+    public Date getFfinal() {
+        return ffinal;
+    }
+
+    public void setFfinal(Date ffinal) {
+        this.ffinal = ffinal;
+    }
+
+    public Producto getProductoIdproducto() {
+        return productoIdproducto;
+    }
+
+    public void setProductoIdproducto(Producto productoIdproducto) {
+        this.productoIdproducto = productoIdproducto;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public BigDecimal getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(BigDecimal precio) {
+        this.precio = precio;
+    }
+
+    
+    
     public InvMov getSelected() {
         return selected;
     }
@@ -49,12 +131,25 @@ public class InvMovController implements Serializable {
 
     public InvMov prepareCreate() {
         selected = new InvMov();
+        selected.setFecha(new Date());
+        Usuario usuario = usuarioFacade.find(1);
+        
+        selected.setUsuarioIdusuario(usuario);
+        selected.setCantidad(0);        
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("InvMovCreated"));
+        
+        selected.setInvDetmList(this.detInvmov);  
+        if(sb_inventario.actulizaExistencia(selected).equals("ok")){
+            persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("InvMovCreated"));
+        }else{
+           JsfUtil.addErrorMessage("Surgio un error");
+        }
+         
+        
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
@@ -73,9 +168,9 @@ public class InvMovController implements Serializable {
     }
 
     public List<InvMov> getItems() {
-        if (items == null) {
+        /*if (items == null) {
             items = getFacade().findAll();
-        }
+        }*/
         return items;
     }
 
@@ -155,5 +250,45 @@ public class InvMovController implements Serializable {
         }
 
     }
+    public void limpiar(){
+        selected= null;
+        this.detInvmov =  new ArrayList<InvDetm>();
+        this.cantidad =0;
+        //this.precio = new BigDecimal("0");*/
+    }       
+    
+    
+    public void addDetalle(){
+        
+       int id= 1;
+       if(detInvmov!= null){
+       id= detInvmov.size()+1;
+       }
+       
+        InvDetm detalle = new InvDetm();
+        detalle.setIdinvDetm(id);
+        detalle.setInvMovIdinvMov(selected);
+        detalle.setCantidad(cantidad);
+        System.out.println("aqui-2");
+        //detalle.setTotal(precio.multiply(new BigDecimal(cantidad)));
+        
+        detalle.setProductoIdproducto(productoIdproducto);
+        System.out.println("aqui-3");
+        selected.setCantidad(selected.getCantidad()+cantidad);
+        
+        this.detInvmov.add(detalle);
+        
+    }     
+    
+    public void buscar(){
+    items = this.ejbFacade.findByDocumentoFecha(finicio, ffinal, documento);
+    }    
+   
+   public void selecionar(){
+        if(selected.getInvDetmList() !=null){
+            this.detInvmov = selected.getInvDetmList();
+        }
+    
+    }     
 
 }

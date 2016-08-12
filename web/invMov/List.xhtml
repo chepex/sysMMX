@@ -15,93 +15,103 @@
 
         <ui:define name="body">
             <h:form id="InvMovListForm">
-                <p:panel header="#{bundle.ListInvMovTitle}">
-                    <p:dataTable id="datalist" value="#{invMovController.items}" var="item"
-                                 selectionMode="single" selection="#{invMovController.selected}"
-                                 paginator="true"
-                                 rowKey="#{item.idinvMov}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
+                <div style="position: absolute; right: 20px;">
+                    <p:commandButton id="buscarButton"   icon="ui-icon-search" value="Ctrl+B"  update=":BuscarForm" oncomplete="PF('BUscarDialog').show()" disabled="#{!empty invMovController.selected}"/>                
+                    <p:commandButton actionListener="#{invMovController.prepareCreate()}"   icon="ui-icon-plus" value="F6" update="@form" disabled="#{!empty invMovController.selected}"/>
+                    <p:commandButton actionListener="#{invMovController.create()}"   icon="ui-icon-disk" value="F7" update="InvMovListForm :growl" disabled="#{empty invMovController.selected}"/>
+                    <p:commandButton actionListener="#{invMovController.limpiar()}"   icon="ui-icon-closethick" value="F9" update="@form" disabled="#{empty invMovController.selected}"/>
+                </div> 
+                <p:panel header="Ventas" >
+                    <p:panelGrid columns="6"  style=" border-style: hidden !important;" rendered="#{invMovController.selected != null}">                        
+                        
+                        <p:outputLabel value="#{bundle.CreateFacturaLabel_usuarioIdusuario}" for="usuarioIdusuario" />
+                        <p:selectOneMenu id="usuarioIdusuario" value="#{invMovController.selected.usuarioIdusuario}" required="true" requiredMessage="#{bundle.EditFacturaRequiredMessage_usuarioIdusuario}">                            
+                        <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
+                                           var="usuarioIdusuarioItem"
+                                           itemLabel="#{usuarioIdusuarioItem.usuario}"
+                                           itemValue="#{usuarioIdusuarioItem}"/>
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="Bodega" for="bodega" />
+                        <p:selectOneMenu id="bodega" value="#{invMovController.selected.bodegaIdbodega}" required="true" >                            
+                        <f:selectItems value="#{bodegaController.itemsAvailableSelectOne}"
+                                           var="bodegaItem"
+                                           itemLabel="#{bodegaItem.nombre}"
+                                           itemValue="#{bodegaItem}"/>
+                        </p:selectOneMenu>                        
+                        
+                        
+                        <p:outputLabel value="Documenteo" for="docto" />
+                        <p:selectOneMenu id="docto" value="#{invMovController.selected.documentoIddocumento}" required="true" >                            
+                        <f:selectItems value="#{documentoController.itemsAvailableSelectOne}"
+                                           var="documentoItem"
+                                           itemLabel="#{documentoItem.nombre}"
+                                           itemValue="#{documentoItem}"/>
+                        </p:selectOneMenu>                        
+                         
+                        <p:outputLabel value="#{bundle.CreateFacturaLabel_documento}" for="documento" />    
+                        <p:inputText id="documento" value="#{invMovController.selected.numDocto}" title="#{bundle.CreateFacturaTitle_documento}" />
+                        
+                        <p:outputLabel value="#{bundle.CreateFacturaLabel_fecha}" for="fecha" />                        
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{invMovController.selected.fecha}" title="#{bundle.EditFacturaTitle_fecha}"  showOn="button"/>                                    
+                      
+                    </p:panelGrid> 
+                <p:panel>
+                    <p:panelGrid columns="8"  style=" border-style: hidden !important;" rendered="#{invMovController.selected != null}">
+                        <p:outputLabel value="Producto" for="productoIdproducto" />
+                        <p:selectOneMenu id="productoIdproducto" value="#{invMovController.productoIdproducto}" required="true" requiredMessage="#{bundle.EditCompraDetRequiredMessage_productoIdproducto}">
+                            <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
+                                           var="productoIdproductoItem"
+                                           itemValue="#{productoIdproductoItem}"
+                                           itemLabel="#{productoIdproductoItem.nombre}"
+                                           />
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{bundle.CreateCompraDetLabel_cantidad}" for="tcantidad" />
+                         <p:inputNumber id="tcantidad" value="#{invMovController.cantidad}"  minValue="1" maxValue="10000"/>  
+                        
+                        <p:outputLabel value="#{bundle.CreateCompraDetLabel_precio}" for="vprecio" /> 
+                        <p:inputNumber id="vprecio" value="#{invMovController.precio}"   />  
+                        
+                        <p:commandButton actionListener="#{invMovController.addDetalle()}"   icon="ui-icon-plus" style="margin-top: 0px !important;"  update="@form"/>
+                    </p:panelGrid>
+                </p:panel>                      
+                    
+                </p:panel>   
+                <p:panel header="Detalle" >
+                    <p:dataTable id="datalist" value="#{invMovController.detInvmov}" var="item"
+                                 selectionMode="single" selection="#{invDetmController.selected}"
+                                  scrollable="true" scrollHeight="250"
+                                  rowKey="#{item.idinvDetm}"
+                                 rows="30"
+                                 
                                  >
+                         <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Producto"/>
+                            </f:facet>
+                            <h:outputText value="#{item.productoIdproducto.nombre}"/>
+                        </p:column>
+                       
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
-
+                        
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListInvMovTitle_idinvMov}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idinvMov}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListInvMovTitle_numDocto}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.numDocto}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListInvMovTitle_fecha}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.fecha}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListInvMovTitle_estado}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.estado}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListInvMovTitle_cantidad}"/>
+                                <h:outputText value="#{bundle.ListCompraDetTitle_cantidad}"/>
                             </f:facet>
                             <h:outputText value="#{item.cantidad}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListInvMovTitle_idProveedor}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idProveedor}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListInvMovTitle_numReferencia}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.numReferencia}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListInvMovTitle_usuarioIdusuario}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.usuarioIdusuario}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListInvMovTitle_documentoIddocumento}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.documentoIddocumento}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListInvMovTitle_bodegaIdbodega}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.bodegaIdbodega}"/>
-                        </p:column>
-                        <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{invMovController.prepareCreate}" update=":InvMovCreateForm" oncomplete="PF('InvMovCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":InvMovViewForm" oncomplete="PF('InvMovViewDialog').show()" disabled="#{empty invMovController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":InvMovEditForm" oncomplete="PF('InvMovEditDialog').show()" disabled="#{empty invMovController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{invMovController.destroy}" update=":growl,datalist" disabled="#{empty invMovController.selected}"/>
-                        </f:facet>
+                                 
+                       
+                   
+                        
                     </p:dataTable>
-                </p:panel>
+                    
+                     
+                </p:panel>                        
             </h:form>
 
-            <ui:include src="Create.xhtml"/>
-            <ui:include src="Edit.xhtml"/>
-            <ui:include src="View.xhtml"/>
+           <ui:include src="Buscar.xhtml"/>
         </ui:define>
     </ui:composition>
 

@@ -30,6 +30,11 @@ public class CompraController implements Serializable {
     private com.entities.CorrelativoFacade correlativoFacade;    
     @EJB
     private com.entities.UsuarioFacade usuarioFacade;    
+    @EJB
+    private com.ejb.SB_Compra sb_Compra; 
+    @EJB
+    private com.ejb.SB_inventario sb_inventario;     
+    
     private List<Compra> items = null;
     private Compra selected;
     private List<CompraDet> detCompra = new ArrayList<CompraDet>();
@@ -164,7 +169,9 @@ public class CompraController implements Serializable {
         }
        
         selected.setCompraDetList(detCompra);
-         
+        sb_Compra.actualizaCosto(selected);
+        sb_inventario.ingresoCompra(selected);
+        
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CompraCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -294,8 +301,10 @@ public class CompraController implements Serializable {
     }
     
     public void selecionar(){
+        if(selected.getCompraDetList()!=null){
+            this.detCompra = selected.getCompraDetList();
+        }
     
-    this.detCompra = selected.getCompraDetList();
     }
     
     public void limpiar(){
