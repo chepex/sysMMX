@@ -16,10 +16,10 @@
         <ui:define name="body">
             <h:form id="CompraListForm">
                 <div style="position: absolute; right: 20px;">
-                <p:commandButton actionListener="#{compraController.prepareCreate()}"  icon="ui-icon-search" value="Ctrl+B" update="@form"/>
-                <p:commandButton actionListener="#{compraController.prepareCreate()}"   icon="ui-icon-plus" value="F6" update="@form"/>
-                <p:commandButton actionListener="#{compraController.create()}"   icon="ui-icon-disk" value="F7" update="CompraListForm :growl"/>
-                <p:commandButton actionListener="#{compraController.limpiar()}"   icon="ui-icon-closethick" value="F9" update="@form"/>
+                <p:commandButton id="buscarButton"   icon="ui-icon-search" value="Ctrl+B"  update=":BuscarForm" oncomplete="PF('BUscarDialog').show()" disabled="#{!empty compraController.selected}"/>                
+                <p:commandButton actionListener="#{compraController.prepareCreate()}"   icon="ui-icon-plus" value="F6" update="@form" disabled="#{!empty compraController.selected}"/>
+                <p:commandButton actionListener="#{compraController.create()}"   icon="ui-icon-disk" value="F7" update="CompraListForm :growl" disabled="#{empty compraController.selected}"/>
+                <p:commandButton actionListener="#{compraController.limpiar()}"   icon="ui-icon-closethick" value="F9" update="@form" disabled="#{empty compraController.selected}"/>
                 </div>
                 <p:panel header="Compras" >
                     <p:panelGrid columns="4"  style=" border-style: hidden !important;" rendered="#{compraController.selected != null}">
@@ -39,10 +39,7 @@
                         <p:outputLabel value="#{bundle.CreateCompraLabel_documento}" for="documento" />
                         <p:inputText id="documento" value="#{compraController.selected.documento}"   disabled="true"  title="#{bundle.CreateCompraTitle_documento}" />
                         
-                        <p:outputLabel value="#{bundle.CreateCompraLabel_cantidad}" for="cantidad" />
-                        <p:inputText id="cantidad" disabled="true"  value="#{compraController.selected.cantidad}" title="#{bundle.CreateCompraTitle_cantidad}" />
-                        <p:outputLabel value="#{bundle.CreateCompraLabel_total}" for="total" />
-                        <p:inputText id="total" disabled="true" value="#{compraController.selected.total}" title="#{bundle.CreateCompraTitle_total}" />                        
+                      
                     </p:panelGrid>   
                 </p:panel>
                 <p:panel   >
@@ -60,7 +57,7 @@
                          <p:inputNumber id="tcantidad" value="#{compraController.cantidad}"  minValue="1" maxValue="10000"/>  
                         
                         <p:outputLabel value="#{bundle.CreateCompraDetLabel_precio}" for="vprecio" /> 
-                        <p:inputNumber id="vprecio" value="#{compraController.precio}"  minValue="1" maxValue="10000"/>  
+                        <p:inputNumber id="vprecio" value="#{compraController.precio}"   />  
                         
                         <p:commandButton actionListener="#{compraController.addDetalle()}"   icon="ui-icon-plus" style="margin-top: 0px !important;"  update="@form"/>
                     </p:panelGrid>
@@ -68,14 +65,14 @@
                 <p:panel header="Detalle" >
                     <p:dataTable id="datalist" value="#{compraController.detCompra}" var="item"
                                  selectionMode="single" selection="#{compraDetController.selected}"
-                                 paginator="true"
+                                  scrollable="true" scrollHeight="250"
                                  rowKey="#{item.idcompraDet}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 rows="30"
+                                 
                                  >
                          <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCompraDetTitle_productoIdproducto}"/>
+                                <h:outputText value="Producto"/>
                             </f:facet>
                             <h:outputText value="#{item.productoIdproducto.nombre}"/>
                         </p:column>
@@ -95,15 +92,29 @@
                             
                             <h:outputText value="#{item.precio}"/>
                         </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Total"/>
+                            </f:facet>
+                            
+                            
+                        </p:column>                        
                        
                    
                         
                     </p:dataTable>
+                    
+                     
                 </p:panel>
-               
+                <div style=" position: absolute;right: 0px;   "  >
+                    <p:outputLabel value="#{bundle.CreateCompraLabel_cantidad}" for="cantidad"   style="font-size: 250% !important;"/>
+                    <p:inputText id="cantidad"   style="font-size: 250% !important;" disabled="true" value="#{compraController.selected.cantidad}" title="#{bundle.CreateCompraTitle_cantidad}" />
+                    <p:outputLabel value="#{bundle.CreateCompraLabel_total}" for="total"  style="font-size: 250% !important;" />
+                    <p:inputText id="total" disabled="true"  style="font-size: 250% !important;" value="#{compraController.selected.total}" title="#{bundle.CreateCompraTitle_total}" />                        
+               </div>
             </h:form>
 
-           
+                       <ui:include src="Buscar.xhtml"/>
         </ui:define>
     </ui:composition>
 

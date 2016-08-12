@@ -33,10 +33,43 @@ public class CompraController implements Serializable {
     private Producto productoIdproducto;
     private int cantidad;
     private BigDecimal precio;
-    private List<CompraDet> detCompra = new ArrayList<CompraDet>();;
+    private List<CompraDet> detCompra = new ArrayList<CompraDet>();
+    private Proveedor proveedor;
+    private Date finicio;
+    private Date ffinal;
+    
+    
 
     public CompraController() {
     }
+
+    public Date getFinicio() {
+        return finicio;
+    }
+
+    public void setFinicio(Date finicio) {
+        this.finicio = finicio;
+    }
+
+    public Date getFfinal() {
+        return ffinal;
+    }
+
+    public void setFfinal(Date ffinal) {
+        this.ffinal = ffinal;
+    }
+    
+    
+
+    public Proveedor getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
+    }
+    
+    
 
     public List<CompraDet> getDetCompra() {
         return detCompra;
@@ -94,9 +127,7 @@ public class CompraController implements Serializable {
         return ejbFacade;
     }
 
-    public void limpiar(){
-        selected= null;
-    }
+  
     
     public Compra prepareCreate() {
         
@@ -112,8 +143,13 @@ public class CompraController implements Serializable {
     }
 
     public void create() {
+        for(CompraDet d :detCompra){
+            System.out.println("d"+d);
+            System.out.println("cantidad"+d.getCantidad());
+            System.out.println("precio"+d.getPrecio());
+        }
         selected.setCompraDetList(detCompra);
-        System.out.println("create");
+         
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CompraCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -133,9 +169,9 @@ public class CompraController implements Serializable {
     }
 
     public List<Compra> getItems() {
-        if (items == null) {
+        /*if (items == null) {
             items = getFacade().findAll();
-        }
+        }*/
         return items;
     }
 
@@ -220,7 +256,7 @@ public class CompraController implements Serializable {
         
        
         CompraDet detalle = new CompraDet();
-        detalle.setIdcompraDet(1);
+        detalle.setIdcompraDet(detCompra.size()+1);
         detalle.setCompraIdcompra(selected);
         detalle.setCantidad(cantidad);
         detalle.setPrecio(precio);
@@ -231,5 +267,24 @@ public class CompraController implements Serializable {
         this.detCompra.add(detalle);
         
     }
+    
+    public void buscar(){
+    items = this.ejbFacade.findByOrdenId(finicio, ffinal, proveedor);
+    
+    
+    
+    }
+    
+    public void selecionar(){
+    
+    this.detCompra = selected.getCompraDetList();
+    }
+    
+    public void limpiar(){
+        selected= null;
+        this.detCompra = null;
+        this.cantidad =0;
+        this.precio = new BigDecimal("0");
+    }    
 
 }

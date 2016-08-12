@@ -38,8 +38,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Compra.findAll", query = "SELECT c FROM Compra c"),
     @NamedQuery(name = "Compra.findByIdcompra", query = "SELECT c FROM Compra c WHERE c.idcompra = :idcompra"),
+    @NamedQuery(name = "Compra.findByProveedor", query = "SELECT c FROM Compra c WHERE c.proveedorIdproveedor.idproveedor = :prov"),
     @NamedQuery(name = "Compra.findByDocumento", query = "SELECT c FROM Compra c WHERE c.documento = :documento"),
-    @NamedQuery(name = "Compra.findByFecha", query = "SELECT c FROM Compra c WHERE c.fecha = :fecha"),
+    @NamedQuery(name = "Compra.findByFecha", query = "SELECT c FROM Compra c WHERE c.fecha between :fi and :ff"),
+    @NamedQuery(name = "Compra.findByFechaProv", query = "SELECT c FROM Compra c WHERE c.fecha between :fi and :ff and c.proveedorIdproveedor.idproveedor = :prov "),
+    
     @NamedQuery(name = "Compra.findByCantidad", query = "SELECT c FROM Compra c WHERE c.cantidad = :cantidad"),
     @NamedQuery(name = "Compra.findByTotal", query = "SELECT c FROM Compra c WHERE c.total = :total")})
 public class Compra implements Serializable {

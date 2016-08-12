@@ -18,6 +18,7 @@
 --
 -- Table structure for table `bodega`
 --
+use sysmmx;
 
 DROP TABLE IF EXISTS `bodega`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
