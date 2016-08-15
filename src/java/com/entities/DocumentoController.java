@@ -41,6 +41,7 @@ public class DocumentoController implements Serializable {
     }
 
     protected void initializeEmbeddableKey() {
+        selected.setIddocumento(0);
     }
 
     private DocumentoFacade getFacade() {

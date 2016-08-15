@@ -13,7 +13,7 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{correlativoController.selected != null}">
                         <p:outputLabel value="#{bundle.EditCorrelativoLabel_idcorrelativo}" for="idcorrelativo" />
-                        <p:inputText id="idcorrelativo" value="#{correlativoController.selected.idcorrelativo}" title="#{bundle.EditCorrelativoTitle_idcorrelativo}" required="true" requiredMessage="#{bundle.EditCorrelativoRequiredMessage_idcorrelativo}"/>
+                        <p:inputText id="idcorrelativo" disabled="true" value="#{correlativoController.selected.idcorrelativo}" title="#{bundle.EditCorrelativoTitle_idcorrelativo}" required="true" requiredMessage="#{bundle.EditCorrelativoRequiredMessage_idcorrelativo}"/>
                         <p:outputLabel value="#{bundle.EditCorrelativoLabel_nombre}" for="nombre" />
                         <p:inputText id="nombre" value="#{correlativoController.selected.nombre}" title="#{bundle.EditCorrelativoTitle_nombre}" required="true" requiredMessage="#{bundle.EditCorrelativoRequiredMessage_nombre}"/>
                         <p:outputLabel value="#{bundle.EditCorrelativoLabel_prefijo}" for="prefijo" />

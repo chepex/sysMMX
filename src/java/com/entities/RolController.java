@@ -41,6 +41,7 @@ public class RolController implements Serializable {
     }
 
     protected void initializeEmbeddableKey() {
+        selected.setIdrol(0);
     }
 
     private RolFacade getFacade() {

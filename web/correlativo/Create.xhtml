@@ -12,8 +12,7 @@
             <h:form id="CorrelativoCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{correlativoController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateCorrelativoLabel_idcorrelativo}" for="idcorrelativo" />
-                        <p:inputText id="idcorrelativo" value="#{correlativoController.selected.idcorrelativo}" title="#{bundle.CreateCorrelativoTitle_idcorrelativo}" required="true" requiredMessage="#{bundle.CreateCorrelativoRequiredMessage_idcorrelativo}"/>
+                       
                         <p:outputLabel value="#{bundle.CreateCorrelativoLabel_nombre}" for="nombre" />
                         <p:inputText id="nombre" value="#{correlativoController.selected.nombre}" title="#{bundle.CreateCorrelativoTitle_nombre}" required="true" requiredMessage="#{bundle.CreateCorrelativoRequiredMessage_nombre}"/>
                         <p:outputLabel value="#{bundle.CreateCorrelativoLabel_prefijo}" for="prefijo" />

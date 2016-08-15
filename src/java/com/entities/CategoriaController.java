@@ -41,6 +41,7 @@ public class CategoriaController implements Serializable {
     }
 
     protected void initializeEmbeddableKey() {
+        selected.setIdcategoria(0);
     }
 
     private CategoriaFacade getFacade() {

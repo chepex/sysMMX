@@ -41,6 +41,7 @@ public class UsuarioController implements Serializable {
     }
 
     protected void initializeEmbeddableKey() {
+        selected.setIdusuario(0);
     }
 
     private UsuarioFacade getFacade() {

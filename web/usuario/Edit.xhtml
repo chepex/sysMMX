@@ -13,7 +13,7 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{usuarioController.selected != null}">
                         <p:outputLabel value="#{bundle.EditUsuarioLabel_idusuario}" for="idusuario" />
-                        <p:inputText id="idusuario" value="#{usuarioController.selected.idusuario}" title="#{bundle.EditUsuarioTitle_idusuario}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_idusuario}"/>
+                        <p:inputText id="idusuario" disabled="true" value="#{usuarioController.selected.idusuario}" title="#{bundle.EditUsuarioTitle_idusuario}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_idusuario}"/>
                         <p:outputLabel value="#{bundle.EditUsuarioLabel_usuario}" for="usuario" />
                         <p:inputText id="usuario" value="#{usuarioController.selected.usuario}" title="#{bundle.EditUsuarioTitle_usuario}" />
                         <p:outputLabel value="#{bundle.EditUsuarioLabel_password}" for="password" />

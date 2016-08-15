@@ -41,6 +41,7 @@ public class ClienteController implements Serializable {
     }
 
     protected void initializeEmbeddableKey() {
+        selected.setIdcliente(0);
     }
 
     private ClienteFacade getFacade() {

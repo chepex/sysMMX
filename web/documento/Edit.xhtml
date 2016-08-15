@@ -13,7 +13,7 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{documentoController.selected != null}">
                         <p:outputLabel value="#{bundle.EditDocumentoLabel_iddocumento}" for="iddocumento" />
-                        <p:inputText id="iddocumento" value="#{documentoController.selected.iddocumento}" title="#{bundle.EditDocumentoTitle_iddocumento}" required="true" requiredMessage="#{bundle.EditDocumentoRequiredMessage_iddocumento}"/>
+                        <p:inputText id="iddocumento" disabled="true" value="#{documentoController.selected.iddocumento}" title="#{bundle.EditDocumentoTitle_iddocumento}" required="true" requiredMessage="#{bundle.EditDocumentoRequiredMessage_iddocumento}"/>
                         <p:outputLabel value="#{bundle.EditDocumentoLabel_nombre}" for="nombre" />
                         <p:inputText id="nombre" value="#{documentoController.selected.nombre}" title="#{bundle.EditDocumentoTitle_nombre}" />
                         <p:outputLabel value="#{bundle.EditDocumentoLabel_descripcion}" for="descripcion" />

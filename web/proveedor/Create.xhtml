@@ -12,8 +12,7 @@
             <h:form id="ProveedorCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{proveedorController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateProveedorLabel_idproveedor}" for="idproveedor" />
-                        <p:inputText id="idproveedor" value="#{proveedorController.selected.idproveedor}" title="#{bundle.CreateProveedorTitle_idproveedor}" required="true" requiredMessage="#{bundle.CreateProveedorRequiredMessage_idproveedor}"/>
+                        
                         <p:outputLabel value="#{bundle.CreateProveedorLabel_nombre}" for="nombre" />
                         <p:inputText id="nombre" value="#{proveedorController.selected.nombre}" title="#{bundle.CreateProveedorTitle_nombre}" />
                         <p:outputLabel value="#{bundle.CreateProveedorLabel_descripcion}" for="descripcion" />

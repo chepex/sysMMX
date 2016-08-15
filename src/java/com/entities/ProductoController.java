@@ -41,6 +41,7 @@ public class ProductoController implements Serializable {
     }
 
     protected void initializeEmbeddableKey() {
+        selected.setIdproducto(0);
     }
 
     private ProductoFacade getFacade() {
