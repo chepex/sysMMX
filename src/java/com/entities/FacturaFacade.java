@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -47,6 +48,59 @@ public List<Factura> findByClienteFecha(Date fi, Date ff, Cliente client) {
        
         
         return q.getResultList();
-    }    
+    } 
+
+    public List<Object[]> ventaActual(){
+        Query q  = null;
+        List<Object[]> lo = null;  
+       
+        String query="                     " +
+        "   SELECT m.nombre ,sum(total) " +
+        " FROM sysmmx.factura f, sysmmx.meses m" +
+        " where  DATE_FORMAT(fecha, '%Y-%m-%d') between CONCAT(DATE_FORMAT(now(), '%Y') ,'-01-01') and DATE_FORMAT(now(), '%Y-%m-%d')" +
+        " and DATE_FORMAT(fecha, '%m')  = m.idmes" +
+        " group by m.nombre\n" +
+        " order by   m.idmes  ";                             
+        try{            
+            q=  em.createNativeQuery(query);  
+            
+          
+            lo= q.getResultList();
+        }catch(Exception ex){
+            lo= null;
+            System.out.println("::::"+ex);
+        }
+            
+       return lo;        
+              
+               
+    } 
+
+    public List<Object[]> ventaAnterior(){
+        Query q  = null;
+        List<Object[]> lo = null;  
+       
+        String query=" SELECT m.nombre ,sum(total) " +
+        " FROM sysmmx.factura f, sysmmx.meses m" +
+        " where  DATE_FORMAT(fecha, '%Y-%m-%d') between CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 365 DAY), '%Y') ,'-01-01') and DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 365 DAY), '%Y-%m-%d')" +
+        " and DATE_FORMAT(fecha, '%m')  = m.idmes" +
+        " group by m.nombre" +
+        " order by   m.idmes ";                             
+        try{            
+            q=  em.createNativeQuery(query);  
+            
+          
+            lo= q.getResultList();
+        }catch(Exception ex){
+            lo= null;
+            System.out.println("::::"+ex);
+        }
+            
+       return lo;        
+              
+               
+    }     
+    
+
     
 }
