@@ -41,6 +41,7 @@ public class BodegaController implements Serializable {
     }
 
     protected void initializeEmbeddableKey() {
+        selected.setIdbodega(0);
     }
 
     private BodegaFacade getFacade() {
@@ -49,6 +50,7 @@ public class BodegaController implements Serializable {
 
     public Bodega prepareCreate() {
         selected = new Bodega();
+        
         initializeEmbeddableKey();
         return selected;
     }

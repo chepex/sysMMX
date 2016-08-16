@@ -13,7 +13,7 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{proveedorController.selected != null}">
                         <p:outputLabel value="#{bundle.EditProveedorLabel_idproveedor}" for="idproveedor" />
-                        <p:inputText id="idproveedor" value="#{proveedorController.selected.idproveedor}" title="#{bundle.EditProveedorTitle_idproveedor}" required="true" requiredMessage="#{bundle.EditProveedorRequiredMessage_idproveedor}"/>
+                        <p:inputText id="idproveedor" disabled="true"  value="#{proveedorController.selected.idproveedor}" title="#{bundle.EditProveedorTitle_idproveedor}" required="true" requiredMessage="#{bundle.EditProveedorRequiredMessage_idproveedor}"/>
                         <p:outputLabel value="#{bundle.EditProveedorLabel_nombre}" for="nombre" />
                         <p:inputText id="nombre" value="#{proveedorController.selected.nombre}" title="#{bundle.EditProveedorTitle_nombre}" />
                         <p:outputLabel value="#{bundle.EditProveedorLabel_descripcion}" for="descripcion" />

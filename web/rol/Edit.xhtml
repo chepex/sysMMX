@@ -14,7 +14,7 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{rolController.selected != null}">
                         <p:outputLabel value="#{bundle.EditRolLabel_idrol}" for="idrol" />
-                        <p:inputText id="idrol" value="#{rolController.selected.idrol}" title="#{bundle.EditRolTitle_idrol}" required="true" requiredMessage="#{bundle.EditRolRequiredMessage_idrol}"/>
+                        <p:inputText id="idrol" disabled="true" value="#{rolController.selected.idrol}" title="#{bundle.EditRolTitle_idrol}" required="true" requiredMessage="#{bundle.EditRolRequiredMessage_idrol}"/>
                         <p:outputLabel value="#{bundle.EditRolLabel_nombre}" for="nombre" />
                         <p:inputText id="nombre" value="#{rolController.selected.nombre}" title="#{bundle.EditRolTitle_nombre}" />
                         <p:outputLabel value="#{bundle.EditRolLabel_descripn}" for="descripn" />

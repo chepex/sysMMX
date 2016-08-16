@@ -13,7 +13,7 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{bodegaController.selected != null}">
                         <p:outputLabel value="#{bundle.EditBodegaLabel_idbodega}" for="idbodega" />
-                        <p:inputText id="idbodega" value="#{bodegaController.selected.idbodega}" title="#{bundle.EditBodegaTitle_idbodega}" required="true" requiredMessage="#{bundle.EditBodegaRequiredMessage_idbodega}"/>
+                        <p:inputText id="idbodega" disabled="true" value="#{bodegaController.selected.idbodega}" title="#{bundle.EditBodegaTitle_idbodega}" required="true" requiredMessage="#{bundle.EditBodegaRequiredMessage_idbodega}"/>
                         <p:outputLabel value="#{bundle.EditBodegaLabel_nombre}" for="nombre" />
                         <p:inputText id="nombre" value="#{bodegaController.selected.nombre}" title="#{bundle.EditBodegaTitle_nombre}" />
                         <p:outputLabel value="#{bundle.EditBodegaLabel_descripcion}" for="descripcion" />

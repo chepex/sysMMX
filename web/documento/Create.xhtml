@@ -12,8 +12,7 @@
             <h:form id="DocumentoCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{documentoController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateDocumentoLabel_iddocumento}" for="iddocumento" />
-                        <p:inputText id="iddocumento" value="#{documentoController.selected.iddocumento}" title="#{bundle.CreateDocumentoTitle_iddocumento}" required="true" requiredMessage="#{bundle.CreateDocumentoRequiredMessage_iddocumento}"/>
+                        
                         <p:outputLabel value="#{bundle.CreateDocumentoLabel_nombre}" for="nombre" />
                         <p:inputText id="nombre" value="#{documentoController.selected.nombre}" title="#{bundle.CreateDocumentoTitle_nombre}" />
                         <p:outputLabel value="#{bundle.CreateDocumentoLabel_descripcion}" for="descripcion" />

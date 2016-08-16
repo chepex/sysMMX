@@ -41,6 +41,7 @@ public class CorrelativoController implements Serializable {
     }
 
     protected void initializeEmbeddableKey() {
+        selected.setIdcorrelativo(0);
     }
 
     private CorrelativoFacade getFacade() {

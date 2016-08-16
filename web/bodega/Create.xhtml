@@ -13,8 +13,7 @@
             <h:form id="BodegaCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{bodegaController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateBodegaLabel_idbodega}" for="idbodega" />
-                        <p:inputText id="idbodega" value="#{bodegaController.selected.idbodega}" title="#{bundle.CreateBodegaTitle_idbodega}" required="true" requiredMessage="#{bundle.CreateBodegaRequiredMessage_idbodega}"/>
+                        
                         <p:outputLabel value="#{bundle.CreateBodegaLabel_nombre}" for="nombre" />
                         <p:inputText id="nombre" value="#{bodegaController.selected.nombre}" title="#{bundle.CreateBodegaTitle_nombre}" />
                         <p:outputLabel value="#{bundle.CreateBodegaLabel_descripcion}" for="descripcion" />
