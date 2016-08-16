@@ -63,7 +63,18 @@ public class InvMov implements Serializable {
     private String estado;
     @Column(name = "cantidad")
     private Integer cantidad;
-   
+    @Column(name = "usuario_create")
+    private String usuarioCreate;
+    @Size(max = 45)    
+    @Column(name = "usuario_update")
+    private String usuarioUpdate;
+    @Size(max = 45)    
+    @Column(name = "fecha_create")
+    @Temporal(TemporalType.DATE)
+    private Date fechaCreate;  
+    @Column(name = "fecha_update")
+    @Temporal(TemporalType.DATE)
+    private Date fechaUpdate;     
     @Column(name = "num_referencia")
     private String numReferencia;
     @JoinColumn(name = "usuario_idusuario", referencedColumnName = "idusuario")
@@ -81,6 +92,39 @@ public class InvMov implements Serializable {
     public InvMov() {
     }
 
+    public String getUsuarioCreate() {
+        return usuarioCreate;
+    }
+
+    public void setUsuarioCreate(String usuarioCreate) {
+        this.usuarioCreate = usuarioCreate;
+    }
+
+    public String getUsuarioUpdate() {
+        return usuarioUpdate;
+    }
+
+    public void setUsuarioUpdate(String usuarioUpdate) {
+        this.usuarioUpdate = usuarioUpdate;
+    }
+
+    public Date getFechaCreate() {
+        return fechaCreate;
+    }
+
+    public void setFechaCreate(Date fechaCreate) {
+        this.fechaCreate = fechaCreate;
+    }
+
+    public Date getFechaUpdate() {
+        return fechaUpdate;
+    }
+
+    public void setFechaUpdate(Date fechaUpdate) {
+        this.fechaUpdate = fechaUpdate;
+    }
+
+    
     public String getNumReferencia() {
         return numReferencia;
     }

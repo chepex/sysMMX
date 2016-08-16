@@ -63,6 +63,18 @@ public class Compra implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "total")
     private BigDecimal total;
+    @Column(name = "usuario_create")
+    private String usuarioCreate;
+    @Size(max = 45)    
+    @Column(name = "usuario_update")
+    private String usuarioUpdate;
+    @Size(max = 45)    
+    @Column(name = "fecha_create")
+    @Temporal(TemporalType.DATE)
+    private Date fechaCreate;  
+    @Column(name = "fecha_update")
+    @Temporal(TemporalType.DATE)
+    private Date fechaUpdate;      
     @JoinColumn(name = "usuario_idusuario", referencedColumnName = "idusuario")
     @ManyToOne(optional = false)
     private Usuario usuarioIdusuario;
@@ -75,6 +87,39 @@ public class Compra implements Serializable {
     public Compra() {
     }
 
+    public String getUsuarioCreate() {
+        return usuarioCreate;
+    }
+
+    public void setUsuarioCreate(String usuarioCreate) {
+        this.usuarioCreate = usuarioCreate;
+    }
+
+    public String getUsuarioUpdate() {
+        return usuarioUpdate;
+    }
+
+    public void setUsuarioUpdate(String usuarioUpdate) {
+        this.usuarioUpdate = usuarioUpdate;
+    }
+
+    public Date getFechaCreate() {
+        return fechaCreate;
+    }
+
+    public void setFechaCreate(Date fechaCreate) {
+        this.fechaCreate = fechaCreate;
+    }
+
+    public Date getFechaUpdate() {
+        return fechaUpdate;
+    }
+
+    public void setFechaUpdate(Date fechaUpdate) {
+        this.fechaUpdate = fechaUpdate;
+    }
+
+    
     public Compra(Integer idcompra) {
         this.idcompra = idcompra;
     }

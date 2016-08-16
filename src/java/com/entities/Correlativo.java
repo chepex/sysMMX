@@ -75,10 +75,55 @@ public class Correlativo implements Serializable {
     private Date fecha;
     @Column(name = "activo")
     private Boolean activo;
+    @Column(name = "usuario_create")
+    private String usuarioCreate;
+    @Size(max = 45)    
+    @Column(name = "usuario_update")
+    private String usuarioUpdate;
+    @Size(max = 45)    
+    @Column(name = "fecha_create")
+    @Temporal(TemporalType.DATE)
+    private Date fechaCreate;  
+    @Column(name = "fecha_update")
+    @Temporal(TemporalType.DATE)
+    private Date fechaUpdate;      
 
     public Correlativo() {
     }
 
+    public String getUsuarioCreate() {
+        return usuarioCreate;
+    }
+
+    public void setUsuarioCreate(String usuarioCreate) {
+        this.usuarioCreate = usuarioCreate;
+    }
+
+    public String getUsuarioUpdate() {
+        return usuarioUpdate;
+    }
+
+    public void setUsuarioUpdate(String usuarioUpdate) {
+        this.usuarioUpdate = usuarioUpdate;
+    }
+
+    public Date getFechaCreate() {
+        return fechaCreate;
+    }
+
+    public void setFechaCreate(Date fechaCreate) {
+        this.fechaCreate = fechaCreate;
+    }
+
+    public Date getFechaUpdate() {
+        return fechaUpdate;
+    }
+
+    public void setFechaUpdate(Date fechaUpdate) {
+        this.fechaUpdate = fechaUpdate;
+    }
+
+    
     public Correlativo(Integer idcorrelativo) {
         this.idcorrelativo = idcorrelativo;
     }
