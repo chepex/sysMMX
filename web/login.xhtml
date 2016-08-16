@@ -1,28 +1,46 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-        <h:outputStylesheet name="css/jsfcrud.css"/>
-    </h:head>
-<h:body>
-  <p>Login to access secure pages:</p>
-  <form method="post" action="j_security_check">
-    <h:panelGrid columns="2">
-      <h:outputLabel for="j_username" value="Username" />
-      <input type="text" name="j_username" />
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
-      <h:outputLabel for="j_password" value="Password" />
-      <input type="password" name="j_password" />
+    <ui:composition template="/templateLogin.xhtml">
 
-      <h:outputText value="" />
-      <h:panelGrid columns="2">
-        <input type="submit" name="submit" value="Login" />
-        <h:button outcome="index" value="Cancel" />
-      </h:panelGrid>
-    </h:panelGrid>
-  </form>
-</h:body>
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListFacturaTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+    
+                                      <h:outputLabel  value="Usuario:"/>
+                                      aqui 2
+                        <h:form id="usrForm">
+                            
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <h:outputLabel for="username" value="Usuario:"/>
+                                    <p:inputText id="username" value="#{loginBean.username}" required="true" label="username"/>
+
+                                    <h:outputLabel for="pass" value="Pass:"/>
+                                    <p:password id="password" value="#{loginBean.password}" required="true" label="password"/>
+
+                                    <f:facet name="footer">
+                                        <p:commandButton id="cmdLog" value="Login" action="#{loginBean.login}" ajax="false" update="@all"></p:commandButton>
+                                    </f:facet>
+                                    
+                                    
+                                </h:panelGrid>
+                                <!--<h:messages id="errorMessages"></h:messages> 
+                                <h:panelGrid rendered="#{request.getUserPrincipal() != null}" columns="1">
+                                <h:outputLabel value="Bienvenido #{request.getUserPrincipal()}"></h:outputLabel>                
+                                </h:panelGrid>-->
+                            
+                        </h:form>
+  </ui:define>
+
+    </ui:composition>
+
 </html>
 
