@@ -52,8 +52,7 @@ public List<Factura> findByClienteFecha(Date fi, Date ff, Cliente client) {
 
     public List<Object[]> ventaActual(){
         Query q  = null;
-        List<Object[]> lo = null;  
-       
+        List<Object[]> lo = null;       
         String query="                     " +
         "   SELECT m.nombre ,sum(total) " +
         " FROM sysmmx.factura f, sysmmx.meses m" +
@@ -62,19 +61,14 @@ public List<Factura> findByClienteFecha(Date fi, Date ff, Cliente client) {
         " group by m.nombre\n" +
         " order by   m.idmes  ";                             
         try{            
-            q=  em.createNativeQuery(query);  
-            
-          
+            q=  em.createNativeQuery(query);          
             lo= q.getResultList();
         }catch(Exception ex){
             lo= null;
             System.out.println("::::"+ex);
-        }
-            
+        }          
        return lo;        
-              
-               
-    } 
+  } 
 
     public List<Object[]> ventaAnterior(){
         Query q  = null;
