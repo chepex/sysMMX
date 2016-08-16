@@ -43,14 +43,16 @@
                     </p:panelGrid>   
                 </p:panel>
                 <p:panel   >
-                    <p:panelGrid columns="8"  style=" border-style: hidden !important;" rendered="#{compraController.selected != null}">
+                    <p:panelGrid columns="9"  style=" border-style: hidden !important;" rendered="#{compraController.selected != null}">
                         <p:outputLabel value="Producto" for="productoIdproducto" />
                         <p:selectOneMenu id="productoIdproducto" value="#{compraController.productoIdproducto}" required="true" requiredMessage="#{bundle.EditCompraDetRequiredMessage_productoIdproducto}">
+                            <f:selectItem itemLabel="Seleciona una producto" itemValue="" />
                             <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
                                            var="productoIdproductoItem"
                                            itemValue="#{productoIdproductoItem}"
                                            itemLabel="#{productoIdproductoItem.nombre}"
                                            />
+                            <p:ajax listener="#{compraController.updateExistencia}" update="existencia" />
                         </p:selectOneMenu>
                         
                         <p:outputLabel value="#{bundle.CreateCompraDetLabel_cantidad}" for="tcantidad" />
@@ -58,6 +60,9 @@
                         
                         <p:outputLabel value="#{bundle.CreateCompraDetLabel_precio}" for="vprecio" /> 
                         <p:inputNumber id="vprecio" value="#{compraController.precio}"   />  
+                        
+                        <p:outputLabel value="Existencia" for="existencia" /> 
+                        <p:inputNumber id="existencia" value="#{compraController.existencia}"  disabled="true"  />                          
                         
                         <p:commandButton actionListener="#{compraController.addDetalle()}"   icon="ui-icon-plus" style="margin-top: 0px !important;"  update="@form"/>
                     </p:panelGrid>
@@ -107,10 +112,10 @@
                      
                 </p:panel>
                 <div style=" position: absolute;right: 0px;   "  >
-                    <p:outputLabel value="#{bundle.CreateCompraLabel_cantidad}" for="cantidad"   style="font-size: 250% !important;"/>
-                    <p:inputText id="cantidad"   style="font-size: 250% !important;" disabled="true" value="#{compraController.selected.cantidad}" title="#{bundle.CreateCompraTitle_cantidad}" />
+                    <p:outputLabel value="#{bundle.CreateCompraLabel_cantidad}" for="cantidad"   style="font-size: 250% !important; width: 50px;"/>
+                    <p:inputText id="cantidad"   style="font-size: 150% !important;" disabled="true" value="#{compraController.selected.cantidad}" title="#{bundle.CreateCompraTitle_cantidad}" />
                     <p:outputLabel value="#{bundle.CreateCompraLabel_total}" for="total"  style="font-size: 250% !important;" />
-                    <p:inputText id="total" disabled="true"  style="font-size: 250% !important;" value="#{compraController.selected.total}" title="#{bundle.CreateCompraTitle_total}" />                        
+                    <p:inputText id="total" disabled="true"  style="font-size: 150% !important;" value="#{compraController.selected.total}" title="#{bundle.CreateCompraTitle_total}" />                        
                </div>
             </h:form>
 

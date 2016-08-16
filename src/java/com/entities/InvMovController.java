@@ -44,11 +44,21 @@ public class InvMovController implements Serializable {
     private BigDecimal precio;   
     private Documento documento;    
     private List<InvDetm> detInvmov = new ArrayList<InvDetm>();
+    private int existencia;      
      
 
     public InvMovController() {
     }
 
+    public int getExistencia() {
+        return existencia;
+    }
+
+    public void setExistencia(int existencia) {
+        this.existencia = existencia;
+    }
+
+    
     public List<InvDetm> getDetInvmov() {
         return detInvmov;
     }
@@ -290,5 +300,10 @@ public class InvMovController implements Serializable {
         }
     
     }     
+   
+   public void updateExistencia(){
+       this.existencia =  this.productoIdproducto.getExistencia();
+        
+   }       
 
 }

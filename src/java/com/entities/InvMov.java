@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "InvMov.findByFecha", query = "SELECT i FROM InvMov i WHERE i.fecha = :fecha"),
     @NamedQuery(name = "InvMov.findByEstado", query = "SELECT i FROM InvMov i WHERE i.estado = :estado"),
     @NamedQuery(name = "InvMov.findByCantidad", query = "SELECT i FROM InvMov i WHERE i.cantidad = :cantidad"),
-    @NamedQuery(name = "InvMov.findByIdProveedor", query = "SELECT i FROM InvMov i WHERE i.idProveedor = :idProveedor"),
+    
     @NamedQuery(name = "InvMov.findByNumReferencia", query = "SELECT i FROM InvMov i WHERE i.numReferencia = :numReferencia")})
 public class InvMov implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -63,8 +63,7 @@ public class InvMov implements Serializable {
     private String estado;
     @Column(name = "cantidad")
     private Integer cantidad;
-    @Column(name = "id_proveedor")
-    private Integer idProveedor;
+   
     @Column(name = "num_referencia")
     private String numReferencia;
     @JoinColumn(name = "usuario_idusuario", referencedColumnName = "idusuario")
@@ -136,14 +135,7 @@ public class InvMov implements Serializable {
         this.cantidad = cantidad;
     }
 
-    public Integer getIdProveedor() {
-        return idProveedor;
-    }
-
-    public void setIdProveedor(Integer idProveedor) {
-        this.idProveedor = idProveedor;
-    }
-
+ 
     
 
     public Usuario getUsuarioIdusuario() {

@@ -29,7 +29,9 @@ public class FacturaController implements Serializable {
     @EJB
     private com.entities.UsuarioFacade usuarioFacade; 
     @EJB
-    private com.entities.CorrelativoFacade correlativoFacade;     
+    private com.entities.CorrelativoFacade correlativoFacade;    
+    @EJB
+    private com.ejb.SB_inventario sb_inventario;        
     private List<Factura> items = null;
     private Factura selected;
     private List<FacturaDet> detFactura = new ArrayList<FacturaDet>();
@@ -38,11 +40,21 @@ public class FacturaController implements Serializable {
     private Date ffinal;
     private Producto productoIdproducto;
     private int cantidad;
+    private int existencia;    
     private BigDecimal precio;       
 
     public FacturaController() {
     }
 
+    public int getExistencia() {
+        return existencia;
+    }
+
+    public void setExistencia(int existencia) {
+        this.existencia = existencia;
+    }
+
+    
     public List<FacturaDet> getDetFactura() {
         return detFactura;
     }
@@ -133,6 +145,8 @@ public class FacturaController implements Serializable {
 
     public void create() {
         
+        
+        
         List<Correlativo> lcort = correlativoFacade.findByNombre("Factura");
         if(!lcort.isEmpty()){
             Correlativo c= lcort.get(0);
@@ -151,7 +165,13 @@ public class FacturaController implements Serializable {
             System.out.println("precio"+d.getPrecio());
         }
        
-        selected.setFacturaDetList(detFactura);        
+        selected.setFacturaDetList(detFactura);  
+        
+        
+        List<Object[]>  lobjt =  sb_inventario.facturaToList(detFactura);
+        
+        //Registrar Salida
+        sb_inventario.createDocumento(selected.getDocumento(), lobjt, "2");
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FacturaCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -261,8 +281,12 @@ public class FacturaController implements Serializable {
         this.precio = new BigDecimal("0");
     }   
     
-    public void addDetalle(){
+    public String addDetalle(){
         
+       if(cantidad>this.productoIdproducto.getExistencia()){
+           JsfUtil.addErrorMessage("La cantidad no puede ser mayor a la existencia");
+           return "error";
+       }
        int id= 1;
        if(detFactura!= null){
        id= detFactura.size()+1;
@@ -280,7 +304,7 @@ public class FacturaController implements Serializable {
         selected.setCantidad(selected.getCantidad()+cantidad);
         selected.setTotal(selected.getTotal().add(precio.multiply(new BigDecimal(cantidad))));
         this.detFactura.add(detalle);
-        
+        return "error";
     }    
     
    public void buscar(){
@@ -293,5 +317,9 @@ public class FacturaController implements Serializable {
         }
     
     }   
+
+   public void updateExistencia(){
+       this.existencia =  this.productoIdproducto.getExistencia();        
+   }
 
 }

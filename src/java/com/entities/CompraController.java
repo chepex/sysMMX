@@ -43,13 +43,22 @@ public class CompraController implements Serializable {
     private Date ffinal;
     private Producto productoIdproducto;
     private int cantidad;
-    private BigDecimal precio;    
+    private BigDecimal precio;  
+    private int existencia;      
     
     
 
     public CompraController() {
     }
 
+    public int getExistencia() {
+        return existencia;
+    }
+
+    public void setExistencia(int existencia) {
+        this.existencia = existencia;
+    }
+    
     public Date getFinicio() {
         return finicio;
     }
@@ -170,7 +179,13 @@ public class CompraController implements Serializable {
        
         selected.setCompraDetList(detCompra);
         sb_Compra.actualizaCosto(selected);
-        sb_inventario.ingresoCompra(selected);
+        List<Object[]>  lobjt =  sb_inventario.compraToList(detCompra);
+        //sb_inventario.ingresoCompra(selected);
+        
+        //Registrar Entrada
+        sb_inventario.createDocumento(selected.getDocumento(), lobjt,"1");
+        
+        
         
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CompraCreated"));
         if (!JsfUtil.isValidationFailed()) {
@@ -313,5 +328,11 @@ public class CompraController implements Serializable {
         this.cantidad =0;
         this.precio = new BigDecimal("0");
     }    
+    
+
+   public void updateExistencia(){
+       this.existencia =  this.productoIdproducto.getExistencia();
+        
+   }    
 
 }

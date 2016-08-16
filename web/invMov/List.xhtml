@@ -57,14 +57,16 @@
                       
                     </p:panelGrid> 
                 <p:panel>
-                    <p:panelGrid columns="8"  style=" border-style: hidden !important;" rendered="#{invMovController.selected != null}">
+                    <p:panelGrid columns="9"  style=" border-style: hidden !important;" rendered="#{invMovController.selected != null}">
                         <p:outputLabel value="Producto" for="productoIdproducto" />
                         <p:selectOneMenu id="productoIdproducto" value="#{invMovController.productoIdproducto}" required="true" requiredMessage="#{bundle.EditCompraDetRequiredMessage_productoIdproducto}">
+                            <f:selectItem itemLabel="Seleciona una producto" itemValue="" />
                             <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
                                            var="productoIdproductoItem"
                                            itemValue="#{productoIdproductoItem}"
                                            itemLabel="#{productoIdproductoItem.nombre}"
                                            />
+                             <p:ajax listener="#{invMovController.updateExistencia}" update="existencia" />
                         </p:selectOneMenu>
                         
                         <p:outputLabel value="#{bundle.CreateCompraDetLabel_cantidad}" for="tcantidad" />
@@ -72,6 +74,9 @@
                         
                         <p:outputLabel value="#{bundle.CreateCompraDetLabel_precio}" for="vprecio" /> 
                         <p:inputNumber id="vprecio" value="#{invMovController.precio}"   />  
+                        
+                        <p:outputLabel value="Existencia" for="existencia" /> 
+                        <p:inputNumber id="existencia" value="#{invMovController.existencia}"  disabled="true"  />                           
                         
                         <p:commandButton actionListener="#{invMovController.addDetalle()}"   icon="ui-icon-plus" style="margin-top: 0px !important;"  update="@form"/>
                     </p:panelGrid>

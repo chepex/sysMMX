@@ -58,14 +58,16 @@
                       
                     </p:panelGrid>   
                 <p:panel>
-                    <p:panelGrid columns="8"  style=" border-style: hidden !important;" rendered="#{facturaController.selected != null}">
+                    <p:panelGrid columns="9"  style=" border-style: hidden !important;" rendered="#{facturaController.selected != null}">
                         <p:outputLabel value="Producto" for="productoIdproducto" />
                         <p:selectOneMenu id="productoIdproducto" value="#{facturaController.productoIdproducto}" required="true" requiredMessage="#{bundle.EditCompraDetRequiredMessage_productoIdproducto}">
+                            <f:selectItem itemLabel="Seleciona una producto" itemValue="" />
                             <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
                                            var="productoIdproductoItem"
                                            itemValue="#{productoIdproductoItem}"
                                            itemLabel="#{productoIdproductoItem.nombre}"
                                            />
+                            <p:ajax listener="#{facturaController.updateExistencia}" update="existencia" />
                         </p:selectOneMenu>
                         
                         <p:outputLabel value="#{bundle.CreateCompraDetLabel_cantidad}" for="tcantidad" />
@@ -74,7 +76,10 @@
                         <p:outputLabel value="#{bundle.CreateCompraDetLabel_precio}" for="vprecio" /> 
                         <p:inputNumber id="vprecio" value="#{facturaController.precio}"   />  
                         
-                        <p:commandButton actionListener="#{facturaController.addDetalle()}"   icon="ui-icon-plus" style="margin-top: 0px !important;"  update="@form"/>
+                        <p:outputLabel value="Existencia" for="existencia" /> 
+                        <p:inputNumber id="existencia" value="#{facturaController.existencia}"  disabled="true"  />                         
+                        
+                        <p:commandButton actionListener="#{facturaController.addDetalle()}"   icon="ui-icon-plus" style="margin-top: 0px !important;"  update="@form :growl"/>
                     </p:panelGrid>
                 </p:panel>  
                 <p:panel header="Detalle" >
