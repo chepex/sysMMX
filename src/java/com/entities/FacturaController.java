@@ -172,7 +172,7 @@ public class FacturaController implements Serializable {
         
         //Registrar Salida
         sb_inventario.createDocumento(selected.getDocumento(), lobjt, "2");
-         selected = this.getFacade().auditCreate(selected);
+        selected = this.getFacade().auditCreate(selected);
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FacturaCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -289,6 +289,21 @@ public class FacturaController implements Serializable {
            JsfUtil.addErrorMessage("La cantidad no puede ser mayor a la existencia");
            return "error";
        }
+        if(this.productoIdproducto==null){
+           JsfUtil.addErrorMessage("Selecione un producto");
+           return "error";
+        }
+        
+        if(this.cantidad==0||cantidad<0){
+         JsfUtil.addErrorMessage("Digite una cantidad valida");
+            return "error";
+        }
+        
+        if(this.precio.compareTo(new BigDecimal(0))==-1){
+         JsfUtil.addErrorMessage("Digite una precio valida");
+            return "error";
+        }       
+       
        int id= 1;
        if(detFactura!= null){
        id= detFactura.size()+1;
@@ -299,13 +314,18 @@ public class FacturaController implements Serializable {
         detalle.setFacturaIdfactura(selected);
         detalle.setCantidad(cantidad);
         detalle.setPrecio(precio);
-        //detalle.setTotal(precio.multiply(new BigDecimal(cantidad)));
+        detalle.setTotal(precio.multiply(new BigDecimal(cantidad)));
         
         detalle.setProductoIdproducto(productoIdproducto);
         
         selected.setCantidad(selected.getCantidad()+cantidad);
         selected.setTotal(selected.getTotal().add(precio.multiply(new BigDecimal(cantidad))));
         this.detFactura.add(detalle);
+        this.cantidad =1;
+        this.precio = new BigDecimal("0");
+        this.productoIdproducto = null;
+        this.existencia=0;       
+
         return "error";
     }    
     
@@ -321,7 +341,8 @@ public class FacturaController implements Serializable {
     }   
 
    public void updateExistencia(){
-       this.existencia =  this.productoIdproducto.getExistencia();        
+       this.existencia =  this.productoIdproducto.getExistencia();   
+       this.precio = this.productoIdproducto.getPrecio();
    }
 
 }

@@ -45,7 +45,7 @@
                 <p:panel   >
                     <p:panelGrid columns="9"  style=" border-style: hidden !important;" rendered="#{compraController.selected != null}">
                         <p:outputLabel value="Producto" for="productoIdproducto" />
-                        <p:selectOneMenu id="productoIdproducto" value="#{compraController.productoIdproducto}" required="true" requiredMessage="#{bundle.EditCompraDetRequiredMessage_productoIdproducto}">
+                        <p:selectOneMenu id="productoIdproducto" value="#{compraController.productoIdproducto}"  filter="true" filterMatchMode="contains"  requiredMessage="#{bundle.EditCompraDetRequiredMessage_productoIdproducto}">
                             <f:selectItem itemLabel="Seleciona una producto" itemValue="" />
                             <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
                                            var="productoIdproductoItem"
@@ -64,7 +64,7 @@
                         <p:outputLabel value="Existencia" for="existencia" /> 
                         <p:inputNumber id="existencia" value="#{compraController.existencia}"  disabled="true"  />                          
                         
-                        <p:commandButton actionListener="#{compraController.addDetalle()}"   icon="ui-icon-plus" style="margin-top: 0px !important;"  update="@form"/>
+                        <p:commandButton actionListener="#{compraController.addDetalle()}"   icon="ui-icon-plus" style="margin-top: 0px !important;"  update="@form  :growl"/>
                     </p:panelGrid>
                 </p:panel>
                 <p:panel header="Detalle" >

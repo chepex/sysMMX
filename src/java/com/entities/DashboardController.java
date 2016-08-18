@@ -173,7 +173,7 @@ public class DashboardController implements Serializable {
     
     private void createBarCompra() {
         this.compraModel = initBarCompra();         
-        compraModel.setTitle("Comparativo Ventas");
+        compraModel.setTitle("Comparativo Compras");
         compraModel.setLegendPosition("ne");         
         Axis xAxis = compraModel.getAxis(AxisType.X);         
         Axis yAxis = compraModel.getAxis(AxisType.Y);

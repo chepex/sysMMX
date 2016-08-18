@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "InvDetm.findAll", query = "SELECT i FROM InvDetm i"),
     @NamedQuery(name = "InvDetm.findByIdinvDetm", query = "SELECT i FROM InvDetm i WHERE i.idinvDetm = :idinvDetm"),
+    @NamedQuery(name = "InvDetm.findByProducto", query = "SELECT i FROM InvDetm i WHERE i.productoIdproducto = :producto"),
     @NamedQuery(name = "InvDetm.findByCantidad", query = "SELECT i FROM InvDetm i WHERE i.cantidad = :cantidad")})
 public class InvDetm implements Serializable {
     private static final long serialVersionUID = 1L;

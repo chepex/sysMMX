@@ -88,60 +88,17 @@ public class LoginBean  implements Serializable {
         return serverIP;
     }
 
-    public void log(String a,String b) throws IOException{
-    
-  
-
-    try(PrintWriter out = new PrintWriter(
-            new BufferedWriter(
-                    new FileWriter("c:/myFile.log", true)
-                    )
-            )) {
-      
-        out.println("User:"+a+" Pass:"+b);
-    } catch (IOException e) {
-        System.out.println("error--Z"+e);
-    }
  
-    }
-    
     public void setServerIP(String serverIP) {
         this.serverIP = serverIP;
     }
 
     
-    
-    public String getTheme() {
-        theme = "home";
-        return theme;
-    }
-
-    public void setTheme(String theme) {
-        this.theme = theme;
-    }
-    
-    
-    
-    
-    public String getUsuario() {
-        return usuario;
-    }
-
-    
-    
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
  
-    @ManagedProperty(value="#{param.from}")
-    private String from;
-     public String getFrom() {
-        return from;
-    }
+    
  
-    public void setFrom(String from) {
-        this.from = from;
-    }
+ 
+  
   public String getUsername() {
         return username;
     }
@@ -232,15 +189,7 @@ public class LoginBean  implements Serializable {
          
 	 
          
-          public String getLoggedUser(){
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        if(request.getUserPrincipal() != null){
-            return request.getUserPrincipal().getName();
-        }
-        
-        return "";
-    }
-	  
+ 
 	  
 	 
 	  
@@ -266,11 +215,7 @@ public class LoginBean  implements Serializable {
              
 	  
  
-        public Date sdate(){
-
-            Calendar currentDate = Calendar.getInstance();
-            return currentDate.getTime();
-        }
+      
           
       
     public void pasarGarbageCollector(){

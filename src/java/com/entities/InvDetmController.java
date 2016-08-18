@@ -25,9 +25,34 @@ public class InvDetmController implements Serializable {
     private com.entities.InvDetmFacade ejbFacade;
     private List<InvDetm> items = null;
     private InvDetm selected;
+    private int existencia;
+    private Producto producto ;
 
     public InvDetmController() {
     }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+
+    
+    
+    public int getExistencia() {
+        return existencia;
+    }
+
+    public void setExistencia(int existencia) {
+        this.existencia = existencia;
+    }
+
+    
+    
+    
+    
 
     public InvDetm getSelected() {
         return selected;
@@ -73,9 +98,10 @@ public class InvDetmController implements Serializable {
     }
 
     public List<InvDetm> getItems() {
-        if (items == null) {
+      /*  if (items == null) {
             items = getFacade().findAll();
-        }
+        }*/
+        this.existencia=0;
         return items;
     }
 
@@ -155,5 +181,25 @@ public class InvDetmController implements Serializable {
         }
 
     }
-
+    
+    public int  addExistencia(InvDetm mov){
+        if(mov.getInvMovIdinvMov().getDocumentoIddocumento().getSumaResta().equals("S")){
+            this.existencia = existencia +mov.getCantidad();
+             return this.existencia;
+        }
+        if(mov.getInvMovIdinvMov().getDocumentoIddocumento().getSumaResta().equals("R")){
+            this.existencia = existencia -mov.getCantidad();
+             return this.existencia;
+        }    
+    
+        return this.existencia;
+    }
+    
+    public void consulta(){    
+        this.existencia =0;
+        this.items = this.ejbFacade.findByNombre(this.producto);
+        
+    }
+    
+    
 }

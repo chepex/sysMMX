@@ -21,7 +21,7 @@
             <p:layoutUnit position="north" header="masaa" style="padding: 0em !important; height: 27px;" >
                 <h:form id="menuForm">
                     <p:menubar style="padding: 0em !important; height: 27px;">
-                        <p:menuitem value="#{bundle.Home}" outcome="/index" icon="ui-icon-home"/>
+                        <p:menuitem value="#{bundle.Home}" outcome="/dashboard/List.xhtml" icon="ui-icon-home"/>
                         <p:submenu label="#{bundle.Maintenance}">
                             <p:menuitem value="Producto" outcome="/producto/List.xhtml" />
                             <p:menuitem value="Categoria" outcome="/categoria/List.xhtml" />                            
@@ -41,6 +41,7 @@
                             <p:menuitem value="Documento" outcome="/documento/List.xhtml" />
                             <p:menuitem value="Bodega" outcome="/bodega/List.xhtml" />
                             <p:menuitem value="InvMov" outcome="/invMov/List.xhtml" />
+                            <p:menuitem value="kardex" outcome="/invMov/kardex.xhtml" />
                         </p:submenu>   
                         <f:facet name="options">
                             <p:commandButton id="salir" icon="ui-icon-power" value="#{SSUSUARIO}" actionListener="#{loginBean.logout()}"></p:commandButton>

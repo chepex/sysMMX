@@ -303,7 +303,21 @@ public class CompraController implements Serializable {
 
     }
     
-    public void addDetalle(){
+    public String addDetalle(){
+        if(this.productoIdproducto==null){
+           JsfUtil.addErrorMessage("Selecione un producto");
+           return "error";
+        }
+        
+        if(this.cantidad==0||cantidad<0){
+         JsfUtil.addErrorMessage("Digite una cantidad valida");
+            return "error";
+        }
+        
+        if(this.precio.compareTo(new BigDecimal(0))==-1){
+         JsfUtil.addErrorMessage("Digite una precio valida");
+            return "error";
+        }
         
        int id= 1;
        if(detCompra!= null){
@@ -322,7 +336,11 @@ public class CompraController implements Serializable {
         selected.setCantidad(selected.getCantidad()+cantidad);
         selected.setTotal(selected.getTotal().add(precio.multiply(new BigDecimal(cantidad))));
         this.detCompra.add(detalle);
-        
+        this.cantidad =1;
+        this.precio = new BigDecimal("0");
+        this.productoIdproducto = null;
+        this.existencia=0;
+        return "ok";
     }
     
     public void buscar(){
@@ -346,7 +364,7 @@ public class CompraController implements Serializable {
 
    public void updateExistencia(){
        this.existencia =  this.productoIdproducto.getExistencia();
-        this.precio = this.productoIdproducto.getPrecio();
+       this.precio = this.productoIdproducto.getPrecio();
         
    }    
 

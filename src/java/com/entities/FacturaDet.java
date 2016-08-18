@@ -44,6 +44,8 @@ public class FacturaDet implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "precio")
     private BigDecimal precio;
+    @Column(name = "total")
+    private BigDecimal total;    
     @JoinColumn(name = "producto_idproducto", referencedColumnName = "idproducto")
     @ManyToOne(optional = false)
     private Producto productoIdproducto;
@@ -54,6 +56,15 @@ public class FacturaDet implements Serializable {
     public FacturaDet() {
     }
 
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
+    
     public FacturaDet(Integer idfacturaDet) {
         this.idfacturaDet = idfacturaDet;
     }

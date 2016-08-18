@@ -60,14 +60,14 @@
                 <p:panel>
                     <p:panelGrid columns="9"  style=" border-style: hidden !important;" rendered="#{facturaController.selected != null}">
                         <p:outputLabel value="Producto" for="productoIdproducto" />
-                        <p:selectOneMenu id="productoIdproducto" value="#{facturaController.productoIdproducto}" required="true" requiredMessage="#{bundle.EditCompraDetRequiredMessage_productoIdproducto}">
+                        <p:selectOneMenu id="productoIdproducto" value="#{facturaController.productoIdproducto}" filter="true" filterMatchMode="contains"   requiredMessage="#{bundle.EditCompraDetRequiredMessage_productoIdproducto}">
                             <f:selectItem itemLabel="Seleciona una producto" itemValue="" />
                             <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
                                            var="productoIdproductoItem"
                                            itemValue="#{productoIdproductoItem}"
                                            itemLabel="#{productoIdproductoItem.nombre}"
                                            />
-                            <p:ajax listener="#{facturaController.updateExistencia}" update="existencia" />
+                            <p:ajax listener="#{facturaController.updateExistencia}" update="existencia vprecio" />
                         </p:selectOneMenu>
                         
                         <p:outputLabel value="#{bundle.CreateCompraDetLabel_cantidad}" for="tcantidad" />
@@ -116,7 +116,7 @@
                             <f:facet name="header">
                                 <h:outputText value="Total"/>
                             </f:facet>
-                            
+                            <h:outputText value="#{item.total}"/>
                           
                         </p:column>                        
                        
@@ -125,7 +125,14 @@
                     </p:dataTable>
                     
                      
-                </p:panel>                
+                </p:panel>   
+              <div style=" position: absolute;right: 0px;   "  >
+                    <p:outputLabel value="#{bundle.CreateCompraLabel_cantidad}" for="cantidad"   style="font-size: 250% !important; width: 50px;"/>
+                    <p:inputText id="cantidad"   style="font-size: 150% !important;" disabled="true" value="#{facturaController.selected.cantidad}" title="#{bundle.CreateCompraTitle_cantidad}" />
+                    <p:outputLabel value="#{bundle.CreateCompraLabel_total}" for="total"  style="font-size: 250% !important;" />
+                    <p:inputText id="total" disabled="true"  style="font-size: 150% !important;" value="#{facturaController.selected.total}" title="#{bundle.CreateCompraTitle_total}" />                        
+               </div>                
+                
                 
             </p:panel>
             </h:form>
