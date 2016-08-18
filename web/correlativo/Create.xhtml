@@ -23,8 +23,9 @@
                         <p:inputText id="valorInicial" value="#{correlativoController.selected.valorInicial}" title="#{bundle.CreateCorrelativoTitle_valorInicial}" required="true" requiredMessage="#{bundle.CreateCorrelativoRequiredMessage_valorInicial}"/>
                         <p:outputLabel value="#{bundle.CreateCorrelativoLabel_valorFinal}" for="valorFinal" />
                         <p:inputText id="valorFinal" value="#{correlativoController.selected.valorFinal}" title="#{bundle.CreateCorrelativoTitle_valorFinal}" required="true" requiredMessage="#{bundle.CreateCorrelativoRequiredMessage_valorFinal}"/>
-                        <p:outputLabel value="#{bundle.CreateCorrelativoLabel_fecha}" for="fecha" />
-                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{correlativoController.selected.fecha}" title="#{bundle.EditCorrelativoTitle_fecha}" required="true" requiredMessage="#{bundle.EditCorrelativoRequiredMessage_fecha}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditCorrelativoLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{correlativoController.selected.fecha}" title="#{bundle.EditCorrelativoTitle_fecha}" required="true" requiredMessage="#{bundle.EditCorrelativoRequiredMessage_fecha}" showOn="button"/>                        
+                        
                         <p:outputLabel value="#{bundle.CreateCorrelativoLabel_activo}" for="activo" />
                         <p:selectBooleanCheckbox id="activo" value="#{correlativoController.selected.activo}" />
                     </p:panelGrid>

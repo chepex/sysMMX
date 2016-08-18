@@ -2,8 +2,13 @@ package com.entities;
 
 import com.entities.util.JsfUtil;
 import com.entities.util.JsfUtil.PersistAction;
+import com.entities.util.ManejadorFechas;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -54,7 +59,8 @@ public class CorrelativoController implements Serializable {
         return selected;
     }
 
-    public void create() {
+    public void create() throws ParseException {
+       selected = this.getFacade().auditCreate(selected);
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CorrelativoCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -62,6 +68,7 @@ public class CorrelativoController implements Serializable {
     }
 
     public void update() {
+        selected = this.getFacade().auditUpdate(selected);
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CorrelativoUpdated"));
     }
 

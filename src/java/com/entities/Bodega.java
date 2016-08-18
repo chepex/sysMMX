@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chepe
+ * @author mmixco
  */
 @Entity
 @Table(name = "bodega")
@@ -37,7 +37,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Bodega.findByIdbodega", query = "SELECT b FROM Bodega b WHERE b.idbodega = :idbodega"),
     @NamedQuery(name = "Bodega.findByNombre", query = "SELECT b FROM Bodega b WHERE b.nombre = :nombre"),
     @NamedQuery(name = "Bodega.findByDescripcion", query = "SELECT b FROM Bodega b WHERE b.descripcion = :descripcion"),
-    @NamedQuery(name = "Bodega.findByActivo", query = "SELECT b FROM Bodega b WHERE b.activo = :activo")})
+    @NamedQuery(name = "Bodega.findByActivo", query = "SELECT b FROM Bodega b WHERE b.activo = :activo"),
+    @NamedQuery(name = "Bodega.findByUsuarioCreate", query = "SELECT b FROM Bodega b WHERE b.usuarioCreate = :usuarioCreate"),
+    @NamedQuery(name = "Bodega.findByFechaCreate", query = "SELECT b FROM Bodega b WHERE b.fechaCreate = :fechaCreate"),
+    @NamedQuery(name = "Bodega.findByUsuarioUpdate", query = "SELECT b FROM Bodega b WHERE b.usuarioUpdate = :usuarioUpdate"),
+    @NamedQuery(name = "Bodega.findByFechaUpdate", query = "SELECT b FROM Bodega b WHERE b.fechaUpdate = :fechaUpdate")})
 public class Bodega implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,57 +57,23 @@ public class Bodega implements Serializable {
     private String descripcion;
     @Column(name = "activo")
     private Boolean activo;
+    @Size(max = 45)
     @Column(name = "usuario_create")
     private String usuarioCreate;
-    @Size(max = 45)    
-    @Column(name = "usuario_update")
-    private String usuarioUpdate;
-    @Size(max = 45)    
     @Column(name = "fecha_create")
     @Temporal(TemporalType.DATE)
-    private Date fechaCreate;  
+    private Date fechaCreate;
+    @Size(max = 45)
+    @Column(name = "usuario_update")
+    private String usuarioUpdate;
     @Column(name = "fecha_update")
     @Temporal(TemporalType.DATE)
-    private Date fechaUpdate;       
+    private Date fechaUpdate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bodegaIdbodega")
     private List<InvMov> invMovList;
 
     public Bodega() {
     }
-
-    public String getUsuarioCreate() {
-        return usuarioCreate;
-    }
-
-    public void setUsuarioCreate(String usuarioCreate) {
-        this.usuarioCreate = usuarioCreate;
-    }
-
-    public String getUsuarioUpdate() {
-        return usuarioUpdate;
-    }
-
-    public void setUsuarioUpdate(String usuarioUpdate) {
-        this.usuarioUpdate = usuarioUpdate;
-    }
-
-    public Date getFechaCreate() {
-        return fechaCreate;
-    }
-
-    public void setFechaCreate(Date fechaCreate) {
-        this.fechaCreate = fechaCreate;
-    }
-
-    public Date getFechaUpdate() {
-        return fechaUpdate;
-    }
-
-    public void setFechaUpdate(Date fechaUpdate) {
-        this.fechaUpdate = fechaUpdate;
-    }
-    
-    
 
     public Bodega(Integer idbodega) {
         this.idbodega = idbodega;
@@ -139,6 +109,38 @@ public class Bodega implements Serializable {
 
     public void setActivo(Boolean activo) {
         this.activo = activo;
+    }
+
+    public String getUsuarioCreate() {
+        return usuarioCreate;
+    }
+
+    public void setUsuarioCreate(String usuarioCreate) {
+        this.usuarioCreate = usuarioCreate;
+    }
+
+    public Date getFechaCreate() {
+        return fechaCreate;
+    }
+
+    public void setFechaCreate(Date fechaCreate) {
+        this.fechaCreate = fechaCreate;
+    }
+
+    public String getUsuarioUpdate() {
+        return usuarioUpdate;
+    }
+
+    public void setUsuarioUpdate(String usuarioUpdate) {
+        this.usuarioUpdate = usuarioUpdate;
+    }
+
+    public Date getFechaUpdate() {
+        return fechaUpdate;
+    }
+
+    public void setFechaUpdate(Date fechaUpdate) {
+        this.fechaUpdate = fechaUpdate;
     }
 
     @XmlTransient

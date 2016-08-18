@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chepe
+ * @author mmixco
  */
 @Entity
 @Table(name = "proveedor")
@@ -41,7 +41,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Proveedor.findByTel", query = "SELECT p FROM Proveedor p WHERE p.tel = :tel"),
     @NamedQuery(name = "Proveedor.findByCorreo", query = "SELECT p FROM Proveedor p WHERE p.correo = :correo"),
     @NamedQuery(name = "Proveedor.findByDireccion", query = "SELECT p FROM Proveedor p WHERE p.direccion = :direccion"),
-    @NamedQuery(name = "Proveedor.findByActivo", query = "SELECT p FROM Proveedor p WHERE p.activo = :activo")})
+    @NamedQuery(name = "Proveedor.findByActivo", query = "SELECT p FROM Proveedor p WHERE p.activo = :activo"),
+    @NamedQuery(name = "Proveedor.findByUsuarioCreate", query = "SELECT p FROM Proveedor p WHERE p.usuarioCreate = :usuarioCreate"),
+    @NamedQuery(name = "Proveedor.findByFechaCreate", query = "SELECT p FROM Proveedor p WHERE p.fechaCreate = :fechaCreate"),
+    @NamedQuery(name = "Proveedor.findByUsuarioUpdate", query = "SELECT p FROM Proveedor p WHERE p.usuarioUpdate = :usuarioUpdate"),
+    @NamedQuery(name = "Proveedor.findByFechaUpdate", query = "SELECT p FROM Proveedor p WHERE p.fechaUpdate = :fechaUpdate")})
 public class Proveedor implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -69,57 +73,24 @@ public class Proveedor implements Serializable {
     private String direccion;
     @Column(name = "activo")
     private Boolean activo;
+    @Size(max = 45)
     @Column(name = "usuario_create")
     private String usuarioCreate;
-    @Size(max = 45)    
-    @Column(name = "usuario_update")
-    private String usuarioUpdate;
-    @Size(max = 45)    
     @Column(name = "fecha_create")
     @Temporal(TemporalType.DATE)
-    private Date fechaCreate;  
+    private Date fechaCreate;
+    @Size(max = 45)
+    @Column(name = "usuario_update")
+    private String usuarioUpdate;
     @Column(name = "fecha_update")
     @Temporal(TemporalType.DATE)
-    private Date fechaUpdate;      
+    private Date fechaUpdate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proveedorIdproveedor")
     private List<Compra> compraList;
 
     public Proveedor() {
     }
 
-    public String getUsuarioCreate() {
-        return usuarioCreate;
-    }
-
-    public void setUsuarioCreate(String usuarioCreate) {
-        this.usuarioCreate = usuarioCreate;
-    }
-
-    public String getUsuarioUpdate() {
-        return usuarioUpdate;
-    }
-
-    public void setUsuarioUpdate(String usuarioUpdate) {
-        this.usuarioUpdate = usuarioUpdate;
-    }
-
-    public Date getFechaCreate() {
-        return fechaCreate;
-    }
-
-    public void setFechaCreate(Date fechaCreate) {
-        this.fechaCreate = fechaCreate;
-    }
-
-    public Date getFechaUpdate() {
-        return fechaUpdate;
-    }
-
-    public void setFechaUpdate(Date fechaUpdate) {
-        this.fechaUpdate = fechaUpdate;
-    }
-
-    
     public Proveedor(Integer idproveedor) {
         this.idproveedor = idproveedor;
     }
@@ -186,6 +157,38 @@ public class Proveedor implements Serializable {
 
     public void setActivo(Boolean activo) {
         this.activo = activo;
+    }
+
+    public String getUsuarioCreate() {
+        return usuarioCreate;
+    }
+
+    public void setUsuarioCreate(String usuarioCreate) {
+        this.usuarioCreate = usuarioCreate;
+    }
+
+    public Date getFechaCreate() {
+        return fechaCreate;
+    }
+
+    public void setFechaCreate(Date fechaCreate) {
+        this.fechaCreate = fechaCreate;
+    }
+
+    public String getUsuarioUpdate() {
+        return usuarioUpdate;
+    }
+
+    public void setUsuarioUpdate(String usuarioUpdate) {
+        this.usuarioUpdate = usuarioUpdate;
+    }
+
+    public Date getFechaUpdate() {
+        return fechaUpdate;
+    }
+
+    public void setFechaUpdate(Date fechaUpdate) {
+        this.fechaUpdate = fechaUpdate;
     }
 
     @XmlTransient

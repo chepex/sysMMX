@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chepe
+ * @author mmixco
  */
 @Entity
 @Table(name = "producto")
@@ -45,7 +45,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Producto.findByMin", query = "SELECT p FROM Producto p WHERE p.min = :min"),
     @NamedQuery(name = "Producto.findByMax", query = "SELECT p FROM Producto p WHERE p.max = :max"),
     @NamedQuery(name = "Producto.findByExistencia", query = "SELECT p FROM Producto p WHERE p.existencia = :existencia"),
-    @NamedQuery(name = "Producto.findByActivo", query = "SELECT p FROM Producto p WHERE p.activo = :activo")})
+    @NamedQuery(name = "Producto.findByActivo", query = "SELECT p FROM Producto p WHERE p.activo = :activo"),
+    @NamedQuery(name = "Producto.findByUsuarioCreate", query = "SELECT p FROM Producto p WHERE p.usuarioCreate = :usuarioCreate"),
+    @NamedQuery(name = "Producto.findByFechaCreate", query = "SELECT p FROM Producto p WHERE p.fechaCreate = :fechaCreate"),
+    @NamedQuery(name = "Producto.findByUsuarioUpdate", query = "SELECT p FROM Producto p WHERE p.usuarioUpdate = :usuarioUpdate"),
+    @NamedQuery(name = "Producto.findByFechaUpdate", query = "SELECT p FROM Producto p WHERE p.fechaUpdate = :fechaUpdate")})
 public class Producto implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -72,61 +76,29 @@ public class Producto implements Serializable {
     private Integer existencia;
     @Column(name = "activo")
     private Boolean activo;
+    @Size(max = 45)
     @Column(name = "usuario_create")
     private String usuarioCreate;
-    @Size(max = 45)    
-    @Column(name = "usuario_update")
-    private String usuarioUpdate;
-    @Size(max = 45)    
     @Column(name = "fecha_create")
     @Temporal(TemporalType.DATE)
-    private Date fechaCreate;  
+    private Date fechaCreate;
+    @Size(max = 45)
+    @Column(name = "usuario_update")
+    private String usuarioUpdate;
     @Column(name = "fecha_update")
     @Temporal(TemporalType.DATE)
-    private Date fechaUpdate;      
+    private Date fechaUpdate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoIdproducto")
-    private List<CompraDet> compraDetList;
+    private List<FacturaDet> facturaDetList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoIdproducto")
     private List<InvDetm> invDetmList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoIdproducto")
-    private List<FacturaDet> facturaDetList;
+    private List<CompraDet> compraDetList;
     @JoinColumn(name = "categoria_idcategoria", referencedColumnName = "idcategoria")
     @ManyToOne(optional = false)
     private Categoria categoriaIdcategoria;
 
     public Producto() {
-    }
-
-    public String getUsuarioCreate() {
-        return usuarioCreate;
-    }
-
-    public void setUsuarioCreate(String usuarioCreate) {
-        this.usuarioCreate = usuarioCreate;
-    }
-
-    public String getUsuarioUpdate() {
-        return usuarioUpdate;
-    }
-
-    public void setUsuarioUpdate(String usuarioUpdate) {
-        this.usuarioUpdate = usuarioUpdate;
-    }
-
-    public Date getFechaCreate() {
-        return fechaCreate;
-    }
-
-    public void setFechaCreate(Date fechaCreate) {
-        this.fechaCreate = fechaCreate;
-    }
-
-    public Date getFechaUpdate() {
-        return fechaUpdate;
-    }
-
-    public void setFechaUpdate(Date fechaUpdate) {
-        this.fechaUpdate = fechaUpdate;
     }
 
     public Producto(Integer idproducto) {
@@ -205,13 +177,45 @@ public class Producto implements Serializable {
         this.activo = activo;
     }
 
-    @XmlTransient
-    public List<CompraDet> getCompraDetList() {
-        return compraDetList;
+    public String getUsuarioCreate() {
+        return usuarioCreate;
     }
 
-    public void setCompraDetList(List<CompraDet> compraDetList) {
-        this.compraDetList = compraDetList;
+    public void setUsuarioCreate(String usuarioCreate) {
+        this.usuarioCreate = usuarioCreate;
+    }
+
+    public Date getFechaCreate() {
+        return fechaCreate;
+    }
+
+    public void setFechaCreate(Date fechaCreate) {
+        this.fechaCreate = fechaCreate;
+    }
+
+    public String getUsuarioUpdate() {
+        return usuarioUpdate;
+    }
+
+    public void setUsuarioUpdate(String usuarioUpdate) {
+        this.usuarioUpdate = usuarioUpdate;
+    }
+
+    public Date getFechaUpdate() {
+        return fechaUpdate;
+    }
+
+    public void setFechaUpdate(Date fechaUpdate) {
+        this.fechaUpdate = fechaUpdate;
+    }
+
+    @XmlTransient
+    public List<FacturaDet> getFacturaDetList() {
+        return facturaDetList;
+    }
+
+    public void setFacturaDetList(List<FacturaDet> facturaDetList) {
+        this.facturaDetList = facturaDetList;
     }
 
     @XmlTransient
@@ -224,12 +228,12 @@ public class Producto implements Serializable {
     }
 
     @XmlTransient
-    public List<FacturaDet> getFacturaDetList() {
-        return facturaDetList;
+    public List<CompraDet> getCompraDetList() {
+        return compraDetList;
     }
 
-    public void setFacturaDetList(List<FacturaDet> facturaDetList) {
-        this.facturaDetList = facturaDetList;
+    public void setCompraDetList(List<CompraDet> compraDetList) {
+        this.compraDetList = compraDetList;
     }
 
     public Categoria getCategoriaIdcategoria() {

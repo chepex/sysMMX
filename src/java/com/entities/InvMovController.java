@@ -154,6 +154,7 @@ public class InvMovController implements Serializable {
         
         selected.setInvDetmList(this.detInvmov);  
         if(sb_inventario.actulizaExistencia(selected).equals("ok")){
+             selected = this.getFacade().auditCreate(selected);
             persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("InvMovCreated"));
         }else{
            JsfUtil.addErrorMessage("Surgio un error");
@@ -166,6 +167,7 @@ public class InvMovController implements Serializable {
     }
 
     public void update() {
+         selected = this.getFacade().auditUpdate(selected);
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("InvMovUpdated"));
     }
 

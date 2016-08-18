@@ -2,9 +2,11 @@ package com.entities;
 
 import com.entities.util.JsfUtil;
 import com.entities.util.JsfUtil.PersistAction;
+import com.entities.util.ManejadorFechas;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -165,8 +167,19 @@ public class CompraController implements Serializable {
             int nuevoValor= c.getValorActual()+1;
             String vcorrelativo = c.getPrefijo()+nuevoValor;
             c.setValorActual(nuevoValor);
-            correlativoFacade.edit(c);
-             selected.setDocumento(vcorrelativo);
+            //SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = ManejadorFechas.DateToString(new Date());
+         //   c.setFecha(date);
+            c.setFecha(ffinal);
+            c.setFechaCreate(date);
+         //   c.setFechaUpdate(date);
+            try{
+                correlativoFacade.edit(c);
+            }catch(Exception ex){
+                System.out.println(" error grave +"+ ex);
+            }
+            
+            selected.setDocumento(vcorrelativo);
         
         }else{
             selected.setDocumento("No corelt");
@@ -185,7 +198,7 @@ public class CompraController implements Serializable {
         //Registrar Entrada
         sb_inventario.createDocumento(selected.getDocumento(), lobjt,"1");
         
-        
+        selected = this.getFacade().auditCreate(selected);
         
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CompraCreated"));
         if (!JsfUtil.isValidationFailed()) {
@@ -194,6 +207,7 @@ public class CompraController implements Serializable {
     }
 
     public void update() {
+        selected = this.getFacade().auditUpdate(selected);
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CompraUpdated"));
     }
 
@@ -332,6 +346,7 @@ public class CompraController implements Serializable {
 
    public void updateExistencia(){
        this.existencia =  this.productoIdproducto.getExistencia();
+        this.precio = this.productoIdproducto.getPrecio();
         
    }    
 

@@ -55,6 +55,7 @@ public class CategoriaController implements Serializable {
     }
 
     public void create() {
+        selected= getFacade().auditCreate(selected);
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -62,6 +63,7 @@ public class CategoriaController implements Serializable {
     }
 
     public void update() {
+        selected= getFacade().auditUpdate(selected);
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaUpdated"));
     }
 

@@ -5,7 +5,10 @@
  */
 package com.entities;
 
+import com.entities.util.JsfUtil;
+import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 
 /**
@@ -14,6 +17,8 @@ import javax.persistence.EntityManager;
  */
 public abstract class AbstractFacade<T> {
     private Class<T> entityClass;
+    @EJB
+    private com.entities.LoginBean loginBean;    
 
     public AbstractFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
@@ -24,6 +29,48 @@ public abstract class AbstractFacade<T> {
     public void create(T entity) {
         getEntityManager().persist(entity);
     }
+    
+     public T  auditCreate(T entity) {
+        try {
+         //   System.out.println("entidad ---->" + entity.getClass().getSimpleName());
+
+                
+                java.lang.reflect.Field usr = entity.getClass().getDeclaredField("usuarioCreate");
+                usr.setAccessible(true);
+                usr.set(entity, loginBean.ssuser());
+                java.lang.reflect.Field creacion = entity.getClass().getDeclaredField("fechaCreate");            
+                creacion.setAccessible(true);
+                creacion.set(entity, new Date());
+                //saveLog(entity,lb.ssuser(),lb.sdate(),"CREATE");
+                    
+        }catch(IllegalArgumentException | IllegalAccessException | NoSuchFieldException ex ){
+         
+            System.out.print("error campo usuarioCreacion o fechaCreacion no existe clase"+entity.getClass().getSimpleName());
+             JsfUtil.addErrorMessage("error campo usuario_creacion o fecha_creacion no existe clase"+entity.getClass().getSimpleName());
+        }
+        return entity;
+    }
+     
+     public T  auditUpdate(T entity) {
+        try {
+         //   System.out.println("entidad ---->" + entity.getClass().getSimpleName());
+
+                
+                java.lang.reflect.Field usr = entity.getClass().getDeclaredField("usuarioUpdate");
+                usr.setAccessible(true);
+                usr.set(entity, loginBean.ssuser());
+                java.lang.reflect.Field creacion = entity.getClass().getDeclaredField("fechaUpdate");            
+                creacion.setAccessible(true);
+                creacion.set(entity, new Date());
+                //saveLog(entity,lb.ssuser(),lb.sdate(),"CREATE");
+                    
+        }catch(IllegalArgumentException | IllegalAccessException | NoSuchFieldException ex ){
+         
+            System.out.print("error campo usuarioCreacion o fechaCreacion no existe clase"+entity.getClass().getSimpleName());
+             JsfUtil.addErrorMessage("error campo usuario_creacion o fecha_creacion no existe clase"+entity.getClass().getSimpleName());
+        }
+        return entity;
+    }     
 
     public void edit(T entity) {
         getEntityManager().merge(entity);

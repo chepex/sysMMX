@@ -172,6 +172,7 @@ public class FacturaController implements Serializable {
         
         //Registrar Salida
         sb_inventario.createDocumento(selected.getDocumento(), lobjt, "2");
+         selected = this.getFacade().auditCreate(selected);
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FacturaCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -179,6 +180,7 @@ public class FacturaController implements Serializable {
     }
 
     public void update() {
+         selected = this.getFacade().auditUpdate(selected);
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("FacturaUpdated"));
     }
 

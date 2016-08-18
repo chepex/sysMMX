@@ -52,7 +52,7 @@
                                            itemValue="#{productoIdproductoItem}"
                                            itemLabel="#{productoIdproductoItem.nombre}"
                                            />
-                            <p:ajax listener="#{compraController.updateExistencia}" update="existencia" />
+                            <p:ajax listener="#{compraController.updateExistencia}" update="existencia vprecio" />
                         </p:selectOneMenu>
                         
                         <p:outputLabel value="#{bundle.CreateCompraDetLabel_cantidad}" for="tcantidad" />

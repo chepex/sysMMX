@@ -18,13 +18,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author chepe
+ * @author mmixco
  */
 @Entity
 @Table(name = "correlativo")
@@ -38,7 +37,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Correlativo.findByValorInicial", query = "SELECT c FROM Correlativo c WHERE c.valorInicial = :valorInicial"),
     @NamedQuery(name = "Correlativo.findByValorFinal", query = "SELECT c FROM Correlativo c WHERE c.valorFinal = :valorFinal"),
     @NamedQuery(name = "Correlativo.findByFecha", query = "SELECT c FROM Correlativo c WHERE c.fecha = :fecha"),
-    @NamedQuery(name = "Correlativo.findByActivo", query = "SELECT c FROM Correlativo c WHERE c.activo = :activo")})
+    @NamedQuery(name = "Correlativo.findByActivo", query = "SELECT c FROM Correlativo c WHERE c.activo = :activo"),
+    @NamedQuery(name = "Correlativo.findByUsuarioCreate", query = "SELECT c FROM Correlativo c WHERE c.usuarioCreate = :usuarioCreate"),
+    @NamedQuery(name = "Correlativo.findByFechaCreate", query = "SELECT c FROM Correlativo c WHERE c.fechaCreate = :fechaCreate"),
+    @NamedQuery(name = "Correlativo.findByUsuarioUpdate", query = "SELECT c FROM Correlativo c WHERE c.usuarioUpdate = :usuarioUpdate"),
+    @NamedQuery(name = "Correlativo.findByFechaUpdate", query = "SELECT c FROM Correlativo c WHERE c.fechaUpdate = :fechaUpdate")})
 public class Correlativo implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,96 +49,41 @@ public class Correlativo implements Serializable {
     @Basic(optional = false)
     @Column(name = "idcorrelativo")
     private Integer idcorrelativo;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     @Column(name = "nombre")
     private String nombre;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     @Column(name = "prefijo")
     private String prefijo;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "valor_actual")
-    private int valorActual;
-    @Basic(optional = false)
-    @NotNull
+    private Integer valorActual;
     @Column(name = "valor_inicial")
-    private int valorInicial;
-    @Basic(optional = false)
-    @NotNull
+    private Integer valorInicial;
     @Column(name = "valor_final")
-    private int valorFinal;
-    @Basic(optional = false)
-    @NotNull
+    private Integer valorFinal;
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
     @Column(name = "activo")
     private Boolean activo;
+    @Size(max = 45)
     @Column(name = "usuario_create")
     private String usuarioCreate;
-    @Size(max = 45)    
-    @Column(name = "usuario_update")
-    private String usuarioUpdate;
-    @Size(max = 45)    
     @Column(name = "fecha_create")
     @Temporal(TemporalType.DATE)
-    private Date fechaCreate;  
+    private Date fechaCreate;
+    @Size(max = 45)
+    @Column(name = "usuario_update")
+    private String usuarioUpdate;
     @Column(name = "fecha_update")
     @Temporal(TemporalType.DATE)
-    private Date fechaUpdate;      
+    private Date fechaUpdate;
 
     public Correlativo() {
     }
 
-    public String getUsuarioCreate() {
-        return usuarioCreate;
-    }
-
-    public void setUsuarioCreate(String usuarioCreate) {
-        this.usuarioCreate = usuarioCreate;
-    }
-
-    public String getUsuarioUpdate() {
-        return usuarioUpdate;
-    }
-
-    public void setUsuarioUpdate(String usuarioUpdate) {
-        this.usuarioUpdate = usuarioUpdate;
-    }
-
-    public Date getFechaCreate() {
-        return fechaCreate;
-    }
-
-    public void setFechaCreate(Date fechaCreate) {
-        this.fechaCreate = fechaCreate;
-    }
-
-    public Date getFechaUpdate() {
-        return fechaUpdate;
-    }
-
-    public void setFechaUpdate(Date fechaUpdate) {
-        this.fechaUpdate = fechaUpdate;
-    }
-
-    
     public Correlativo(Integer idcorrelativo) {
         this.idcorrelativo = idcorrelativo;
-    }
-
-    public Correlativo(Integer idcorrelativo, String nombre, String prefijo, int valorActual, int valorInicial, int valorFinal, Date fecha) {
-        this.idcorrelativo = idcorrelativo;
-        this.nombre = nombre;
-        this.prefijo = prefijo;
-        this.valorActual = valorActual;
-        this.valorInicial = valorInicial;
-        this.valorFinal = valorFinal;
-        this.fecha = fecha;
     }
 
     public Integer getIdcorrelativo() {
@@ -162,27 +110,27 @@ public class Correlativo implements Serializable {
         this.prefijo = prefijo;
     }
 
-    public int getValorActual() {
+    public Integer getValorActual() {
         return valorActual;
     }
 
-    public void setValorActual(int valorActual) {
+    public void setValorActual(Integer valorActual) {
         this.valorActual = valorActual;
     }
 
-    public int getValorInicial() {
+    public Integer getValorInicial() {
         return valorInicial;
     }
 
-    public void setValorInicial(int valorInicial) {
+    public void setValorInicial(Integer valorInicial) {
         this.valorInicial = valorInicial;
     }
 
-    public int getValorFinal() {
+    public Integer getValorFinal() {
         return valorFinal;
     }
 
-    public void setValorFinal(int valorFinal) {
+    public void setValorFinal(Integer valorFinal) {
         this.valorFinal = valorFinal;
     }
 
@@ -200,6 +148,40 @@ public class Correlativo implements Serializable {
 
     public void setActivo(Boolean activo) {
         this.activo = activo;
+    }
+
+ 
+
+    public String getUsuarioCreate() {
+        return usuarioCreate;
+    }
+
+    public void setUsuarioCreate(String usuarioCreate) {
+        this.usuarioCreate = usuarioCreate;
+    }
+
+    public Date getFechaCreate() {
+        return fechaCreate;
+    }
+
+    public void setFechaCreate(Date fechaCreate) {
+        this.fechaCreate = fechaCreate;
+    }
+
+    public String getUsuarioUpdate() {
+        return usuarioUpdate;
+    }
+
+    public void setUsuarioUpdate(String usuarioUpdate) {
+        this.usuarioUpdate = usuarioUpdate;
+    }
+
+    public Date getFechaUpdate() {
+        return fechaUpdate;
+    }
+
+    public void setFechaUpdate(Date fechaUpdate) {
+        this.fechaUpdate = fechaUpdate;
     }
 
     @Override

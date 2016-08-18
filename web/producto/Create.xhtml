@@ -33,6 +33,7 @@
                         <p:selectOneMenu id="categoriaIdcategoria" value="#{productoController.selected.categoriaIdcategoria}" required="true" requiredMessage="#{bundle.EditProductoRequiredMessage_categoriaIdcategoria}">
                             <f:selectItems value="#{categoriaController.itemsAvailableSelectOne}"
                                            var="categoriaIdcategoriaItem"
+                                           itemLabel="#{categoriaIdcategoriaItem.nombre}"
                                            itemValue="#{categoriaIdcategoriaItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>

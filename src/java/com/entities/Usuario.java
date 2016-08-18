@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chepe
+ * @author mmixco
  */
 @Entity
 @Table(name = "usuario")
@@ -39,7 +39,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByIdusuario", query = "SELECT u FROM Usuario u WHERE u.idusuario = :idusuario"),
     @NamedQuery(name = "Usuario.findByUsuario", query = "SELECT u FROM Usuario u WHERE u.usuario = :usuario"),
     @NamedQuery(name = "Usuario.findByPassword", query = "SELECT u FROM Usuario u WHERE u.password = :password"),
-    @NamedQuery(name = "Usuario.findByActivo", query = "SELECT u FROM Usuario u WHERE u.activo = :activo")})
+    @NamedQuery(name = "Usuario.findByActivo", query = "SELECT u FROM Usuario u WHERE u.activo = :activo"),
+    @NamedQuery(name = "Usuario.findByUsuarioCreate", query = "SELECT u FROM Usuario u WHERE u.usuarioCreate = :usuarioCreate"),
+    @NamedQuery(name = "Usuario.findByFechaCreate", query = "SELECT u FROM Usuario u WHERE u.fechaCreate = :fechaCreate"),
+    @NamedQuery(name = "Usuario.findByUsuarioUpdate", query = "SELECT u FROM Usuario u WHERE u.usuarioUpdate = :usuarioUpdate"),
+    @NamedQuery(name = "Usuario.findByFechaUpdate", query = "SELECT u FROM Usuario u WHERE u.fechaUpdate = :fechaUpdate")})
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -55,20 +59,18 @@ public class Usuario implements Serializable {
     private String password;
     @Column(name = "activo")
     private Boolean activo;
+    @Size(max = 45)
     @Column(name = "usuario_create")
     private String usuarioCreate;
-    @Size(max = 45)    
-    @Column(name = "usuario_update")
-    private String usuarioUpdate;
-    @Size(max = 45)    
     @Column(name = "fecha_create")
     @Temporal(TemporalType.DATE)
-    private Date fechaCreate;  
+    private Date fechaCreate;
+    @Size(max = 45)
+    @Column(name = "usuario_update")
+    private String usuarioUpdate;
     @Column(name = "fecha_update")
     @Temporal(TemporalType.DATE)
-    private Date fechaUpdate;      
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdusuario")
-    private List<InvMov> invMovList;
+    private Date fechaUpdate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdusuario")
     private List<Compra> compraList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdusuario")
@@ -76,43 +78,12 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "rol_idrol", referencedColumnName = "idrol")
     @ManyToOne(optional = false)
     private Rol rolIdrol;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdusuario")
+    private List<InvMov> invMovList;
 
     public Usuario() {
     }
 
-    public String getUsuarioCreate() {
-        return usuarioCreate;
-    }
-
-    public void setUsuarioCreate(String usuarioCreate) {
-        this.usuarioCreate = usuarioCreate;
-    }
-
-    public String getUsuarioUpdate() {
-        return usuarioUpdate;
-    }
-
-    public void setUsuarioUpdate(String usuarioUpdate) {
-        this.usuarioUpdate = usuarioUpdate;
-    }
-
-    public Date getFechaCreate() {
-        return fechaCreate;
-    }
-
-    public void setFechaCreate(Date fechaCreate) {
-        this.fechaCreate = fechaCreate;
-    }
-
-    public Date getFechaUpdate() {
-        return fechaUpdate;
-    }
-
-    public void setFechaUpdate(Date fechaUpdate) {
-        this.fechaUpdate = fechaUpdate;
-    }
-
-    
     public Usuario(Integer idusuario) {
         this.idusuario = idusuario;
     }
@@ -149,13 +120,36 @@ public class Usuario implements Serializable {
         this.activo = activo;
     }
 
-    @XmlTransient
-    public List<InvMov> getInvMovList() {
-        return invMovList;
+    public String getUsuarioCreate() {
+        return usuarioCreate;
     }
 
-    public void setInvMovList(List<InvMov> invMovList) {
-        this.invMovList = invMovList;
+    public void setUsuarioCreate(String usuarioCreate) {
+        this.usuarioCreate = usuarioCreate;
+    }
+
+    public Date getFechaCreate() {
+        return fechaCreate;
+    }
+
+    public void setFechaCreate(Date fechaCreate) {
+        this.fechaCreate = fechaCreate;
+    }
+
+    public String getUsuarioUpdate() {
+        return usuarioUpdate;
+    }
+
+    public void setUsuarioUpdate(String usuarioUpdate) {
+        this.usuarioUpdate = usuarioUpdate;
+    }
+
+    public Date getFechaUpdate() {
+        return fechaUpdate;
+    }
+
+    public void setFechaUpdate(Date fechaUpdate) {
+        this.fechaUpdate = fechaUpdate;
     }
 
     @XmlTransient
@@ -182,6 +176,15 @@ public class Usuario implements Serializable {
 
     public void setRolIdrol(Rol rolIdrol) {
         this.rolIdrol = rolIdrol;
+    }
+
+    @XmlTransient
+    public List<InvMov> getInvMovList() {
+        return invMovList;
+    }
+
+    public void setInvMovList(List<InvMov> invMovList) {
+        this.invMovList = invMovList;
     }
 
     @Override

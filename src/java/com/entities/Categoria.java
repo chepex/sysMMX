@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chepe
+ * @author mmixco
  */
 @Entity
 @Table(name = "categoria")
@@ -36,7 +36,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Categoria.findAll", query = "SELECT c FROM Categoria c"),
     @NamedQuery(name = "Categoria.findByIdcategoria", query = "SELECT c FROM Categoria c WHERE c.idcategoria = :idcategoria"),
     @NamedQuery(name = "Categoria.findByNombre", query = "SELECT c FROM Categoria c WHERE c.nombre = :nombre"),
-    @NamedQuery(name = "Categoria.findByActivo", query = "SELECT c FROM Categoria c WHERE c.activo = :activo")})
+    @NamedQuery(name = "Categoria.findByActivo", query = "SELECT c FROM Categoria c WHERE c.activo = :activo"),
+    @NamedQuery(name = "Categoria.findByUsuarioCreate", query = "SELECT c FROM Categoria c WHERE c.usuarioCreate = :usuarioCreate"),
+    @NamedQuery(name = "Categoria.findByFechaCreate", query = "SELECT c FROM Categoria c WHERE c.fechaCreate = :fechaCreate"),
+    @NamedQuery(name = "Categoria.findByUsuarioUpdate", query = "SELECT c FROM Categoria c WHERE c.usuarioUpdate = :usuarioUpdate"),
+    @NamedQuery(name = "Categoria.findByFechaUpdate", query = "SELECT c FROM Categoria c WHERE c.fechaUpdate = :fechaUpdate")})
 public class Categoria implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -49,58 +53,23 @@ public class Categoria implements Serializable {
     private String nombre;
     @Column(name = "activo")
     private Boolean activo;
+    @Size(max = 45)
     @Column(name = "usuario_create")
     private String usuarioCreate;
-    @Size(max = 45)    
-    @Column(name = "usuario_update")
-    private String usuarioUpdate;
-    @Size(max = 45)    
     @Column(name = "fecha_create")
     @Temporal(TemporalType.DATE)
-    private Date fechaCreate;  
+    private Date fechaCreate;
+    @Size(max = 45)
+    @Column(name = "usuario_update")
+    private String usuarioUpdate;
     @Column(name = "fecha_update")
     @Temporal(TemporalType.DATE)
-    private Date fechaUpdate;      
+    private Date fechaUpdate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoriaIdcategoria")
     private List<Producto> productoList;
-    
 
     public Categoria() {
     }
-
-    public String getUsuarioCreate() {
-        return usuarioCreate;
-    }
-
-    public void setUsuarioCreate(String usuarioCreate) {
-        this.usuarioCreate = usuarioCreate;
-    }
-
-    public String getUsuarioUpdate() {
-        return usuarioUpdate;
-    }
-
-    public void setUsuarioUpdate(String usuarioUpdate) {
-        this.usuarioUpdate = usuarioUpdate;
-    }
-
-    public Date getFechaCreate() {
-        return fechaCreate;
-    }
-
-    public void setFechaCreate(Date fechaCreate) {
-        this.fechaCreate = fechaCreate;
-    }
-
-    public Date getFechaUpdate() {
-        return fechaUpdate;
-    }
-
-    public void setFechaUpdate(Date fechaUpdate) {
-        this.fechaUpdate = fechaUpdate;
-    }
-    
-    
 
     public Categoria(Integer idcategoria) {
         this.idcategoria = idcategoria;
@@ -128,6 +97,38 @@ public class Categoria implements Serializable {
 
     public void setActivo(Boolean activo) {
         this.activo = activo;
+    }
+
+    public String getUsuarioCreate() {
+        return usuarioCreate;
+    }
+
+    public void setUsuarioCreate(String usuarioCreate) {
+        this.usuarioCreate = usuarioCreate;
+    }
+
+    public Date getFechaCreate() {
+        return fechaCreate;
+    }
+
+    public void setFechaCreate(Date fechaCreate) {
+        this.fechaCreate = fechaCreate;
+    }
+
+    public String getUsuarioUpdate() {
+        return usuarioUpdate;
+    }
+
+    public void setUsuarioUpdate(String usuarioUpdate) {
+        this.usuarioUpdate = usuarioUpdate;
+    }
+
+    public Date getFechaUpdate() {
+        return fechaUpdate;
+    }
+
+    public void setFechaUpdate(Date fechaUpdate) {
+        this.fechaUpdate = fechaUpdate;
     }
 
     @XmlTransient

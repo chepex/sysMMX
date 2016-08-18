@@ -4,6 +4,7 @@ import com.entities.util.JsfUtil;
 import com.entities.util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -23,6 +24,10 @@ public class BodegaController implements Serializable {
 
     @EJB
     private com.entities.BodegaFacade ejbFacade;
+    @EJB
+    private com.entities.LoginBean loginBean;
+    
+    
     private List<Bodega> items = null;
     private Bodega selected;
 
@@ -56,6 +61,7 @@ public class BodegaController implements Serializable {
     }
 
     public void create() {
+        selected=  getFacade().auditCreate(selected);
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("BodegaCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -63,10 +69,14 @@ public class BodegaController implements Serializable {
     }
 
     public void update() {
+        selected= getFacade().auditUpdate(selected);
+        System.out.println("fecha update"+selected.getFechaUpdate());
+        System.out.println("usuario update"+selected.getUsuarioUpdate());
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("BodegaUpdated"));
     }
 
     public void destroy() {
+      
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("BodegaDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection

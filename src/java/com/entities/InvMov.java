@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chepe
+ * @author mmixco
  */
 @Entity
 @Table(name = "inv_mov")
@@ -43,8 +43,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "InvMov.findByFecha", query = "SELECT i FROM InvMov i WHERE i.fecha = :fecha"),
     @NamedQuery(name = "InvMov.findByEstado", query = "SELECT i FROM InvMov i WHERE i.estado = :estado"),
     @NamedQuery(name = "InvMov.findByCantidad", query = "SELECT i FROM InvMov i WHERE i.cantidad = :cantidad"),
-    
-    @NamedQuery(name = "InvMov.findByNumReferencia", query = "SELECT i FROM InvMov i WHERE i.numReferencia = :numReferencia")})
+    @NamedQuery(name = "InvMov.findByNumReferencia", query = "SELECT i FROM InvMov i WHERE i.numReferencia = :numReferencia"),
+    @NamedQuery(name = "InvMov.findByUsuarioCreate", query = "SELECT i FROM InvMov i WHERE i.usuarioCreate = :usuarioCreate"),
+    @NamedQuery(name = "InvMov.findByFechaCreate", query = "SELECT i FROM InvMov i WHERE i.fechaCreate = :fechaCreate"),
+    @NamedQuery(name = "InvMov.findByUsuarioUpdate", query = "SELECT i FROM InvMov i WHERE i.usuarioUpdate = :usuarioUpdate"),
+    @NamedQuery(name = "InvMov.findByFechaUpdate", query = "SELECT i FROM InvMov i WHERE i.fechaUpdate = :fechaUpdate")})
 public class InvMov implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -63,20 +66,25 @@ public class InvMov implements Serializable {
     private String estado;
     @Column(name = "cantidad")
     private Integer cantidad;
-    @Column(name = "usuario_create")
-    private String usuarioCreate;
-    @Size(max = 45)    
-    @Column(name = "usuario_update")
-    private String usuarioUpdate;
-    @Size(max = 45)    
-    @Column(name = "fecha_create")
-    @Temporal(TemporalType.DATE)
-    private Date fechaCreate;  
-    @Column(name = "fecha_update")
-    @Temporal(TemporalType.DATE)
-    private Date fechaUpdate;     
+    @Column(name = "id_proveedor")
+    private Integer idProveedor;
+    @Size(max = 50)
     @Column(name = "num_referencia")
     private String numReferencia;
+    @Size(max = 45)
+    @Column(name = "usuario_create")
+    private String usuarioCreate;
+    @Column(name = "fecha_create")
+    @Temporal(TemporalType.DATE)
+    private Date fechaCreate;
+    @Size(max = 45)
+    @Column(name = "usuario_update")
+    private String usuarioUpdate;
+    @Column(name = "fecha_update")
+    @Temporal(TemporalType.DATE)
+    private Date fechaUpdate;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "invMovIdinvMov")
+    private List<InvDetm> invDetmList;
     @JoinColumn(name = "usuario_idusuario", referencedColumnName = "idusuario")
     @ManyToOne(optional = false)
     private Usuario usuarioIdusuario;
@@ -86,55 +94,10 @@ public class InvMov implements Serializable {
     @JoinColumn(name = "bodega_idbodega", referencedColumnName = "idbodega")
     @ManyToOne(optional = false)
     private Bodega bodegaIdbodega;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "invMovIdinvMov")
-    private List<InvDetm> invDetmList;
 
     public InvMov() {
     }
 
-    public String getUsuarioCreate() {
-        return usuarioCreate;
-    }
-
-    public void setUsuarioCreate(String usuarioCreate) {
-        this.usuarioCreate = usuarioCreate;
-    }
-
-    public String getUsuarioUpdate() {
-        return usuarioUpdate;
-    }
-
-    public void setUsuarioUpdate(String usuarioUpdate) {
-        this.usuarioUpdate = usuarioUpdate;
-    }
-
-    public Date getFechaCreate() {
-        return fechaCreate;
-    }
-
-    public void setFechaCreate(Date fechaCreate) {
-        this.fechaCreate = fechaCreate;
-    }
-
-    public Date getFechaUpdate() {
-        return fechaUpdate;
-    }
-
-    public void setFechaUpdate(Date fechaUpdate) {
-        this.fechaUpdate = fechaUpdate;
-    }
-
-    
-    public String getNumReferencia() {
-        return numReferencia;
-    }
-
-    public void setNumReferencia(String numReferencia) {
-        this.numReferencia = numReferencia;
-    }
-
-    
-    
     public InvMov(Integer idinvMov) {
         this.idinvMov = idinvMov;
     }
@@ -179,8 +142,62 @@ public class InvMov implements Serializable {
         this.cantidad = cantidad;
     }
 
- 
-    
+    public Integer getIdProveedor() {
+        return idProveedor;
+    }
+
+    public void setIdProveedor(Integer idProveedor) {
+        this.idProveedor = idProveedor;
+    }
+
+    public String getNumReferencia() {
+        return numReferencia;
+    }
+
+    public void setNumReferencia(String numReferencia) {
+        this.numReferencia = numReferencia;
+    }
+
+    public String getUsuarioCreate() {
+        return usuarioCreate;
+    }
+
+    public void setUsuarioCreate(String usuarioCreate) {
+        this.usuarioCreate = usuarioCreate;
+    }
+
+    public Date getFechaCreate() {
+        return fechaCreate;
+    }
+
+    public void setFechaCreate(Date fechaCreate) {
+        this.fechaCreate = fechaCreate;
+    }
+
+    public String getUsuarioUpdate() {
+        return usuarioUpdate;
+    }
+
+    public void setUsuarioUpdate(String usuarioUpdate) {
+        this.usuarioUpdate = usuarioUpdate;
+    }
+
+    public Date getFechaUpdate() {
+        return fechaUpdate;
+    }
+
+    public void setFechaUpdate(Date fechaUpdate) {
+        this.fechaUpdate = fechaUpdate;
+    }
+
+    @XmlTransient
+    public List<InvDetm> getInvDetmList() {
+        return invDetmList;
+    }
+
+    public void setInvDetmList(List<InvDetm> invDetmList) {
+        this.invDetmList = invDetmList;
+    }
 
     public Usuario getUsuarioIdusuario() {
         return usuarioIdusuario;
@@ -204,15 +221,6 @@ public class InvMov implements Serializable {
 
     public void setBodegaIdbodega(Bodega bodegaIdbodega) {
         this.bodegaIdbodega = bodegaIdbodega;
-    }
-
-    @XmlTransient
-    public List<InvDetm> getInvDetmList() {
-        return invDetmList;
-    }
-
-    public void setInvDetmList(List<InvDetm> invDetmList) {
-        this.invDetmList = invDetmList;
     }
 
     @Override

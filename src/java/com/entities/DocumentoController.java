@@ -55,6 +55,7 @@ public class DocumentoController implements Serializable {
     }
 
     public void create() {
+         selected = this.getFacade().auditCreate(selected);
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("DocumentoCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -62,6 +63,7 @@ public class DocumentoController implements Serializable {
     }
 
     public void update() {
+         selected = this.getFacade().auditUpdate(selected);
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("DocumentoUpdated"));
     }
 

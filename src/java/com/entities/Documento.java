@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author chepe
+ * @author mmixco
  */
 @Entity
 @Table(name = "documento")
@@ -38,7 +38,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Documento.findByNombre", query = "SELECT d FROM Documento d WHERE d.nombre = :nombre"),
     @NamedQuery(name = "Documento.findByDescripcion", query = "SELECT d FROM Documento d WHERE d.descripcion = :descripcion"),
     @NamedQuery(name = "Documento.findBySumaResta", query = "SELECT d FROM Documento d WHERE d.sumaResta = :sumaResta"),
-    @NamedQuery(name = "Documento.findByActivo", query = "SELECT d FROM Documento d WHERE d.activo = :activo")})
+    @NamedQuery(name = "Documento.findByActivo", query = "SELECT d FROM Documento d WHERE d.activo = :activo"),
+    @NamedQuery(name = "Documento.findByUsuarioCreate", query = "SELECT d FROM Documento d WHERE d.usuarioCreate = :usuarioCreate"),
+    @NamedQuery(name = "Documento.findByFechaCreate", query = "SELECT d FROM Documento d WHERE d.fechaCreate = :fechaCreate"),
+    @NamedQuery(name = "Documento.findByUsuarioUpdate", query = "SELECT d FROM Documento d WHERE d.usuarioUpdate = :usuarioUpdate"),
+    @NamedQuery(name = "Documento.findByFechaUpdate", query = "SELECT d FROM Documento d WHERE d.fechaUpdate = :fechaUpdate")})
 public class Documento implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -57,57 +61,23 @@ public class Documento implements Serializable {
     private String sumaResta;
     @Column(name = "activo")
     private Boolean activo;
+    @Size(max = 45)
     @Column(name = "usuario_create")
     private String usuarioCreate;
-    @Size(max = 45)    
-    @Column(name = "usuario_update")
-    private String usuarioUpdate;
-    @Size(max = 45)    
     @Column(name = "fecha_create")
     @Temporal(TemporalType.DATE)
-    private Date fechaCreate;  
+    private Date fechaCreate;
+    @Size(max = 45)
+    @Column(name = "usuario_update")
+    private String usuarioUpdate;
     @Column(name = "fecha_update")
     @Temporal(TemporalType.DATE)
-    private Date fechaUpdate;      
+    private Date fechaUpdate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "documentoIddocumento")
     private List<InvMov> invMovList;
 
     public Documento() {
     }
-
-    public String getUsuarioCreate() {
-        return usuarioCreate;
-    }
-
-    public void setUsuarioCreate(String usuarioCreate) {
-        this.usuarioCreate = usuarioCreate;
-    }
-
-    public String getUsuarioUpdate() {
-        return usuarioUpdate;
-    }
-
-    public void setUsuarioUpdate(String usuarioUpdate) {
-        this.usuarioUpdate = usuarioUpdate;
-    }
-
-    public Date getFechaCreate() {
-        return fechaCreate;
-    }
-
-    public void setFechaCreate(Date fechaCreate) {
-        this.fechaCreate = fechaCreate;
-    }
-
-    public Date getFechaUpdate() {
-        return fechaUpdate;
-    }
-
-    public void setFechaUpdate(Date fechaUpdate) {
-        this.fechaUpdate = fechaUpdate;
-    }
-
-    
 
     public Documento(Integer iddocumento) {
         this.iddocumento = iddocumento;
@@ -151,6 +121,38 @@ public class Documento implements Serializable {
 
     public void setActivo(Boolean activo) {
         this.activo = activo;
+    }
+
+    public String getUsuarioCreate() {
+        return usuarioCreate;
+    }
+
+    public void setUsuarioCreate(String usuarioCreate) {
+        this.usuarioCreate = usuarioCreate;
+    }
+
+    public Date getFechaCreate() {
+        return fechaCreate;
+    }
+
+    public void setFechaCreate(Date fechaCreate) {
+        this.fechaCreate = fechaCreate;
+    }
+
+    public String getUsuarioUpdate() {
+        return usuarioUpdate;
+    }
+
+    public void setUsuarioUpdate(String usuarioUpdate) {
+        this.usuarioUpdate = usuarioUpdate;
+    }
+
+    public Date getFechaUpdate() {
+        return fechaUpdate;
+    }
+
+    public void setFechaUpdate(Date fechaUpdate) {
+        this.fechaUpdate = fechaUpdate;
     }
 
     @XmlTransient
