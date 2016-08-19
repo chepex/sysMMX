@@ -135,10 +135,12 @@ public class FacturaController implements Serializable {
         selected = new Factura();
         selected.setFecha(new Date());
         Usuario usuario = usuarioFacade.find(1);
-        
+        this.productoIdproducto =null;
         selected.setUsuarioIdusuario(usuario);
         selected.setCantidad(0);
         selected.setTotal(new BigDecimal("0"));        
+        selected.setIva(new BigDecimal("0"));        
+        selected.setSubTotal(new BigDecimal("0"));        
         initializeEmbeddableKey();
         return selected;
     }
@@ -285,10 +287,8 @@ public class FacturaController implements Serializable {
     
     public String addDetalle(){
         
-       if(cantidad>this.productoIdproducto.getExistencia()){
-           JsfUtil.addErrorMessage("La cantidad no puede ser mayor a la existencia");
-           return "error";
-       }
+        String msg="";
+        
         if(this.productoIdproducto==null){
            JsfUtil.addErrorMessage("Selecione un producto");
            return "error";
@@ -304,11 +304,25 @@ public class FacturaController implements Serializable {
             return "error";
         }       
        
+        msg= this.sb_inventario.validaSalida(productoIdproducto, cantidad);        
+        if(!msg.equals("ok")){
+           JsfUtil.addErrorMessage(msg);
+           return "error";
+        }        
+        
        int id= 1;
        if(detFactura!= null){
-       id= detFactura.size()+1;
+        id= detFactura.size()+1;
        }
-        
+        if(!detFactura.isEmpty()){
+            for(FacturaDet df :detFactura ){
+                if(df.getProductoIdproducto().equals(this.productoIdproducto)){
+                    JsfUtil.addErrorMessage("Este producto ya fue adicionado");
+                    return "error";
+                }
+            }
+        }
+            
         FacturaDet detalle = new FacturaDet();
         detalle.setIdfacturaDet(id);
         detalle.setFacturaIdfactura(selected);
@@ -319,7 +333,9 @@ public class FacturaController implements Serializable {
         detalle.setProductoIdproducto(productoIdproducto);
         
         selected.setCantidad(selected.getCantidad()+cantidad);
-        selected.setTotal(selected.getTotal().add(precio.multiply(new BigDecimal(cantidad))));
+        selected.setSubTotal(selected.getSubTotal().add(precio.multiply(new BigDecimal(cantidad))));
+        selected.setIva(selected.getSubTotal().multiply(new BigDecimal(".13")));        
+        selected.setTotal(selected.getSubTotal().add(selected.getIva()));
         this.detFactura.add(detalle);
         this.cantidad =1;
         this.precio = new BigDecimal("0");

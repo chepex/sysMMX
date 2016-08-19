@@ -25,7 +25,7 @@
                     <p:panelGrid columns="6"  style=" border-style: hidden !important;" rendered="#{invMovController.selected != null}">                        
                         
                         <p:outputLabel value="#{bundle.CreateFacturaLabel_usuarioIdusuario}" for="usuarioIdusuario" />
-                        <p:selectOneMenu id="usuarioIdusuario" value="#{invMovController.selected.usuarioIdusuario}" required="true" requiredMessage="#{bundle.EditFacturaRequiredMessage_usuarioIdusuario}">                            
+                        <p:selectOneMenu  disabled="true" id="usuarioIdusuario" value="#{invMovController.selected.usuarioIdusuario}" required="true" requiredMessage="#{bundle.EditFacturaRequiredMessage_usuarioIdusuario}">                            
                         <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
                                            var="usuarioIdusuarioItem"
                                            itemLabel="#{usuarioIdusuarioItem.usuario}"
@@ -72,13 +72,12 @@
                         <p:outputLabel value="#{bundle.CreateCompraDetLabel_cantidad}" for="tcantidad" />
                          <p:inputNumber id="tcantidad" value="#{invMovController.cantidad}"  minValue="1" maxValue="10000"/>  
                         
-                        <p:outputLabel value="#{bundle.CreateCompraDetLabel_precio}" for="vprecio" /> 
-                        <p:inputNumber id="vprecio" value="#{invMovController.precio}"   />  
+                     
                         
                         <p:outputLabel value="Existencia" for="existencia" /> 
                         <p:inputNumber id="existencia" value="#{invMovController.existencia}"  disabled="true"  />                           
                         
-                        <p:commandButton actionListener="#{invMovController.addDetalle()}"   icon="ui-icon-plus" style="margin-top: 0px !important;"  update="@form"/>
+                        <p:commandButton actionListener="#{invMovController.addDetalle()}"   icon="ui-icon-plus" style="margin-top: 0px !important;"  update="@form :growl"/>
                     </p:panelGrid>
                 </p:panel>                      
                     
@@ -97,18 +96,31 @@
                             </f:facet>
                             <h:outputText value="#{item.productoIdproducto.nombre}"/>
                         </p:column>
-                       
-
                         
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCompraDetTitle_cantidad}"/>
                             </f:facet>
                             <h:outputText value="#{item.cantidad}"/>
-                        </p:column>
-                                 
-                       
-                   
+                        </p:column> 
+                        <p:columnGroup type="footer" >
+                            <p:row>
+                               
+                                <p:column colspan=""   class="mas"   >
+                                <f:facet name="footer" >                                
+                                <h:outputText value="Sub-Total:" />                                  
+                                
+                                </f:facet>                                
+                            </p:column>
+                            <p:column  class="mas">
+                                <f:facet name="footer" >
+                                    <h:outputText value="#{invMovController.selected.cantidad}"/>                                  
+                                </f:facet>
+                            </p:column>
+                            
+                            
+                            </p:row>
+                        </p:columnGroup>
                         
                     </p:dataTable>
                     

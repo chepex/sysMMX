@@ -65,6 +65,10 @@ public class Compra implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "total")
     private BigDecimal total;
+    @Column(name = "iva")
+    private BigDecimal iva;    
+    @Column(name = "sub_total")
+    private BigDecimal subTotal;        
     @Size(max = 45)
     @Column(name = "usuario_create")
     private String usuarioCreate;
@@ -89,6 +93,26 @@ public class Compra implements Serializable {
     public Compra() {
     }
 
+    public BigDecimal getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(BigDecimal subTotal) {
+        this.subTotal = subTotal;
+    }
+
+    
+    
+    public BigDecimal getIva() {
+        return iva;
+    }
+
+    public void setIva(BigDecimal iva) {
+        this.iva = iva;
+    }
+
+    
+    
     public Compra(Integer idcompra) {
         this.idcompra = idcompra;
     }

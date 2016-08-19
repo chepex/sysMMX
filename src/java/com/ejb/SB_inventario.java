@@ -16,6 +16,7 @@ import com.entities.InvDetm;
 import com.entities.InvMov;
 import com.entities.Producto;
 import com.entities.Usuario;
+import com.entities.util.JsfUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -155,6 +156,27 @@ public class SB_inventario {
        
        return lbject ;
    
-   }   
+   }  
+    
+    public String validaEntrada(Producto p, int cantidad){
+        
+           if( (cantidad+p.getExistencia())>p.getMax() ){
+                return"La cantidad excede el maximo establecido, maximo= "+p.getMax();
+                
+            }   
+            return "ok";
+    }
+    
+    public String validaSalida(Producto p, int cantidad){
+      if(cantidad>p.getExistencia()){
+                
+                return "La cantidad no puede ser mayor a la existencia";
+            }
+            if( (p.getExistencia()-cantidad)<p.getMin()){
+               
+                return "La cantidad excede el minimo establecido, minimo= "+p.getMin();
+            }       
+            return "ok";
+    }    
 
 }

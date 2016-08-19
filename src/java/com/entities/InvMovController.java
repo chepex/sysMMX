@@ -270,8 +270,36 @@ public class InvMovController implements Serializable {
     }       
     
     
-    public void addDetalle(){
+    public String addDetalle(){
         
+        String msg ="";
+        System.out.println("aqui-->");
+        System.out.println("documento -->"+selected.getDocumentoIddocumento().getSumaResta());
+        System.out.println("cantidad-->"+this.cantidad);
+        System.out.println("existencia-->"+this.productoIdproducto.getExistencia());
+        System.out.println("producto"+this.productoIdproducto.getNombre());
+        if(this.productoIdproducto==null){
+           JsfUtil.addErrorMessage("Selecione un producto");
+           return "error";
+        }
+        
+        if(this.cantidad==0||cantidad<0){
+         JsfUtil.addErrorMessage("Digite una cantidad valida");
+            return "error";
+        }
+        
+       if(selected.getDocumentoIddocumento().getSumaResta().equals("S")) {               
+          msg = sb_inventario.validaEntrada(productoIdproducto,   cantidad);       
+       }
+       
+       if(selected.getDocumentoIddocumento().getSumaResta().equals("R")) {
+            msg =   sb_inventario.validaSalida(productoIdproducto, cantidad);
+       }       
+        
+       if(!msg.equals("ok")){
+            JsfUtil.addErrorMessage(msg);
+            return "error";
+       }
        int id= 1;
        if(detInvmov!= null){
        id= detInvmov.size()+1;
@@ -281,7 +309,8 @@ public class InvMovController implements Serializable {
         detalle.setIdinvDetm(id);
         detalle.setInvMovIdinvMov(selected);
         detalle.setCantidad(cantidad);
-        System.out.println("aqui-2");
+        detalle.setPrecio(productoIdproducto.getPrecio());
+        detalle.setCosto(productoIdproducto.getCosto());
         //detalle.setTotal(precio.multiply(new BigDecimal(cantidad)));
         
         detalle.setProductoIdproducto(productoIdproducto);
@@ -289,6 +318,8 @@ public class InvMovController implements Serializable {
         selected.setCantidad(selected.getCantidad()+cantidad);
         
         this.detInvmov.add(detalle);
+        
+        return "ok";
         
     }     
     

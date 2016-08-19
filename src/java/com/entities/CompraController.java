@@ -152,43 +152,18 @@ public class CompraController implements Serializable {
         selected = new Compra();
         selected.setFecha(new Date());
         Usuario usuario = usuarioFacade.find(1);
-        
+        this.productoIdproducto=null;
         selected.setUsuarioIdusuario(usuario);
         selected.setCantidad(0);
         selected.setTotal(new BigDecimal("0"));
+        selected.setSubTotal(new BigDecimal("0"));
+        selected.setIva(new BigDecimal("0"));
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        List<Correlativo> lcort = correlativoFacade.findByNombre("Compra");
-        if(!lcort.isEmpty()){
-            Correlativo c= lcort.get(0);
-            int nuevoValor= c.getValorActual()+1;
-            String vcorrelativo = c.getPrefijo()+nuevoValor;
-            c.setValorActual(nuevoValor);
-            //SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = ManejadorFechas.DateToString(new Date());
-         //   c.setFecha(date);
-            c.setFecha(ffinal);
-            c.setFechaCreate(date);
-         //   c.setFechaUpdate(date);
-            try{
-                correlativoFacade.edit(c);
-            }catch(Exception ex){
-                System.out.println(" error grave +"+ ex);
-            }
-            
-            selected.setDocumento(vcorrelativo);
-        
-        }else{
-            selected.setDocumento("No corelt");
-        }
-        for(CompraDet d :detCompra){
-            System.out.println("d"+d);
-            System.out.println("cantidad"+d.getCantidad());
-            System.out.println("precio"+d.getPrecio());
-        }
+   
        
         selected.setCompraDetList(detCompra);
         sb_Compra.actualizaCosto(selected);
@@ -319,6 +294,12 @@ public class CompraController implements Serializable {
             return "error";
         }
         
+        String msg = this.sb_inventario.validaEntrada(productoIdproducto, cantidad);        
+        if(!msg.equals("ok")){
+           JsfUtil.addErrorMessage(msg);
+           return "error";
+        }
+        
        int id= 1;
        if(detCompra!= null){
        id= detCompra.size()+1;
@@ -331,10 +312,15 @@ public class CompraController implements Serializable {
         detalle.setPrecio(precio);
         detalle.setTotal(precio.multiply(new BigDecimal(cantidad)));
         
+        
         detalle.setProductoIdproducto(productoIdproducto);
         
         selected.setCantidad(selected.getCantidad()+cantidad);
-        selected.setTotal(selected.getTotal().add(precio.multiply(new BigDecimal(cantidad))));
+        
+        selected.setSubTotal(selected.getSubTotal().add(precio.multiply(new BigDecimal(cantidad))));
+        
+        selected.setIva(selected.getSubTotal().multiply(new BigDecimal(".13")));
+        selected.setTotal(selected.getSubTotal().add(selected.getIva()));
         this.detCompra.add(detalle);
         this.cantidad =1;
         this.precio = new BigDecimal("0");
@@ -364,7 +350,7 @@ public class CompraController implements Serializable {
 
    public void updateExistencia(){
        this.existencia =  this.productoIdproducto.getExistencia();
-       this.precio = this.productoIdproducto.getPrecio();
+       this.precio = this.productoIdproducto.getCosto();
         
    }    
 

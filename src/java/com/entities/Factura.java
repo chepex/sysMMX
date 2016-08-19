@@ -72,6 +72,8 @@ public class Factura implements Serializable {
     private BigDecimal retencion;
     @Column(name = "total")
     private BigDecimal total;
+    @Column(name = "sub_total")
+    private BigDecimal subTotal;    
     @Size(max = 45)
     @Column(name = "usuario_create")
     private String usuarioCreate;
@@ -104,6 +106,15 @@ public class Factura implements Serializable {
         return idfactura;
     }
 
+    public BigDecimal getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(BigDecimal subTotal) {
+        this.subTotal = subTotal;
+    }
+
+    
     public void setIdfactura(Integer idfactura) {
         this.idfactura = idfactura;
     }

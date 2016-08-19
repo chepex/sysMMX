@@ -14,8 +14,22 @@
         </ui:define>
 
         <ui:define name="body">
+            
             <h:form id="ProductoListForm">
+                
+                
                 <p:panel header="#{bundle.ListProductoTitle}">
+                    <p:panelGrid columns="4"  style=" border-style: hidden !important;" >
+                        <p:outputLabel value="#{bundle.CreateProductoLabel_categoriaIdcategoria}" for="categoriaIdcategoria" />
+                        <p:selectOneMenu id="categoriaIdcategoria" value="#{productoController.selected.categoriaIdcategoria}" required="true" requiredMessage="#{bundle.EditProductoRequiredMessage_categoriaIdcategoria}">
+                            <f:selectItems value="#{categoriaController.itemsAvailableSelectOne}"
+                                           var="categoriaIdcategoriaItem"
+                                           itemLabel="#{categoriaIdcategoriaItem.nombre}"
+                                           itemValue="#{categoriaIdcategoriaItem}"/>
+                        </p:selectOneMenu>
+                        
+                    </p:panelGrid>
+                    
                     <p:dataTable id="datalist" value="#{productoController.items}" var="item"
                                  selectionMode="single" selection="#{productoController.selected}"
                                  paginator="true"
@@ -80,7 +94,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListProductoTitle_categoriaIdcategoria}"/>
                             </f:facet>
-                            <h:outputText value="#{item.categoriaIdcategoria}"/>
+                            <h:outputText value="#{item.categoriaIdcategoria.nombre}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{productoController.prepareCreate}" update=":ProductoCreateForm" oncomplete="PF('ProductoCreateDialog').show()"/>

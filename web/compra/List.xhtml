@@ -14,6 +14,9 @@
         </ui:define>
 
         <ui:define name="body">
+            <style>
+                
+            </style>
             <h:form id="CompraListForm">
                 <div style="position: absolute; right: 20px;">
                 <p:commandButton id="buscarButton"   icon="ui-icon-search" value="Ctrl+B"  update=":BuscarForm" oncomplete="PF('BUscarDialog').show()" disabled="#{!empty compraController.selected}"/>                
@@ -36,8 +39,8 @@
                     <p:panelGrid columns="10"  style=" border-style: hidden !important;" rendered="#{compraController.selected != null}">
                         <p:outputLabel value="#{bundle.CreateCompraLabel_fecha}" for="fecha" />                    
                         <p:calendar id="fecha" pattern="dd/MM/yyyy"  value="#{compraController.selected.fecha}" disabled="true" title="#{bundle.EditCompraTitle_fecha}"  showOn="button"/>
-                        <p:outputLabel value="#{bundle.CreateCompraLabel_documento}" for="documento" />
-                        <p:inputText id="documento" value="#{compraController.selected.documento}"   disabled="true"  title="#{bundle.CreateCompraTitle_documento}" />
+                        <p:outputLabel value="Factura" for="documento" />
+                        <p:inputText id="documento" value="#{compraController.selected.documento}" required="true"    title="#{bundle.CreateCompraTitle_documento}" />
                         
                       
                     </p:panelGrid>   
@@ -72,8 +75,8 @@
                                  selectionMode="single" selection="#{compraDetController.selected}"
                                   scrollable="true" scrollHeight="250"
                                  rowKey="#{item.idcompraDet}"
-                                 rows="30"
                                  
+                               
                                  >
                          <p:column>
                             <f:facet name="header">
@@ -81,42 +84,111 @@
                             </f:facet>
                             <h:outputText value="#{item.productoIdproducto.nombre}"/>
                         </p:column>
-                       
-
-                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCompraDetTitle_cantidad}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.cantidad}"/>
-                        </p:column>
-                        <p:column>
+                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCompraDetTitle_precio}"/>
                             </f:facet>
                             
                             <h:outputText value="#{item.precio}"/>
+                        </p:column>                       
+                        <p:column   class="mas">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCompraDetTitle_cantidad}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cantidad}" />
                         </p:column>
-                        <p:column>
+            
+                        <p:column   class="mas">
                             <f:facet name="header">
                                 <h:outputText value="Total"/>
                             </f:facet>
                             
                             <h:outputText value="#{item.total}"/>
-                        </p:column>                        
+                        </p:column>      
                        
-                   
-                        
+                       <p:columnGroup type="footer" >
+                            <p:row>
+                                <p:column colspan=""    >
+                                    1
+                                </p:column>
+                                <p:column colspan=""   class="mas"   >
+                                <f:facet name="footer" >                                
+                                <h:outputText value="Sub-Total:" />                                  
+                                
+                                </f:facet>                                
+                            </p:column>
+                            <p:column  class="mas">
+                                <f:facet name="footer" >
+                                <h:outputText value="#{compraController.selected.cantidad}"/>                                  
+                                </f:facet>
+                            </p:column>
+                            <p:column class="mas">
+                                <f:facet name="footer" >
+                                    <h:outputText value="#{compraController.selected.subTotal}"  >
+                                         <f:convertNumber type="currency" currencySymbol="$"   />
+                                </h:outputText>
+                                    
+                                </f:facet>                                
+                            </p:column>
+                            
+                            </p:row>
+                            <p:row>
+                                <p:column colspan=""    >
+                                    1
+                                </p:column>
+                                <p:column colspan=""   class="mas"   >
+                                <f:facet name="footer" >                                
+                                                                
+                                
+                                </f:facet>                                
+                            </p:column>
+                            <p:column  class="mas">
+                                <f:facet name="footer" >
+                                 <h:outputText value="Iva:" /> 
+                                </f:facet>
+                            </p:column>
+                            <p:column class="mas">
+                                <f:facet name="footer" >
+                                    <h:outputText value="#{compraController.selected.iva}"  >
+                                         <f:convertNumber type="currency" currencySymbol="$"   />
+                                </h:outputText>
+                                    
+                                </f:facet>                                
+                            </p:column>
+                            
+                            </p:row> 
+                            <p:row>
+                                <p:column colspan=""    >
+                                    1
+                                </p:column>
+                                <p:column colspan=""   class="mas"   >
+                                <f:facet name="footer" >                                
+                                                                
+                                
+                                </f:facet>                                
+                            </p:column>
+                            <p:column  class="mas">
+                                <f:facet name="footer" >
+                                 <h:outputText value="Total" /> 
+                                </f:facet>
+                            </p:column>
+                            <p:column class="mas">
+                                <f:facet name="footer" >
+                                    <h:outputText value="#{compraController.selected.total}"  >
+                                         <f:convertNumber type="currency" currencySymbol="$"   />
+                                </h:outputText>
+                                    
+                                </f:facet>                                
+                            </p:column>
+                            
+                            </p:row>                            
+                       </p:columnGroup>
                     </p:dataTable>
                     
                      
                 </p:panel>
-                <div style=" position: absolute;right: 0px;   "  >
-                    <p:outputLabel value="#{bundle.CreateCompraLabel_cantidad}" for="cantidad"   style="font-size: 250% !important; width: 50px;"/>
-                    <p:inputText id="cantidad"   style="font-size: 150% !important;" disabled="true" value="#{compraController.selected.cantidad}" title="#{bundle.CreateCompraTitle_cantidad}" />
-                    <p:outputLabel value="#{bundle.CreateCompraLabel_total}" for="total"  style="font-size: 250% !important;" />
-                    <p:inputText id="total" disabled="true"  style="font-size: 150% !important;" value="#{compraController.selected.total}" title="#{bundle.CreateCompraTitle_total}" />                        
-               </div>
+                
+                
             </h:form>
 
                        <ui:include src="Buscar.xhtml"/>

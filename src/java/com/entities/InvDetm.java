@@ -6,6 +6,7 @@
 package com.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,6 +41,10 @@ public class InvDetm implements Serializable {
     private Integer idinvDetm;
     @Column(name = "cantidad")
     private Integer cantidad;
+    @Column(name = "precio")
+    private BigDecimal precio;    
+    @Column(name = "costo")
+    private BigDecimal costo;        
     @JoinColumn(name = "producto_idproducto", referencedColumnName = "idproducto")
     @ManyToOne(optional = false)
     private Producto productoIdproducto;
@@ -54,6 +59,24 @@ public class InvDetm implements Serializable {
         this.idinvDetm = idinvDetm;
     }
 
+    public BigDecimal getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(BigDecimal precio) {
+        this.precio = precio;
+    }
+
+    public BigDecimal getCosto() {
+        return costo;
+    }
+
+    public void setCosto(BigDecimal costo) {
+        this.costo = costo;
+    }
+
+    
+    
     public Integer getIdinvDetm() {
         return idinvDetm;
     }
