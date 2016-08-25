@@ -14,19 +14,28 @@
     </h:head>
 
     <h:body>
-
+        <style>
+             .ui-menuitem2{
+                display: none !important;                
+            }
+            </style>
         <p:growl id="growl" life="3000" />
 
         <p:layout fullPage="true" style="padding: 0em !important; height: 27px;">
             <p:layoutUnit position="north" header="masaa" style="padding: 0em !important; height: 27px;" >
-                <h:form id="menuForm">
-                    <p:menubar style="padding: 0em !important; height: 27px;">
-                        <p:menuitem value="#{bundle.Home}" outcome="/dashboard/List.xhtml" icon="ui-icon-home"/>
-                        <p:submenu label="#{bundle.Maintenance}">
-                            <p:menuitem value="Producto" outcome="/producto/List.xhtml" />
-                            <p:menuitem value="Categoria" outcome="/categoria/List.xhtml" />                            
+             
+            </p:layoutUnit>
+
+            <p:layoutUnit position="west" resizable="true" size="150" minSize="40" maxSize="200">
+                
+      <h:form id="menuForm">
+        <p:panelMenu id="mprincipal" style="padding: 0em !important; height: 27px;"     >
+                        <p:menuitem value="#{bundle.Home}" outcome="/dashboard/List.xhtml"  icon="ui-icon-home"/>
+                        <p:submenu label="#{bundle.Maintenance}"       >
+                            <p:menuitem value="Producto"  outcome="/producto/List.xhtml"    />
+                            <p:menuitem value="Categoria"  outcome="/categoria/List.xhtml" />                            
                             <p:menuitem value="Rol" outcome="/rol/List.xhtml" />
-                            <p:menuitem value="Usuario" outcome="/usuario/List.xhtml" />                            
+                            <p:menuitem value="Usuario"  outcome="/usuario/List.xhtml" />                            
                             <p:menuitem value="Correlativos" outcome="/correlativo/List.xhtml" />
                         </p:submenu>
                         <p:submenu label="Compras">
@@ -46,13 +55,13 @@
                         <f:facet name="options">
                             <p:commandButton id="salir" icon="ui-icon-power" value="#{SSUSUARIO}" actionListener="#{loginBean.logout()}"></p:commandButton>
                         </f:facet>
-                    </p:menubar>
+        </p:panelMenu>
                 </h:form>
-            </p:layoutUnit>
-
-          
+    </p:layoutUnit>
+ 
 
             <p:layoutUnit position="center" >
+            
                 <ui:insert name="body"/>
             </p:layoutUnit>
 

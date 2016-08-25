@@ -25,10 +25,20 @@ public class ProductoController implements Serializable {
     private com.entities.ProductoFacade ejbFacade;
     private List<Producto> items = null;
     private Producto selected;
+    private Categoria categoria;
 
     public ProductoController() {
     }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    
     public Producto getSelected() {
         return selected;
     }

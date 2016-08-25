@@ -162,9 +162,13 @@ public class CompraController implements Serializable {
         return selected;
     }
 
-    public void create() {
+    public String create() {
    
-       
+       if(detCompra.isEmpty()){
+           JsfUtil.addErrorMessage("Agregue un producto");
+           return "error";
+           
+       }
         selected.setCompraDetList(detCompra);
         sb_Compra.actualizaCosto(selected);
         List<Object[]>  lobjt =  sb_inventario.compraToList(detCompra);
@@ -179,6 +183,8 @@ public class CompraController implements Serializable {
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
+        
+        return "ok";
     }
 
     public void update() {
