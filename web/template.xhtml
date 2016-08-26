@@ -26,17 +26,17 @@
              
             </p:layoutUnit>
 
-            <p:layoutUnit position="west" resizable="true" size="150" minSize="40" maxSize="200">
+            <p:layoutUnit position="west" resizable="true" size="200" minSize="40" maxSize="200">
                 
       <h:form id="menuForm">
         <p:panelMenu id="mprincipal" style="padding: 0em !important; height: 27px;"     >
                         <p:menuitem value="#{bundle.Home}" outcome="/dashboard/List.xhtml"  icon="ui-icon-home"/>
-                        <p:submenu label="#{bundle.Maintenance}"       >
-                            <p:menuitem value="Producto"  outcome="/producto/List.xhtml"    />
+                        <p:submenu label="Mantenimientos">
+                            <p:menuitem value="Producto"   icon="fa fa-plus"  outcome="/producto/List.xhtml"    />
                             <p:menuitem value="Categoria"  outcome="/categoria/List.xhtml" />                            
                             <p:menuitem value="Rol" outcome="/rol/List.xhtml" />
                             <p:menuitem value="Usuario"  outcome="/usuario/List.xhtml" />                            
-                            <p:menuitem value="Correlativos" outcome="/correlativo/List.xhtml" />
+                            <p:menuitem value="Correlativos" outcome="/correlativo/List.xhtml" icon="ui-icon-home" />
                         </p:submenu>
                         <p:submenu label="Compras">
                             <p:menuitem value="Proveedor" outcome="/proveedor/List.xhtml" />
