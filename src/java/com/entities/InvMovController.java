@@ -152,8 +152,14 @@ public class InvMovController implements Serializable {
         return selected;
     }
 
-    public void create() {
+    public String  create() {
         
+        if(detInvmov.isEmpty()){
+           JsfUtil.addErrorMessage("Agregue un producto");
+           return "error";
+           
+       }
+              
         selected.setInvDetmList(this.detInvmov);  
         if(sb_inventario.actulizaExistencia(selected).equals("ok")){
              selected = this.getFacade().auditCreate(selected);
@@ -166,6 +172,8 @@ public class InvMovController implements Serializable {
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
+        
+        return "ok";
     }
 
     public void update() {

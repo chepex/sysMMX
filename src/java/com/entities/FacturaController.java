@@ -145,9 +145,14 @@ public class FacturaController implements Serializable {
         return selected;
     }
 
-    public void create() {
+    public String  create() {
         
         
+        if(detFactura.isEmpty()){
+           JsfUtil.addErrorMessage("Agregue un producto");
+           return "error";
+           
+       }
         
         List<Correlativo> lcort = correlativoFacade.findByNombre("Factura");
         if(!lcort.isEmpty()){
@@ -179,6 +184,8 @@ public class FacturaController implements Serializable {
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
+        
+        return "ok";
     }
 
     public void update() {

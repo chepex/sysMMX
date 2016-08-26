@@ -30,6 +30,15 @@ public class ProductoController implements Serializable {
     public ProductoController() {
     }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    
     public Producto getSelected() {
         return selected;
     }
@@ -38,13 +47,7 @@ public class ProductoController implements Serializable {
         this.selected = selected;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
+   
 
     
     protected void setEmbeddableKeys() {

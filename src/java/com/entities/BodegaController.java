@@ -6,6 +6,7 @@ import com.entities.util.JsfUtil.PersistAction;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +18,13 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 @ManagedBean(name = "bodegaController")
 @SessionScoped
@@ -53,10 +61,12 @@ public class BodegaController implements Serializable {
         return ejbFacade;
     }
 
-    public Bodega prepareCreate() {
+    public Bodega prepareCreate() throws MessagingException {
         selected = new Bodega();
         
         initializeEmbeddableKey();
+        
+ 
         return selected;
     }
 
@@ -167,5 +177,7 @@ public class BodegaController implements Serializable {
         }
 
     }
+    
+   
 
 }
