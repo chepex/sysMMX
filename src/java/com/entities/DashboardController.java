@@ -23,6 +23,7 @@ import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
 
 import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.PieChartModel;
 
  
 /**
@@ -37,10 +38,14 @@ public class DashboardController implements Serializable {
    @EJB
    private FacturaFacade facturaFacade; 
    @EJB
-   private CompraFacade compraFacade;       
+   private CompraFacade compraFacade; 
+   @EJB
+   private ProductoFacade productoFacade;         
    private BigDecimal maxLine;          
    private BarChartModel ventaModel;
    private BarChartModel compraModel;   
+   private PieChartModel existenciaCategoria;
+   private PieChartModel ventaUsuario;   
  
     public DashboardController() {
     }
@@ -52,6 +57,26 @@ public class DashboardController implements Serializable {
          
     }
 
+    public PieChartModel getVentaUsuario() {
+        return ventaUsuario;
+    }
+
+    public void setVentaUsuario(PieChartModel ventaUsuario) {
+        this.ventaUsuario = ventaUsuario;
+    }
+
+    
+    
+    public PieChartModel getExistenciaCategoria() {
+        return existenciaCategoria;
+    }
+
+    public void setExistenciaCategoria(PieChartModel existenciaCategoria) {
+        this.existenciaCategoria = existenciaCategoria;
+    }
+
+    
+    
     public BarChartModel getVentaModel() {
         return ventaModel;
     }
@@ -158,6 +183,8 @@ public class DashboardController implements Serializable {
     private void createBarModels() {
         createBarVenta();    
         createBarCompra();
+        createPieModel1();
+        createPieVentaUsuario();
     }
      
     private void createBarVenta() {
@@ -182,8 +209,42 @@ public class DashboardController implements Serializable {
         yAxis.setMax(maxLine.add(new BigDecimal("10")));
     }     
  
-  
+    private void createPieModel1() {
+        existenciaCategoria = new PieChartModel();
+        List<Object[]> lv = this.productoFacade.existenciaCategoria();
+        if(!lv.isEmpty()){
+            Iterator<Object[]>itr = lv.iterator();  
+            while(itr.hasNext()) {
+               Object[] element = itr.next();            
+               BigDecimal valor =new BigDecimal( element[1].toString());
+                            
+                existenciaCategoria.set( element[0].toString(),valor );  
+                System.out.println("mes:"+element[0].toString()+" valor:"+valor);
+            }                     
+        }          
+          
+        existenciaCategoria.setTitle("Categoria Existencia");
+        existenciaCategoria.setLegendPosition("w");
+      
+    }
     
+    private void createPieVentaUsuario() {
+        ventaUsuario = new PieChartModel();
+        List<Object[]> lv = this.facturaFacade.ventaUsuario();
+        if(!lv.isEmpty()){
+            Iterator<Object[]>itr = lv.iterator();  
+            while(itr.hasNext()) {
+               Object[] element = itr.next();            
+               BigDecimal valor =new BigDecimal( element[1].toString());                            
+                ventaUsuario.set( element[0].toString(),valor );  
+                System.out.println("mes:"+element[0].toString()+" valor:"+valor);
+            }                     
+        }          
+          
+        ventaUsuario.setTitle("Venta Usuario");
+        ventaUsuario.setLegendPosition("w");
+      
+    }    
    
     
  

@@ -25,6 +25,9 @@
 #j_idt28 {
     top: 54px !important;
 }
-.mas{
-                     text-align:right !important;
-                }
+.derecha{
+    text-align:right !important;
+}
+.izquierda{
+    text-align:left !important;
+}

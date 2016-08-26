@@ -25,6 +25,7 @@ public class ProductoController implements Serializable {
     private com.entities.ProductoFacade ejbFacade;
     private List<Producto> items = null;
     private Producto selected;
+    private Categoria categoria;
 
     public ProductoController() {
     }
@@ -37,6 +38,15 @@ public class ProductoController implements Serializable {
         this.selected = selected;
     }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    
     protected void setEmbeddableKeys() {
     }
 
@@ -76,9 +86,9 @@ public class ProductoController implements Serializable {
     }
 
     public List<Producto> getItems() {
-        if (items == null) {
+        /*if (items == null) {
             items = getFacade().findAll();
-        }
+        }*/
         return items;
     }
 
@@ -157,6 +167,11 @@ public class ProductoController implements Serializable {
             }
         }
 
+    }
+    
+    public void consultaCategoria(){
+    
+        this.items = this.ejbFacade.findByCategoria(this.categoria);
     }
 
 }

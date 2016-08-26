@@ -5,9 +5,11 @@
  */
 package com.entities;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -26,5 +28,12 @@ public class BodegaFacade extends AbstractFacade<Bodega> {
     public BodegaFacade() {
         super(Bodega.class);
     }
+    
+    @Override
+    public List<Bodega> findAll() {
+        TypedQuery<Bodega> q = null;         
+             q = em.createNamedQuery("Bodega.findByActivo",Bodega.class) ;   
+        return q.getResultList();
+    }       
     
 }

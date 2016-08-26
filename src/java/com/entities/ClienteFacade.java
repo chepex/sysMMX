@@ -5,9 +5,11 @@
  */
 package com.entities;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -26,5 +28,13 @@ public class ClienteFacade extends AbstractFacade<Cliente> {
     public ClienteFacade() {
         super(Cliente.class);
     }
+    
+    @Override
+    public List<Cliente> findAll() {
+        TypedQuery<Cliente> q = null;         
+             q = em.createNamedQuery("Cliente.findByActivo",Cliente.class) ;   
+        return q.getResultList();
+    }     
+        
     
 }

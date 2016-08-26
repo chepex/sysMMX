@@ -95,6 +95,32 @@ public List<Factura> findByClienteFecha(Date fi, Date ff, Cliente client) {
                
     }     
     
+    public List<Object[]> ventaUsuario(){
+        Query q  = null;
+        List<Object[]> lo = null;  
+       
+        String query="SELECT u.usuario, sum(cantidad) FROM factura f, usuario u \n" +
+            " where f.usuario_idusuario = u.idUsuario\n" +
+            " and f.fecha between  date_add(NOW(), INTERVAL -30 DAY) and now()\n" +
+            " group by u.usuario ";                             
+        try{            
+            q=  em.createNativeQuery(query);  
+            
+          
+            lo= q.getResultList();
+        }catch(Exception ex){
+            lo= null;
+            System.out.println("::::"+ex);
+        }
+            
+       return lo;        
+              
+               
+    }         
+    
+    
+    
+    
 
     
 }

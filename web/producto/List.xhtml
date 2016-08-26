@@ -21,12 +21,13 @@
                 <p:panel header="#{bundle.ListProductoTitle}">
                     <p:panelGrid columns="4"  style=" border-style: hidden !important;" >
                         <p:outputLabel value="#{bundle.CreateProductoLabel_categoriaIdcategoria}" for="categoriaIdcategoria" />
-                        <p:selectOneMenu id="categoriaIdcategoria" value="#{productoController.selected.categoriaIdcategoria}" required="true" requiredMessage="#{bundle.EditProductoRequiredMessage_categoriaIdcategoria}">
+                        <p:selectOneMenu id="categoriaIdcategoria" value="#{productoController.categoria}" required="true" requiredMessage="#{bundle.EditProductoRequiredMessage_categoriaIdcategoria}">
                             <f:selectItems value="#{categoriaController.itemsAvailableSelectOne}"
                                            var="categoriaIdcategoriaItem"
                                            itemLabel="#{categoriaIdcategoriaItem.nombre}"
                                            itemValue="#{categoriaIdcategoriaItem}"/>
                         </p:selectOneMenu>
+                        <p:commandButton actionListener="#{productoController.consultaCategoria}" value="Consultar" update="@form :growl"  />
                         
                     </p:panelGrid>
                     

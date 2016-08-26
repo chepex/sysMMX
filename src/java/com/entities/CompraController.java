@@ -304,7 +304,14 @@ public class CompraController implements Serializable {
        if(detCompra!= null){
        id= detCompra.size()+1;
        }
-        
+        if(!detCompra.isEmpty()){
+            for(CompraDet df :detCompra ){
+                if(df.getProductoIdproducto().equals(this.productoIdproducto)){
+                    JsfUtil.addErrorMessage("Este producto ya fue adicionado");
+                    return "error";
+                }
+            }
+        }        
         CompraDet detalle = new CompraDet();
         detalle.setIdcompraDet(id);
         detalle.setCompraIdcompra(selected);

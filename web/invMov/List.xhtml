@@ -21,7 +21,7 @@
                     <p:commandButton actionListener="#{invMovController.create()}"   icon="ui-icon-disk" value="F7" update="InvMovListForm :growl" disabled="#{empty invMovController.selected}"/>
                     <p:commandButton actionListener="#{invMovController.limpiar()}"   icon="ui-icon-closethick" value="F9" update="@form" disabled="#{empty invMovController.selected}"/>
                 </div> 
-                <p:panel header="Ventas" >
+                    <p:panel header="Transaccion Inventario" >
                     <p:panelGrid columns="6"  style=" border-style: hidden !important;" rendered="#{invMovController.selected != null}">                        
                         
                         <p:outputLabel value="#{bundle.CreateFacturaLabel_usuarioIdusuario}" for="usuarioIdusuario" />
@@ -59,7 +59,7 @@
                 <p:panel>
                     <p:panelGrid columns="9"  style=" border-style: hidden !important;" rendered="#{invMovController.selected != null}">
                         <p:outputLabel value="Producto" for="productoIdproducto" />
-                        <p:selectOneMenu id="productoIdproducto" value="#{invMovController.productoIdproducto}" required="true" requiredMessage="#{bundle.EditCompraDetRequiredMessage_productoIdproducto}">
+                        <p:selectOneMenu id="productoIdproducto" value="#{invMovController.productoIdproducto}"  requiredMessage="#{bundle.EditCompraDetRequiredMessage_productoIdproducto}">
                             <f:selectItem itemLabel="Seleciona una producto" itemValue="" />
                             <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
                                            var="productoIdproductoItem"
@@ -106,13 +106,13 @@
                         <p:columnGroup type="footer" >
                             <p:row>
                                
-                                <p:column colspan=""   class="mas"   >
+                                <p:column colspan=""   class="derecha"   >
                                 <f:facet name="footer" >                                
                                 <h:outputText value="Sub-Total:" />                                  
                                 
                                 </f:facet>                                
                             </p:column>
-                            <p:column  class="mas">
+                            <p:column  class="derecha">
                                 <f:facet name="footer" >
                                     <h:outputText value="#{invMovController.selected.cantidad}"/>                                  
                                 </f:facet>

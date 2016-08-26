@@ -39,13 +39,14 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Producto.findAll", query = "SELECT p FROM Producto p"),
     @NamedQuery(name = "Producto.findByIdproducto", query = "SELECT p FROM Producto p WHERE p.idproducto = :idproducto"),
     @NamedQuery(name = "Producto.findByNombre", query = "SELECT p FROM Producto p WHERE p.nombre = :nombre"),
+    @NamedQuery(name = "Producto.findByCategoria", query = "SELECT p FROM Producto p WHERE p.categoriaIdcategoria = :categoria"),    
     @NamedQuery(name = "Producto.findByDescripion", query = "SELECT p FROM Producto p WHERE p.descripion = :descripion"),
     @NamedQuery(name = "Producto.findByCosto", query = "SELECT p FROM Producto p WHERE p.costo = :costo"),
     @NamedQuery(name = "Producto.findByPrecio", query = "SELECT p FROM Producto p WHERE p.precio = :precio"),
     @NamedQuery(name = "Producto.findByMin", query = "SELECT p FROM Producto p WHERE p.min = :min"),
     @NamedQuery(name = "Producto.findByMax", query = "SELECT p FROM Producto p WHERE p.max = :max"),
     @NamedQuery(name = "Producto.findByExistencia", query = "SELECT p FROM Producto p WHERE p.existencia = :existencia"),
-    @NamedQuery(name = "Producto.findByActivo", query = "SELECT p FROM Producto p WHERE p.activo = :activo"),
+    @NamedQuery(name = "Producto.findByActivo", query = "SELECT p FROM Producto p WHERE p.activo = true"),
     @NamedQuery(name = "Producto.findByUsuarioCreate", query = "SELECT p FROM Producto p WHERE p.usuarioCreate = :usuarioCreate"),
     @NamedQuery(name = "Producto.findByFechaCreate", query = "SELECT p FROM Producto p WHERE p.fechaCreate = :fechaCreate"),
     @NamedQuery(name = "Producto.findByUsuarioUpdate", query = "SELECT p FROM Producto p WHERE p.usuarioUpdate = :usuarioUpdate"),
@@ -270,3 +271,4 @@ public class Producto implements Serializable {
     }
     
 }
+

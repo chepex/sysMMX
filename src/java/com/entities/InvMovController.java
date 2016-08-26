@@ -145,7 +145,9 @@ public class InvMovController implements Serializable {
         Usuario usuario = usuarioFacade.find(1);
         
         selected.setUsuarioIdusuario(usuario);
-        selected.setCantidad(0);        
+        selected.setCantidad(0);      
+        this.productoIdproducto= null;
+        
         initializeEmbeddableKey();
         return selected;
     }

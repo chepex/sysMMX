@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Bodega.findByIdbodega", query = "SELECT b FROM Bodega b WHERE b.idbodega = :idbodega"),
     @NamedQuery(name = "Bodega.findByNombre", query = "SELECT b FROM Bodega b WHERE b.nombre = :nombre"),
     @NamedQuery(name = "Bodega.findByDescripcion", query = "SELECT b FROM Bodega b WHERE b.descripcion = :descripcion"),
-    @NamedQuery(name = "Bodega.findByActivo", query = "SELECT b FROM Bodega b WHERE b.activo = :activo"),
+    @NamedQuery(name = "Bodega.findByActivo", query = "SELECT b FROM Bodega b WHERE b.activo = true"),
     @NamedQuery(name = "Bodega.findByUsuarioCreate", query = "SELECT b FROM Bodega b WHERE b.usuarioCreate = :usuarioCreate"),
     @NamedQuery(name = "Bodega.findByFechaCreate", query = "SELECT b FROM Bodega b WHERE b.fechaCreate = :fechaCreate"),
     @NamedQuery(name = "Bodega.findByUsuarioUpdate", query = "SELECT b FROM Bodega b WHERE b.usuarioUpdate = :usuarioUpdate"),

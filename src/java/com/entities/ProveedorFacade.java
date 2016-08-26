@@ -5,9 +5,11 @@
  */
 package com.entities;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -26,5 +28,12 @@ public class ProveedorFacade extends AbstractFacade<Proveedor> {
     public ProveedorFacade() {
         super(Proveedor.class);
     }
+    
+    @Override
+    public List<Proveedor> findAll() {
+        TypedQuery<Proveedor> q = null;         
+             q = em.createNamedQuery("Proveedor.findByActivo",Proveedor.class) ;   
+        return q.getResultList();
+    }    
     
 }
