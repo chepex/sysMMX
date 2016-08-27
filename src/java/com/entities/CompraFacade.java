@@ -31,6 +31,14 @@ public class CompraFacade extends AbstractFacade<Compra> {
         super(Compra.class);
     }
     
+    public List<Compra> findByProducto(Producto p) {
+       TypedQuery<Compra> q = null;
+       q = em.createNamedQuery("Compra.findByProducto",Compra.class)
+            .setParameter("producto", p.getIdproducto());
+
+       return q.getResultList();
+    }    
+    
     public List<Compra> findByOrdenId(Date fi, Date ff, Proveedor prov) {
         TypedQuery<Compra> q = null;
         System.out.println("fi-->"+fi);

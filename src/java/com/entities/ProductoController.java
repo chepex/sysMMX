@@ -23,13 +23,63 @@ public class ProductoController implements Serializable {
 
     @EJB
     private com.entities.ProductoFacade ejbFacade;
+    @EJB
+    private com.entities.CompraFacade compraFacade;    
+    @EJB
+    private com.entities.FacturaFacade facturaFacade;      
     private List<Producto> items = null;
     private Producto selected;
     private Categoria categoria;
+    private List<Compra> lcompras;
+    private List<Factura> lfactura;
+    private Factura selectedFactura;
+    private Compra selectedCompra;
 
     public ProductoController() {
     }
 
+    public Factura getSelectedFactura() {
+        return selectedFactura;
+    }
+
+    public void setSelectedFactura(Factura selectedFactura) {
+        this.selectedFactura = selectedFactura;
+    }
+
+    public Compra getSelectedCompra() {
+        return selectedCompra;
+    }
+
+    public void setSelectedCompra(Compra selectedCompra) {
+        this.selectedCompra = selectedCompra;
+    }
+
+    
+    public List<Factura> getLfactura() {
+        if(selected!=null){
+            lfactura = this.facturaFacade.findByProducto(selected);
+        }        
+        return lfactura;
+    }
+
+    public void setLfactura(List<Factura> lfactura) {
+        this.lfactura = lfactura;
+    }
+
+    
+    public List<Compra> getLcompras() {
+        if(selected!=null){
+            lcompras = this.compraFacade.findByProducto(selected);
+        }
+        return lcompras;
+    }
+
+    public void setLcompras(List<Compra> lcompras) {
+        this.lcompras = lcompras;
+    }
+
+    
+    
     public Categoria getCategoria() {
         return categoria;
     }
@@ -173,8 +223,12 @@ public class ProductoController implements Serializable {
     }
     
     public void consultaCategoria(){
-    
         this.items = this.ejbFacade.findByCategoria(this.categoria);
+     this.selected= null;
+     this.lcompras = null;
+     this.lfactura = null;
+     
+       
     }
 
 }

@@ -116,7 +116,14 @@ public List<Factura> findByClienteFecha(Date fi, Date ff, Cliente client) {
        return lo;        
               
                
-    }         
+    } 
+    
+    public List<Factura> findByProducto(Producto p) {
+       TypedQuery<Factura> q = null;
+       q = em.createNamedQuery("Factura.findByProducto",Factura.class)
+            .setParameter("producto", p.getIdproducto());
+       return q.getResultList();
+    }      
     
     
     
