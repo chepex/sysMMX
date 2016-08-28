@@ -173,6 +173,8 @@
                             rows="10"
                             rowsPerPageTemplate="10,20,30,40,50"
                             >
+                      <p:ajax event="rowDblselect" 
+                                    update=":detFacturaForm"   oncomplete="PF('detFacturaDialog').show()" />       
                    <p:column>
                        <f:facet name="header">
                            <h:outputText value="Documento"/>
@@ -225,6 +227,7 @@
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>
             <ui:include src="detCompra.xhtml"/>
+            <ui:include src="detFactura.xhtml"/>
         </ui:define>
     </ui:composition>
 

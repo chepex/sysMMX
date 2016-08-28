@@ -4,7 +4,8 @@ import com.entities.util.JsfUtil;
 import com.entities.util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.math.BigDecimal;
+
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -18,6 +19,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+
 @ManagedBean(name = "clienteController")
 @SessionScoped
 public class ClienteController implements Serializable {
@@ -26,9 +28,21 @@ public class ClienteController implements Serializable {
     private com.entities.ClienteFacade ejbFacade;
     private List<Cliente> items = null;
     private Cliente selected;
+    private Double porcentajeLimite;
+    
 
     public ClienteController() {
     }
+
+    public Double getPorcentajeLimite() {
+        return porcentajeLimite;
+    }
+
+    public void setPorcentajeLimite(Double porcentajeLimite) {
+        this.porcentajeLimite = porcentajeLimite;
+    }
+
+    
 
     public Cliente getSelected() {
         return selected;
@@ -159,5 +173,18 @@ public class ClienteController implements Serializable {
         }
 
     }
+    
+    public Double pLimite(Cliente vcliente){
+        System.out.println("liite-->"+vcliente.getLimite().doubleValue());
+        System.out.println("saldo-->"+vcliente.getSaldo().doubleValue());
+        Double vlimite  = vcliente.getSaldo().doubleValue()*100;
+        System.out.println("limite---"+vlimite);
+        vlimite = vlimite / vcliente.getLimite().doubleValue();
+        System.out.println("TOTAL--->"+vlimite);
+        return vlimite;
+    }
+    
+  
 
 }
+

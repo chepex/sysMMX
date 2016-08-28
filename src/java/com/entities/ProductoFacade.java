@@ -39,6 +39,15 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         return q.getResultList();
     } 
     
+    public List<Producto> findByNombreCodigo(String  nombre) {
+        TypedQuery<Producto> q = null;
+         System.out.println("2nombre-->"+nombre);
+             q = em.createNamedQuery("Producto.findByNombreCodigo",Producto.class)               
+                .setParameter("nombre", "%"+nombre+"%");
+              
+        return q.getResultList();
+    }     
+    
     @Override
     public List<Producto> findAll() {
         TypedQuery<Producto> q = null;         

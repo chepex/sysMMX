@@ -6,6 +6,7 @@
 package com.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -54,6 +55,10 @@ public class Cliente implements Serializable {
     @Size(max = 45)
     @Column(name = "nombre")
     private String nombre;
+    @Column(name = "saldo")
+    private BigDecimal saldo;  
+    @Column(name = "limite")
+    private BigDecimal limite;      
     @Size(max = 45)
     @Column(name = "descripcion")
     private String descripcion;
@@ -95,6 +100,24 @@ public class Cliente implements Serializable {
         this.idcliente = idcliente;
     }
 
+    public BigDecimal getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(BigDecimal saldo) {
+        this.saldo = saldo;
+    }
+
+    public BigDecimal getLimite() {
+        return limite;
+    }
+
+    public void setLimite(BigDecimal limite) {
+        this.limite = limite;
+    }
+
+    
+    
     public String getNombre() {
         return nombre;
     }

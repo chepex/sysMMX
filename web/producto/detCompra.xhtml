@@ -10,7 +10,7 @@
 
         <p:dialog id="detCompraDlg" widgetVar="detCompraDialog" modal="true" resizable="false" appendTo="@(body)" header="Detalle Compra">
             <h:form id="detCompraForm">
-                <h:panelGroup id="display" rendered="#{productoController.selected != null}">
+                <h:panelGroup id="display" rendered="#{productoController.selected != null}" >
                     <p:dataTable id="datalistCompraDet" value="#{productoController.selectedCompra.compraDetList}" var="item"
                                  selectionMode="single" selection="#{compraDetController.selected}"
                                  paginator="true"

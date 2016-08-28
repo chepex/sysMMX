@@ -24,6 +24,11 @@
                 <p:commandButton actionListener="#{compraController.create()}"   icon="ui-icon-disk" value="F7" update="CompraListForm :growl" disabled="#{empty compraController.selected}"/>
                 <p:commandButton actionListener="#{compraController.limpiar()}"   icon="ui-icon-closethick" value="F9" update="@form" disabled="#{empty compraController.selected}"/>
                 </div>
+                
+                <p:panelGrid columns="2"  style=" border-style: hidden !important;" >
+                    
+                    
+                </p:panelGrid>
                 <p:panel header="Compras" >
                     <p:panelGrid columns="4"  style=" border-style: hidden !important;" rendered="#{compraController.selected != null}">
                         <p:outputLabel value="Proveedor" for="proveedorIdproveedor" />
@@ -33,30 +38,28 @@
                                            itemLabel="#{proveedorIdproveedorItem.nombre}"
                                            itemValue="#{proveedorIdproveedorItem}"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="Usuario" for="usuarioIdusuario" />
-                        <p:inputText id="usuarioIdusuario" value="#{compraController.selected.usuarioIdusuario.usuario}"  disabled="true" title="#{bundle.CreateCompraTitle_documento}" />
+                         <p:outputLabel value="Factura" for="documento" />
+                        <p:inputText id="documento" value="#{compraController.selected.documento}"    title="#{bundle.CreateCompraTitle_documento}" />
                     </p:panelGrid>
-                    <p:panelGrid columns="10"  style=" border-style: hidden !important;" rendered="#{compraController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateCompraLabel_fecha}" for="fecha" />                    
-                        <p:calendar id="fecha" pattern="dd/MM/yyyy"  value="#{compraController.selected.fecha}" disabled="true" title="#{bundle.EditCompraTitle_fecha}"  showOn="button"/>
-                        <p:outputLabel value="Factura" for="documento" />
-                        <p:inputText id="documento" value="#{compraController.selected.documento}" required="true"    title="#{bundle.CreateCompraTitle_documento}" />
-                        
-                      
-                    </p:panelGrid>   
+                    
                 </p:panel>
                 <p:panel   >
                     <p:panelGrid columns="9"  style=" border-style: hidden !important;" rendered="#{compraController.selected != null}">
-                        <p:outputLabel value="Producto" for="productoIdproducto" />
-                        <p:selectOneMenu id="productoIdproducto" value="#{compraController.productoIdproducto}"  filter="true" filterMatchMode="contains"  requiredMessage="#{bundle.EditCompraDetRequiredMessage_productoIdproducto}">
-                            <f:selectItem itemLabel="Seleciona una producto" itemValue="" />
-                            <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
-                                           var="productoIdproductoItem"
-                                           itemValue="#{productoIdproductoItem}"
-                                           itemLabel="#{productoIdproductoItem.nombre}"
-                                           />
-                            <p:ajax listener="#{compraController.updateExistencia}" update="existencia vprecio" />
-                        </p:selectOneMenu>
+                        <p:outputLabel value="Producto2" for="producto2" />
+                        <p:autoComplete id="producto2" minQueryLength="3" 
+                                        value="#{compraController.productoIdproducto}"
+                                         
+                                         var="producto"
+                                         itemLabel="#{producto.nombre}" 
+                                         itemValue="#{producto}"
+                                        completeMethod="#{productoController.autoCompleteProducto}" 
+                                        converter="#{ProductoControllerConverter}" 
+                                                                                
+                                        effect="fade" >
+                              <p:ajax  event="itemSelect"  listener="#{compraController.updateExistencia}" update="existencia vprecio" />
+                        </p:autoComplete>
+        
+                       
                         
                         <p:outputLabel value="#{bundle.CreateCompraDetLabel_cantidad}" for="tcantidad" />
                          <p:inputNumber id="tcantidad" value="#{compraController.cantidad}"  minValue="1" maxValue="10000"/>  
@@ -69,7 +72,7 @@
                         
                         <p:commandButton actionListener="#{compraController.addDetalle()}"   icon="ui-icon-plus" style="margin-top: 0px !important;"  update="@form  :growl"/>
                     </p:panelGrid>
-                </p:panel>
+                </p:panel>  
                 <p:panel header="Detalle" >
                     <p:dataTable id="datalist" value="#{compraController.detCompra}" var="item"
                                  selectionMode="single" selection="#{compraDetController.selected}"

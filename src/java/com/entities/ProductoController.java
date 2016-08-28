@@ -180,6 +180,13 @@ public class ProductoController implements Serializable {
     public List<Producto> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
+    
+
+    public List<Producto> autoCompleteProducto(String valor) {
+        System.out.println("nombre-->"+valor);
+        return getFacade().findByNombreCodigo(valor);
+        
+    }    
 
     @FacesConverter(forClass = Producto.class)
     public static class ProductoControllerConverter implements Converter {

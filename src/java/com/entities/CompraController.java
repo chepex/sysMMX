@@ -169,6 +169,11 @@ public class CompraController implements Serializable {
            return "error";
            
        }
+       
+       if(this.selected.getDocumento().isEmpty()){
+            JsfUtil.addErrorMessage("Agregue un numero de factura");
+           return "error";
+       }
         selected.setCompraDetList(detCompra);
         sb_Compra.actualizaCosto(selected);
         List<Object[]>  lobjt =  sb_inventario.compraToList(detCompra);
