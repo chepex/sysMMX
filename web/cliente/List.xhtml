@@ -54,6 +54,18 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
+                                <h:outputText value="Limite"/>
+                            </f:facet>
+                            <h:outputText value="#{item.limite}"/>
+                        </p:column> 
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Saldo"/>
+                            </f:facet>
+                            <h:outputText value="#{item.saldo}"/>
+                        </p:column>                          
+                        <p:column>
+                            <f:facet name="header">
                                 <h:outputText value="#{bundle.ListClienteTitle_activo}"/>
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{item.activo}" disabled="true"/>

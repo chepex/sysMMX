@@ -24,13 +24,7 @@
                     <p:panel header="Transaccion Inventario" >
                     <p:panelGrid columns="6"  style=" border-style: hidden !important;" rendered="#{invMovController.selected != null}">                        
                         
-                        <p:outputLabel value="#{bundle.CreateFacturaLabel_usuarioIdusuario}" for="usuarioIdusuario" />
-                        <p:selectOneMenu  disabled="true" id="usuarioIdusuario" value="#{invMovController.selected.usuarioIdusuario}" required="true" requiredMessage="#{bundle.EditFacturaRequiredMessage_usuarioIdusuario}">                            
-                        <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
-                                           var="usuarioIdusuarioItem"
-                                           itemLabel="#{usuarioIdusuarioItem.usuario}"
-                                           itemValue="#{usuarioIdusuarioItem}"/>
-                        </p:selectOneMenu>
+                      
                         
                         <p:outputLabel value="Bodega" for="bodega" />
                         <p:selectOneMenu id="bodega" value="#{invMovController.selected.bodegaIdbodega}" required="true" >                            
@@ -51,23 +45,22 @@
                          
                         <p:outputLabel value="#{bundle.CreateFacturaLabel_documento}" for="documento" />    
                         <p:inputText id="documento" value="#{invMovController.selected.numDocto}" title="#{bundle.CreateFacturaTitle_documento}" />
-                        
-                        <p:outputLabel value="#{bundle.CreateFacturaLabel_fecha}" for="fecha" />                        
-                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{invMovController.selected.fecha}" title="#{bundle.EditFacturaTitle_fecha}"  showOn="button"/>                                    
                       
                     </p:panelGrid> 
                 <p:panel>
                     <p:panelGrid columns="9"  style=" border-style: hidden !important;" rendered="#{invMovController.selected != null}">
-                        <p:outputLabel value="Producto" for="productoIdproducto" />
-                        <p:selectOneMenu id="productoIdproducto" value="#{invMovController.productoIdproducto}"  requiredMessage="#{bundle.EditCompraDetRequiredMessage_productoIdproducto}">
-                            <f:selectItem itemLabel="Seleciona una producto" itemValue="" />
-                            <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
-                                           var="productoIdproductoItem"
-                                           itemValue="#{productoIdproductoItem}"
-                                           itemLabel="#{productoIdproductoItem.nombre}"
-                                           />
-                             <p:ajax listener="#{invMovController.updateExistencia}" update="existencia" />
-                        </p:selectOneMenu>
+                        <p:outputLabel value="Producto" for="producto" />                     
+                        <p:autoComplete id="producto" minQueryLength="3" 
+                                        value="#{invMovController.productoIdproducto}"                                         
+                                         var="producto"
+                                         itemLabel="#{producto.nombre}" 
+                                         itemValue="#{producto}"
+                                        completeMethod="#{productoController.autoCompleteProducto}" 
+                                        converter="#{ProductoControllerConverter}" 
+                                                                                
+                                        effect="fade" >
+                              <p:ajax  event="itemSelect"  listener="#{invMovController.updateExistencia}" update="existencia " />
+                        </p:autoComplete>  
                         
                         <p:outputLabel value="#{bundle.CreateCompraDetLabel_cantidad}" for="tcantidad" />
                          <p:inputNumber id="tcantidad" value="#{invMovController.cantidad}"  minValue="1" maxValue="10000"/>  

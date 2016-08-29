@@ -10,20 +10,20 @@
 
         <p:dialog id="detFacturaDlg" widgetVar="detFacturaDialog" modal="true" resizable="false" appendTo="@(body)" header="Detalle Factura">
             <h:form id="detFacturaForm">
-                <h:panelGroup id="display" rendered="#{productoController.selected != null}">
+                <h:panelGroup id="display" rendered="#{productoController.selectedFactura != null}">
                     <p:accordionPanel  activeIndex="-1"  >
                         <p:tab title="Cliente #{productoController.selectedFactura.clienteIdcliente.nombre}" >
-                            <h:panelGrid columns="2" cellpadding="10">
-                                <h:panelGrid columns="4" cellpadding="10">
+                            <h:panelGrid columns="10" cellpadding="10">
+                                
                                 <p:outputLabel value="Descripcion" for="descripcion" />
                                 <p:outputLabel value="#{productoController.selectedFactura.clienteIdcliente.descripcion}" id="descripcion"/>
                                 <p:outputLabel value="Telefono" for="telefono" />
                                 <p:outputLabel value="#{productoController.selectedFactura.clienteIdcliente.tel}" id="telefono"/>  
                                 <p:outputLabel value="Correo" for="correo" />
                                 <p:outputLabel value="#{productoController.selectedFactura.clienteIdcliente.correo}" id="correo"/>   
-                                <p:outputLabel value="Correo" for="activo" />
+                                <p:outputLabel value="Activo" for="activo" />
                                 <p:selectBooleanCheckbox value="#{productoController.selectedFactura.clienteIdcliente.activo}" disabled="true" id="activo"/>                               
-                                </h:panelGrid>
+                               
                                  
                             </h:panelGrid>
                             <p:outputLabel value="Limite de Credito"  />

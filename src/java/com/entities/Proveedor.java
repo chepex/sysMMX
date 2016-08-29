@@ -6,6 +6,7 @@
 package com.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -36,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Proveedor.findAll", query = "SELECT p FROM Proveedor p"),
     @NamedQuery(name = "Proveedor.findByIdproveedor", query = "SELECT p FROM Proveedor p WHERE p.idproveedor = :idproveedor"),
     @NamedQuery(name = "Proveedor.findByNombre", query = "SELECT p FROM Proveedor p WHERE p.nombre = :nombre"),
+    @NamedQuery(name = "Proveedor.findByNombreCodigo", query = "SELECT p FROM Proveedor p WHERE p.nombre like :nombre"),
     @NamedQuery(name = "Proveedor.findByDescripcion", query = "SELECT p FROM Proveedor p WHERE p.descripcion = :descripcion"),
     @NamedQuery(name = "Proveedor.findByNit", query = "SELECT p FROM Proveedor p WHERE p.nit = :nit"),
     @NamedQuery(name = "Proveedor.findByTel", query = "SELECT p FROM Proveedor p WHERE p.tel = :tel"),
@@ -54,11 +56,13 @@ public class Proveedor implements Serializable {
     @Column(name = "idproveedor")
     private Integer idproveedor;
     @Size(max = 45)
-    @Column(name = "nombre")
+    @Column(name = "nombre")    
     private String nombre;
     @Size(max = 45)
     @Column(name = "descripcion")
     private String descripcion;
+    @Column(name = "saldo")
+    private BigDecimal saldo;     
     @Size(max = 45)
     @Column(name = "nit")
     private String nit;
@@ -79,6 +83,8 @@ public class Proveedor implements Serializable {
     @Column(name = "fecha_create")
     @Temporal(TemporalType.DATE)
     private Date fechaCreate;
+    @Column(name = "dias_credito")
+    private Integer diasCredito;    
     @Size(max = 45)
     @Column(name = "usuario_update")
     private String usuarioUpdate;
@@ -91,6 +97,25 @@ public class Proveedor implements Serializable {
     public Proveedor() {
     }
 
+    public Integer getDiasCredito() {
+        return diasCredito;
+    }
+
+    public void setDiasCredito(Integer diasCredito) {
+        this.diasCredito = diasCredito;
+    }
+
+    
+    
+    public BigDecimal getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(BigDecimal saldo) {
+        this.saldo = saldo;
+    }
+
+    
     public Proveedor(Integer idproveedor) {
         this.idproveedor = idproveedor;
     }

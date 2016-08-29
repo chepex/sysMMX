@@ -25,13 +25,7 @@
             <p:panel header="Ventas" >
                     <p:panelGrid columns="6"  style=" border-style: hidden !important;" rendered="#{facturaController.selected != null}">
                         
-                        <p:outputLabel value="#{bundle.CreateFacturaLabel_usuarioIdusuario}" for="usuarioIdusuario" />
-                        <p:selectOneMenu id="usuarioIdusuario" value="#{facturaController.selected.usuarioIdusuario}"  disabled="true" required="true" requiredMessage="#{bundle.EditFacturaRequiredMessage_usuarioIdusuario}">                            
-                        <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
-                                           var="usuarioIdusuarioItem"
-                                           itemLabel="#{usuarioIdusuarioItem.usuario}"
-                                           itemValue="#{usuarioIdusuarioItem}"/>
-                        </p:selectOneMenu>
+                       
                      
                         <p:outputLabel value="#{bundle.CreateFacturaLabel_clienteIdcliente}" for="clienteIdcliente" />
                         <p:selectOneMenu id="clienteIdcliente" value="#{facturaController.selected.clienteIdcliente}" required="true" requiredMessage="#{bundle.EditFacturaRequiredMessage_clienteIdcliente}">
@@ -44,9 +38,7 @@
                         <p:outputLabel value="#{bundle.CreateFacturaLabel_documento}" for="documento" />    
                         <p:inputText id="documento" value="#{facturaController.selected.documento}" title="#{bundle.CreateFacturaTitle_documento}" />
                         
-                        <p:outputLabel value="#{bundle.CreateFacturaLabel_fecha}" for="fecha" />                        
-                        <p:calendar id="fecha" disabled="true" pattern="MM/dd/yyyy" value="#{facturaController.selected.fecha}" title="#{bundle.EditFacturaTitle_fecha}"  showOn="button"/>
-                        
+                      
                        
                         
                                     
@@ -54,16 +46,19 @@
                     </p:panelGrid>   
                 <p:panel>
                     <p:panelGrid columns="9"  style=" border-style: hidden !important;" rendered="#{facturaController.selected != null}">
-                        <p:outputLabel value="Producto" for="productoIdproducto" />
-                        <p:selectOneMenu id="productoIdproducto" value="#{facturaController.productoIdproducto}" filter="true" filterMatchMode="contains"   requiredMessage="#{bundle.EditCompraDetRequiredMessage_productoIdproducto}">
-                            <f:selectItem itemLabel="Seleciona una producto" itemValue="" />
-                            <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
-                                           var="productoIdproductoItem"
-                                           itemValue="#{productoIdproductoItem}"
-                                           itemLabel="#{productoIdproductoItem.nombre}"
-                                           />
-                            <p:ajax listener="#{facturaController.updateExistencia}" update="existencia vprecio" />
-                        </p:selectOneMenu>
+                        <p:outputLabel value="Producto" for="producto" />
+                        <p:autoComplete id="producto" minQueryLength="3" 
+                                        value="#{facturaController.productoIdproducto}"                                         
+                                         var="producto"
+                                         itemLabel="#{producto.nombre}" 
+                                         itemValue="#{producto}"
+                                        completeMethod="#{productoController.autoCompleteProducto}" 
+                                        converter="#{ProductoControllerConverter}" 
+                                                                                
+                                        effect="fade" >
+                              <p:ajax  event="itemSelect"  listener="#{facturaController.updateExistencia}" update="existencia vprecio" />
+                        </p:autoComplete>                        
+                    
                         
                         <p:outputLabel value="#{bundle.CreateCompraDetLabel_cantidad}" for="tcantidad" class="derecha"/>
                          <p:inputNumber id="tcantidad" value="#{facturaController.cantidad}"  minValue="1" maxValue="10000"/>  

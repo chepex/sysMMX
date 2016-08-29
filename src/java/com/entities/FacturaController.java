@@ -31,7 +31,9 @@ public class FacturaController implements Serializable {
     @EJB
     private com.entities.CorrelativoFacade correlativoFacade;    
     @EJB
-    private com.ejb.SB_inventario sb_inventario;        
+    private com.ejb.SB_inventario sb_inventario;   
+    @EJB
+    private com.ejb.SB_Cliente sb_Cliente;     
     private List<Factura> items = null;
     private Factura selected;
     private List<FacturaDet> detFactura = new ArrayList<FacturaDet>();
@@ -154,6 +156,13 @@ public class FacturaController implements Serializable {
            
        }
         
+        String vlimite = sb_Cliente.validaLimite(selected.getClienteIdcliente(), this.selected.getTotal());
+        System.out.println("vlimite"+vlimite);
+        if(!vlimite.equals("ok")){
+           JsfUtil.addErrorMessage("El valor de la compra ha sobre pasado el limite de credito del cliente");
+           return "error";
+        }
+        
         List<Correlativo> lcort = correlativoFacade.findByNombre("Factura");
         if(!lcort.isEmpty()){
             Correlativo c= lcort.get(0);
@@ -180,6 +189,7 @@ public class FacturaController implements Serializable {
         //Registrar Salida
         sb_inventario.createDocumento(selected.getDocumento(), lobjt, "2");
         selected = this.getFacade().auditCreate(selected);
+        sb_Cliente.actualizaSaldo(selected.getClienteIdcliente(), selected.getTotal());
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("FacturaCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.

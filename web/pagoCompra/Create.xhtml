@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PagoCompraCreateDlg" widgetVar="PagoCompraCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreatePagoCompraTitle}">
+            <h:form id="PagoCompraCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{pagoCompraController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreatePagoCompraLabel_idpagoCompra}" for="idpagoCompra" />
+                        <p:inputText id="idpagoCompra" value="#{pagoCompraController.selected.idpagoCompra}" title="#{bundle.CreatePagoCompraTitle_idpagoCompra}" required="true" requiredMessage="#{bundle.CreatePagoCompraRequiredMessage_idpagoCompra}"/>
+                        <p:outputLabel value="#{bundle.CreatePagoCompraLabel_idcompra}" for="idcompra" />
+                        <p:inputText id="idcompra" value="#{pagoCompraController.selected.idcompra}" title="#{bundle.CreatePagoCompraTitle_idcompra}" required="true" requiredMessage="#{bundle.CreatePagoCompraRequiredMessage_idcompra}"/>
+                        <p:outputLabel value="#{bundle.CreatePagoCompraLabel_idbanco}" for="idbanco" />
+                        <p:inputText id="idbanco" value="#{pagoCompraController.selected.idbanco}" title="#{bundle.CreatePagoCompraTitle_idbanco}" required="true" requiredMessage="#{bundle.CreatePagoCompraRequiredMessage_idbanco}"/>
+                        <p:outputLabel value="#{bundle.CreatePagoCompraLabel_idcuenta}" for="idcuenta" />
+                        <p:inputText id="idcuenta" value="#{pagoCompraController.selected.idcuenta}" title="#{bundle.CreatePagoCompraTitle_idcuenta}" required="true" requiredMessage="#{bundle.CreatePagoCompraRequiredMessage_idcuenta}"/>
+                        <p:outputLabel value="#{bundle.CreatePagoCompraLabel_valor}" for="valor" />
+                        <p:inputText id="valor" value="#{pagoCompraController.selected.valor}" title="#{bundle.CreatePagoCompraTitle_valor}" required="true" requiredMessage="#{bundle.CreatePagoCompraRequiredMessage_valor}"/>
+                        <p:outputLabel value="#{bundle.CreatePagoCompraLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{pagoCompraController.selected.fecha}" title="#{bundle.EditPagoCompraTitle_fecha}" required="true" requiredMessage="#{bundle.EditPagoCompraRequiredMessage_fecha}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreatePagoCompraLabel_usuarioCreate}" for="usuarioCreate" />
+                        <p:inputText id="usuarioCreate" value="#{pagoCompraController.selected.usuarioCreate}" title="#{bundle.CreatePagoCompraTitle_usuarioCreate}" />
+                        <p:outputLabel value="#{bundle.CreatePagoCompraLabel_fechaCreate}" for="fechaCreate" />
+                        <p:calendar id="fechaCreate" pattern="MM/dd/yyyy" value="#{pagoCompraController.selected.fechaCreate}" title="#{bundle.EditPagoCompraTitle_fechaCreate}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreatePagoCompraLabel_usuarioUpdate}" for="usuarioUpdate" />
+                        <p:inputText id="usuarioUpdate" value="#{pagoCompraController.selected.usuarioUpdate}" title="#{bundle.CreatePagoCompraTitle_usuarioUpdate}" />
+                        <p:outputLabel value="#{bundle.CreatePagoCompraLabel_fechaUpdate}" for="fechaUpdate" />
+                        <p:calendar id="fechaUpdate" pattern="MM/dd/yyyy" value="#{pagoCompraController.selected.fechaUpdate}" title="#{bundle.EditPagoCompraTitle_fechaUpdate}"  showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{pagoCompraController.create}" value="#{bundle.Save}" update="display,:PagoCompraListForm:datalist,:growl" oncomplete="handleSubmit(args,'PagoCompraCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PagoCompraCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

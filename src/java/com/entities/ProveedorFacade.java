@@ -36,4 +36,13 @@ public class ProveedorFacade extends AbstractFacade<Proveedor> {
         return q.getResultList();
     }    
     
+    public List<Proveedor> findByNombreCodigo(String  nombre) {
+        TypedQuery<Proveedor> q = null;
+         System.out.println("2nombre-->"+nombre);
+             q = em.createNamedQuery("Proveedor.findByNombreCodigo",Proveedor.class)               
+                .setParameter("nombre", "%"+nombre+"%");
+              
+        return q.getResultList();
+    }    
+    
 }

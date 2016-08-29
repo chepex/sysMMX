@@ -40,6 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Compra.findByIdcompra", query = "SELECT c FROM Compra c WHERE c.idcompra = :idcompra"),
     @NamedQuery(name = "Compra.findByProveedor", query = "SELECT c FROM Compra c WHERE c.proveedorIdproveedor.idproveedor = :prov"),
     @NamedQuery(name = "Compra.findByDocumento", query = "SELECT c FROM Compra c WHERE c.documento = :documento"),
+    @NamedQuery(name = "Compra.findByProveedorPendiente", query = "SELECT c FROM Compra c WHERE c.proveedorIdproveedor.idproveedor = :proveedor and c.saldo>0"),    
     @NamedQuery(name = "Compra.findByProducto", query = "SELECT c FROM Compra c, CompraDet d WHERE c.idcompra =  d.compraIdcompra.idcompra and d.productoIdproducto.idproducto =  :producto"),
     @NamedQuery(name = "Compra.findByFecha", query = "SELECT c FROM Compra c WHERE c.fecha between :fi and :ff"),
     @NamedQuery(name = "Compra.findByFechaProv", query = "SELECT c FROM Compra c WHERE c.fecha between :fi and :ff and c.proveedorIdproveedor.idproveedor = :prov "),
@@ -66,6 +67,8 @@ public class Compra implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "total")
     private BigDecimal total;
+    @Column(name = "saldo")
+    private BigDecimal saldo;    
     @Column(name = "iva")
     private BigDecimal iva;    
     @Column(name = "sub_total")
@@ -94,6 +97,16 @@ public class Compra implements Serializable {
     public Compra() {
     }
 
+    public BigDecimal getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(BigDecimal saldo) {
+        this.saldo = saldo;
+    }
+
+    
+    
     public BigDecimal getSubTotal() {
         return subTotal;
     }

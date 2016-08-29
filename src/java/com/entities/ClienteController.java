@@ -70,6 +70,7 @@ public class ClienteController implements Serializable {
     }
 
     public void create() {
+        selected.setSaldo(BigDecimal.ZERO);
         selected= getFacade().auditCreate(selected);
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaCreated"));
         if (!JsfUtil.isValidationFailed()) {
@@ -175,12 +176,15 @@ public class ClienteController implements Serializable {
     }
     
     public Double pLimite(Cliente vcliente){
-        System.out.println("liite-->"+vcliente.getLimite().doubleValue());
-        System.out.println("saldo-->"+vcliente.getSaldo().doubleValue());
-        Double vlimite  = vcliente.getSaldo().doubleValue()*100;
-        System.out.println("limite---"+vlimite);
+         Double vlimite = null ;
+        if(vcliente!=null){
+       
+        vlimite = vcliente.getSaldo().doubleValue()*100;
+      
         vlimite = vlimite / vcliente.getLimite().doubleValue();
-        System.out.println("TOTAL--->"+vlimite);
+      
+        }
+        
         return vlimite;
     }
     

@@ -21,6 +21,8 @@
                         <p:inputText id="tel" value="#{clienteController.selected.tel}" title="#{bundle.CreateClienteTitle_tel}" />
                         <p:outputLabel value="#{bundle.CreateClienteLabel_correo}" for="correo" />
                         <p:inputText id="correo" value="#{clienteController.selected.correo}" title="#{bundle.CreateClienteTitle_correo}" />
+                        <p:outputLabel value="Limite" for="limite" />
+                        <p:inputText id="limite" value="#{clienteController.selected.limite}"  />
                         <p:outputLabel value="#{bundle.CreateClienteLabel_activo}" for="activo" />
                         <p:selectBooleanCheckbox id="activo" value="#{clienteController.selected.activo}" />
                     </p:panelGrid>

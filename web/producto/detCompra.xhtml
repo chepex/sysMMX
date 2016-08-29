@@ -11,6 +11,28 @@
         <p:dialog id="detCompraDlg" widgetVar="detCompraDialog" modal="true" resizable="false" appendTo="@(body)" header="Detalle Compra">
             <h:form id="detCompraForm">
                 <h:panelGroup id="display" rendered="#{productoController.selected != null}" >
+                     <p:accordionPanel  activeIndex="-1"  >
+                         <p:tab title="Proveedor #{productoController.selectedCompra.proveedorIdproveedor.nombre}" >
+                            <h:panelGrid columns="12" cellpadding="10">
+                               
+                                <p:outputLabel value="Descripcion" for="descripcion" />
+                                <p:outputLabel value="#{productoController.selectedCompra.proveedorIdproveedor.descripcion}" id="descripcion"/>
+                                <p:outputLabel value="Telefono" for="telefono" />
+                                <p:outputLabel value="#{productoController.selectedCompra.proveedorIdproveedor.tel}" id="telefono"/>  
+                                <p:outputLabel value="Correo" for="correo" />
+                                <p:outputLabel value="#{productoController.selectedCompra.proveedorIdproveedor.correo}" id="correo"/>   
+                                <p:outputLabel value="Activo" for="activo" />
+                                <p:selectBooleanCheckbox value="#{productoController.selectedCompra.proveedorIdproveedor.activo}" disabled="true" id="activo"/>                               
+                                <p:outputLabel value="Dias Credito" for="diasCredito" />
+                                <p:outputLabel value="#{productoController.selectedCompra.proveedorIdproveedor.diasCredito}" id="diasCredito"/> 
+                                <p:outputLabel value="Saldo" for="saldo" />
+                                <p:outputLabel value="#{productoController.selectedCompra.proveedorIdproveedor.saldo}" id="saldo"/> 
+                                
+                                 
+                            </h:panelGrid>
+                        
+                        </p:tab>                           
+                    </p:accordionPanel>
                     <p:dataTable id="datalistCompraDet" value="#{productoController.selectedCompra.compraDetList}" var="item"
                                  selectionMode="single" selection="#{compraDetController.selected}"
                                  paginator="true"

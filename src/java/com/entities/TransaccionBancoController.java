@@ -17,23 +17,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@ManagedBean(name = "proveedorController")
+@ManagedBean(name = "transaccionBancoController")
 @SessionScoped
-public class ProveedorController implements Serializable {
+public class TransaccionBancoController implements Serializable {
 
     @EJB
-    private com.entities.ProveedorFacade ejbFacade;
-    private List<Proveedor> items = null;
-    private Proveedor selected;
+    private com.entities.TransaccionBancoFacade ejbFacade;
+    private List<TransaccionBanco> items = null;
+    private TransaccionBanco selected;
 
-    public ProveedorController() {
+    public TransaccionBancoController() {
     }
 
-    public Proveedor getSelected() {
+    public TransaccionBanco getSelected() {
         return selected;
     }
 
-    public void setSelected(Proveedor selected) {
+    public void setSelected(TransaccionBanco selected) {
         this.selected = selected;
     }
 
@@ -41,41 +41,38 @@ public class ProveedorController implements Serializable {
     }
 
     protected void initializeEmbeddableKey() {
-        selected.setIdproveedor(0);
     }
 
-    private ProveedorFacade getFacade() {
+    private TransaccionBancoFacade getFacade() {
         return ejbFacade;
     }
 
-    public Proveedor prepareCreate() {
-        selected = new Proveedor();
+    public TransaccionBanco prepareCreate() {
+        selected = new TransaccionBanco();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-         selected = this.getFacade().auditCreate(selected);
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ProveedorCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TransaccionBancoCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-         selected = this.getFacade().auditUpdate(selected);
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("ProveedorUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TransaccionBancoUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("ProveedorDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TransaccionBancoDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Proveedor> getItems() {
+    public List<TransaccionBanco> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -110,24 +107,24 @@ public class ProveedorController implements Serializable {
         }
     }
 
-    public List<Proveedor> getItemsAvailableSelectMany() {
+    public List<TransaccionBanco> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<Proveedor> getItemsAvailableSelectOne() {
+    public List<TransaccionBanco> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Proveedor.class)
-    public static class ProveedorControllerConverter implements Converter {
+    @FacesConverter(forClass = TransaccionBanco.class)
+    public static class TransaccionBancoControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            ProveedorController controller = (ProveedorController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "proveedorController");
+            TransaccionBancoController controller = (TransaccionBancoController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "transaccionBancoController");
             return controller.getFacade().find(getKey(value));
         }
 
@@ -148,21 +145,15 @@ public class ProveedorController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Proveedor) {
-                Proveedor o = (Proveedor) object;
-                return getStringKey(o.getIdproveedor());
+            if (object instanceof TransaccionBanco) {
+                TransaccionBanco o = (TransaccionBanco) object;
+                return getStringKey(o.getIdtransaccionBanco());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Proveedor.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TransaccionBanco.class.getName()});
                 return null;
             }
         }
 
     }
-    
-    public List<Proveedor> autoCompleteProveedor(String valor) {
-        
-        return getFacade().findByNombreCodigo(valor);
-        
-    }       
 
 }
