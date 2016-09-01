@@ -15,22 +15,29 @@
                         <p:outputLabel value="#{bundle.CreatePagoCompraLabel_idbanco}" for="idbanco" />
                         <p:autoComplete id="idbanco" minQueryLength="3" 
                                         value="#{pagoCompraController.selected.bancoIdbanco}"                                         
-                                         var="banco"
-                                         itemLabel="#{banco.nombre}" 
-                                         itemValue="#{banco}"
-                                         completeMethod="#{bancoController.autoCompleteBanco}" 
-                                        converter="#{BancoControllerConverter}" 
-                                                                                
+                                        var="banco"
+                                        itemLabel="#{banco.nombre}" 
+                                        itemValue="#{banco}"
+                                        completeMethod="#{bancoController.autoCompleteBanco}" 
+                                        converter="#{BancoControllerConverter}"                                                                                 
                                         effect="fade" >
-                              <p:ajax  event="itemSelect"  listener="#{pagoCompraController.consultaPendiente()}" update="@form :growl" />
+                              <p:ajax  event="itemSelect"  listener="#{pagoCompraController.consultaCuenta()}" update="@form :growl" />
                         </p:autoComplete>                          
                         
-                        <p:outputLabel value="#{bundle.CreatePagoCompraLabel_idcuenta}" for="idcuenta" />
-                        <p:inputText id="idcuenta" value="#{pagoCompraController.selected.idcuenta}" title="#{bundle.CreatePagoCompraTitle_idcuenta}" required="true" requiredMessage="#{bundle.CreatePagoCompraRequiredMessage_idcuenta}"/>
+                        
+                        
+                        
+                        <p:outputLabel value="Banco" for="bancoIdbanco" />
+                        <p:selectOneMenu id="bancoIdbanco" value="#{pagoCompraController.selected.cuentaBancoIdcuenta}" required="true" requiredMessage="#{bundle.EditCuentaBancoRequiredMessage_bancoIdbanco}">
+                            <f:selectItems value="#{pagoCompraController.lcuentaBanco}"
+                                           var="cuentaBancoItem"
+                                           itemLabel="#{cuentaBancoItem.numero}"
+                                           itemValue="#{cuentaBancoItem}"/>
+                        </p:selectOneMenu>                        
                         <p:outputLabel value="#{bundle.CreatePagoCompraLabel_valor}" for="valor" />
                         <p:inputText id="valor" value="#{pagoCompraController.selected.valor}" title="#{bundle.CreatePagoCompraTitle_valor}" required="true" requiredMessage="#{bundle.CreatePagoCompraRequiredMessage_valor}"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{pagoCompraController.create}" value="#{bundle.Save}" update="display,:PagoCompraListForm:datalist,:growl" oncomplete="handleSubmit(args,'PagoCompraCreateDialog');"/>
+                    <p:commandButton actionListener="#{pagoCompraController.create}" value="#{bundle.Save}" update="display,:PagoCompraListForm:datalist, :PagoCompraListForm:datalistPagos,growl" oncomplete="handleSubmit(args,'PagoCompraCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="PagoCompraCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

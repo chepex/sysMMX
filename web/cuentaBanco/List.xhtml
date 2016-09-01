@@ -35,27 +35,9 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCuentaBancoTitle_idbanco}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idbanco}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCuentaBancoTitle_numero}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.numero}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCuentaBancoTitle_activo}"/>
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{item.activo}" disabled="true"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCuentaBancoTitle_usuarioCreate}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.usuarioCreate}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -67,17 +49,41 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCuentaBancoTitle_fechaUpdate}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaUpdate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCuentaBancoTitle_numero}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.numero}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCuentaBancoTitle_usuarioCreate}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.usuarioCreate}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCuentaBancoTitle_usuarioUpdate}"/>
                             </f:facet>
                             <h:outputText value="#{item.usuarioUpdate}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCuentaBancoTitle_fechaUpdate}"/>
+                                <h:outputText value="#{bundle.ListCuentaBancoTitle_saldo}"/>
                             </f:facet>
-                            <h:outputText value="#{item.fechaUpdate}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
+                            <h:outputText value="#{item.saldo}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCuentaBancoTitle_bancoIdbanco}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.bancoIdbanco}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{cuentaBancoController.prepareCreate}" update=":CuentaBancoCreateForm" oncomplete="PF('CuentaBancoCreateDialog').show()"/>

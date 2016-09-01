@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PagoCompra.findByIdpagoCompra", query = "SELECT p FROM PagoCompra p WHERE p.idpagoCompra = :idpagoCompra"),
     @NamedQuery(name = "PagoCompra.findByValor", query = "SELECT p FROM PagoCompra p WHERE p.valor = :valor"),
     @NamedQuery(name = "PagoCompra.findByFecha", query = "SELECT p FROM PagoCompra p WHERE p.fecha = :fecha"),
+    @NamedQuery(name = "PagoCompra.findByCompra", query = "SELECT p FROM PagoCompra p WHERE p.compraIdcompra.idcompra = :compra"),
     @NamedQuery(name = "PagoCompra.findByUsuarioCreate", query = "SELECT p FROM PagoCompra p WHERE p.usuarioCreate = :usuarioCreate"),
     @NamedQuery(name = "PagoCompra.findByFechaCreate", query = "SELECT p FROM PagoCompra p WHERE p.fechaCreate = :fechaCreate"),
     @NamedQuery(name = "PagoCompra.findByUsuarioUpdate", query = "SELECT p FROM PagoCompra p WHERE p.usuarioUpdate = :usuarioUpdate"),

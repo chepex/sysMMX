@@ -12,22 +12,22 @@
             <h:form id="CuentaBancoCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{cuentaBancoController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateCuentaBancoLabel_idcuenta}" for="idcuenta" />
-                        <p:inputText id="idcuenta" value="#{cuentaBancoController.selected.idcuenta}" title="#{bundle.CreateCuentaBancoTitle_idcuenta}" required="true" requiredMessage="#{bundle.CreateCuentaBancoRequiredMessage_idcuenta}"/>
-                        <p:outputLabel value="#{bundle.CreateCuentaBancoLabel_idbanco}" for="idbanco" />
-                        <p:inputText id="idbanco" value="#{cuentaBancoController.selected.idbanco}" title="#{bundle.CreateCuentaBancoTitle_idbanco}" required="true" requiredMessage="#{bundle.CreateCuentaBancoRequiredMessage_idbanco}"/>
-                        <p:outputLabel value="#{bundle.CreateCuentaBancoLabel_numero}" for="numero" />
-                        <p:inputText id="numero" value="#{cuentaBancoController.selected.numero}" title="#{bundle.CreateCuentaBancoTitle_numero}" required="true" requiredMessage="#{bundle.CreateCuentaBancoRequiredMessage_numero}"/>
+                        
                         <p:outputLabel value="#{bundle.CreateCuentaBancoLabel_activo}" for="activo" />
-                        <p:selectBooleanCheckbox id="activo" value="#{cuentaBancoController.selected.activo}" required="true" requiredMessage="#{bundle.EditCuentaBancoRequiredMessage_activo}"/>
-                        <p:outputLabel value="#{bundle.CreateCuentaBancoLabel_usuarioCreate}" for="usuarioCreate" />
-                        <p:inputText id="usuarioCreate" value="#{cuentaBancoController.selected.usuarioCreate}" title="#{bundle.CreateCuentaBancoTitle_usuarioCreate}" />
-                        <p:outputLabel value="#{bundle.CreateCuentaBancoLabel_fechaCreate}" for="fechaCreate" />
-                        <p:calendar id="fechaCreate" pattern="MM/dd/yyyy" value="#{cuentaBancoController.selected.fechaCreate}" title="#{bundle.EditCuentaBancoTitle_fechaCreate}"  showOn="button"/>
-                        <p:outputLabel value="#{bundle.CreateCuentaBancoLabel_usuarioUpdate}" for="usuarioUpdate" />
-                        <p:inputText id="usuarioUpdate" value="#{cuentaBancoController.selected.usuarioUpdate}" title="#{bundle.CreateCuentaBancoTitle_usuarioUpdate}" />
-                        <p:outputLabel value="#{bundle.CreateCuentaBancoLabel_fechaUpdate}" for="fechaUpdate" />
-                        <p:calendar id="fechaUpdate" pattern="MM/dd/yyyy" value="#{cuentaBancoController.selected.fechaUpdate}" title="#{bundle.EditCuentaBancoTitle_fechaUpdate}"  showOn="button"/>
+                        <p:selectBooleanCheckbox id="activo" value="#{cuentaBancoController.selected.activo}" />
+                        
+
+                        <p:outputLabel value="#{bundle.CreateCuentaBancoLabel_numero}" for="numero" />
+                        <p:inputText id="numero" value="#{cuentaBancoController.selected.numero}" title="#{bundle.CreateCuentaBancoTitle_numero}" />
+
+                        
+                        <p:outputLabel value="Banco" for="bancoIdbanco" />
+                        <p:selectOneMenu id="bancoIdbanco" value="#{cuentaBancoController.selected.bancoIdbanco}" required="true" requiredMessage="#{bundle.EditCuentaBancoRequiredMessage_bancoIdbanco}">
+                            <f:selectItems value="#{bancoController.itemsAvailableSelectOne}"
+                                           var="bancoIdbancoItem"
+                                           itemLabel="#{bancoIdbancoItem.nombre}"
+                                           itemValue="#{bancoIdbancoItem}"/>
+                        </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{cuentaBancoController.create}" value="#{bundle.Save}" update="display,:CuentaBancoListForm:datalist,:growl" oncomplete="handleSubmit(args,'CuentaBancoCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="CuentaBancoCreateDialog.hide()"/>

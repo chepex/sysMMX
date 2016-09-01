@@ -4,6 +4,8 @@ import com.entities.util.JsfUtil;
 import com.entities.util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -24,15 +26,40 @@ public class PagoCompraController implements Serializable {
     @EJB
     private com.entities.PagoCompraFacade ejbFacade;
     @EJB
-    private com.entities.CompraFacade compraFacade;    
+    private com.entities.CompraFacade compraFacade;   
+    @EJB
+    private com.entities.CuentaBancoFacade cuentaBancoFacade;       
     private List<PagoCompra> items = null;
     private List<Compra> lcompra = null;     
+    private List<CuentaBanco> lcuentaBanco = null;       
     private PagoCompra selected;
     private Proveedor proveedor;
+    private Compra selectedCompra;
 
     public PagoCompraController() {
     }
 
+    public Compra getSelectedCompra() {
+        return selectedCompra;
+    }
+
+    public void setSelectedCompra(Compra selectedCompra) {
+        this.selectedCompra = selectedCompra;
+    }
+
+    
+    
+    public List<CuentaBanco> getLcuentaBanco() {
+        return lcuentaBanco;
+    }
+
+    public void setLcuentaBanco(List<CuentaBanco> lcuentaBanco) {
+        this.lcuentaBanco = lcuentaBanco;
+    }
+
+
+    
+    
     public List<Compra> getLcompra() {
         return lcompra;
     }
@@ -64,6 +91,7 @@ public class PagoCompraController implements Serializable {
     }
 
     protected void initializeEmbeddableKey() {
+        selected.setIdpagoCompra(0);
     }
 
     private PagoCompraFacade getFacade() {
@@ -76,11 +104,23 @@ public class PagoCompraController implements Serializable {
         return selected;
     }
 
-    public void create() {
+    public String  create() {
+
+        if(selected.getValor().compareTo(selectedCompra.getSaldo())==1 ){
+            JsfUtil.addErrorMessage("El valor del abono es mayor al saldo de la factura, saldo:"+selectedCompra.getSaldo());
+            return "error";
+        }
+        selectedCompra.setSaldo(selectedCompra.getSaldo().subtract(selected.getValor()));        
+        selected.setCompraIdcompra(this.selectedCompra);
+        selected.setFecha(new Date());
+      compraFacade.edit(selectedCompra);
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("PagoCompraCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
+        consultaPagos();
+        
+        return "ok";
     }
 
     public void update() {
@@ -96,9 +136,9 @@ public class PagoCompraController implements Serializable {
     }
 
     public List<PagoCompra> getItems() {
-        if (items == null) {
+        /*if (items == null) {
             items = getFacade().findAll();
-        }
+        }*/
         return items;
     }
 
@@ -188,5 +228,21 @@ public class PagoCompraController implements Serializable {
         }
    
     }    
+    
+    public void consultaCuenta(){
+   
+    lcuentaBanco = cuentaBancoFacade.findByIdbanco(this.selected.getBancoIdbanco());
+        if(lcuentaBanco.isEmpty()){
+         JsfUtil.addErrorMessage("No se encontraron cuentas asociados a ese banco");
+        }
+   
+    }       
+    
+    public void consultaPagos(){
+        if(selectedCompra!=null){
+            items= this.ejbFacade.findByCompra(this.selectedCompra);
+        }
+        
+    }
 
 }

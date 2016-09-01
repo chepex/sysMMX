@@ -32,14 +32,15 @@
                 </p:panelGrid>
                 <p:panel header="Facturas pendientes">
                     <p:dataTable id="datalist" value="#{pagoCompraController.lcompra}" var="item"
-                                 selectionMode="single" selection="#{CompraController.selected}"
+                                 selectionMode="single" selection="#{pagoCompraController.selectedCompra}"
                                  paginator="true"
                                  rowKey="#{item.idcompra}"
                                  rows="5"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
                         <p:ajax event="rowDblselect" update=":PagoCompraCreateForm"  listener="#{pagoCompraController.prepareCreate()}"  oncomplete="PF('PagoCompraCreateDialog').show()" />    
-                      
+                        <p:ajax event="rowSelect"   update="@form"  listener="#{pagoCompraController.consultaPagos()}"/>
+                        <p:ajax event="rowUnselect" update="@form"/>
 
                         <p:column>
                             <f:facet name="header">
@@ -57,22 +58,69 @@
                                 <f:convertDateTime pattern="dd-MM-yyyy" />
                             </h:outputText>
                         </p:column>    
-
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Total"/>
+                            </f:facet>
+                            <h:outputText value="#{item.total}"/>
+                        </p:column>   
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Saldo"/>
                             </f:facet>
                             <h:outputText value="#{item.saldo}"/>
-                        </p:column>                        
+                        </p:column>  
+                                          
                        
                     </p:dataTable>
                     Doble Click para realizar pago
                 </p:panel>
+                <p:panel header ="Pagos realizados">
+                      <p:dataTable id="datalistPagos" value="#{pagoCompraController.items}" var="item"
+                                 selectionMode="single" selection="#{pagoCompraController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.idpagoCompra}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+                          
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Banco"/>
+                            </f:facet>
+                            <h:outputText value="#{item.bancoIdbanco.nombre}"/>
+                        </p:column>                          
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Cuenta"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cuentaBancoIdcuenta.numero}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPagoCompraTitle_fecha}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fecha}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>                      
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPagoCompraTitle_valor}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.valor}"/>
+                        </p:column>
+                       
+                      
+                    </p:dataTable>
+                    
+                </p:panel>
             </h:form>
 
             <ui:include src="Create.xhtml"/>
-            <ui:include src="Edit.xhtml"/>
-            <ui:include src="View.xhtml"/>
+          
+          
         </ui:define>
     </ui:composition>
 

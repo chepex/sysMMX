@@ -5,9 +5,11 @@
  */
 package com.entities;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -27,4 +29,11 @@ public class CuentaBancoFacade extends AbstractFacade<CuentaBanco> {
         super(CuentaBanco.class);
     }
     
+    public List<CuentaBanco> findByIdbanco(Banco b) {
+       TypedQuery<CuentaBanco> q = null;
+       q = em.createNamedQuery("CuentaBanco.findByIdbanco",CuentaBanco.class)
+            .setParameter("banco", b.getIdbanco());
+
+       return q.getResultList();
+    }     
 }
