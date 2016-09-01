@@ -179,15 +179,30 @@ public class CompraController implements Serializable {
         List<Object[]>  lobjt =  sb_inventario.compraToList(detCompra);
         //sb_inventario.ingresoCompra(selected);
         
-        //Registrar Entrada
-        sb_inventario.createDocumento(selected.getDocumento(), lobjt,"1");
-        
-        selected = this.getFacade().auditCreate(selected);
-        
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CompraCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+        /*tipo de pago*/
+        /*Efectivo*/
+        if(selected.getTipoPagoIdtipoPago().getIdtipoPago().equals(1)){
+            selected.setSaldo(new BigDecimal("0"));
         }
+        /*Credito*/
+        if(selected.getTipoPagoIdtipoPago().getIdtipoPago().equals(2)){
+            selected.setSaldo(this.selected.getTotal());
+        }        
+        //Registrar Entrada
+        String msgDocumento = sb_inventario.createDocumento(selected.getDocumento(), lobjt,"1");
+        
+        if(msgDocumento.equals("ok")){
+            selected = this.getFacade().auditCreate(selected);
+        
+            persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CompraCreated"));
+            if (!JsfUtil.isValidationFailed()) {
+                items = null;    // Invalidate list of items to trigger re-query.
+            }
+        }else{
+             JsfUtil.addErrorMessage(msgDocumento);
+           return "error";
+        }
+        
         
         return "ok";
     }

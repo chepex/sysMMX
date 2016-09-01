@@ -6,12 +6,14 @@
 package com.entities;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -23,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author chepe
+ * @author mmixco
  */
 @Entity
 @Table(name = "transaccion_banco")
@@ -31,16 +33,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "TransaccionBanco.findAll", query = "SELECT t FROM TransaccionBanco t"),
     @NamedQuery(name = "TransaccionBanco.findByIdtransaccionBanco", query = "SELECT t FROM TransaccionBanco t WHERE t.idtransaccionBanco = :idtransaccionBanco"),
-    @NamedQuery(name = "TransaccionBanco.findByIdcuenta", query = "SELECT t FROM TransaccionBanco t WHERE t.idcuenta = :idcuenta"),
-    @NamedQuery(name = "TransaccionBanco.findByIdtipoTransaccion", query = "SELECT t FROM TransaccionBanco t WHERE t.idtipoTransaccion = :idtipoTransaccion"),
-    @NamedQuery(name = "TransaccionBanco.findByFecha", query = "SELECT t FROM TransaccionBanco t WHERE t.fecha = :fecha"),
-    @NamedQuery(name = "TransaccionBanco.findByValor", query = "SELECT t FROM TransaccionBanco t WHERE t.valor = :valor"),
     @NamedQuery(name = "TransaccionBanco.findByDescripcion", query = "SELECT t FROM TransaccionBanco t WHERE t.descripcion = :descripcion"),
+    @NamedQuery(name = "TransaccionBanco.findByFecha", query = "SELECT t FROM TransaccionBanco t WHERE t.fecha = :fecha"),
+    @NamedQuery(name = "TransaccionBanco.findByFechaCreate", query = "SELECT t FROM TransaccionBanco t WHERE t.fechaCreate = :fechaCreate"),
+    @NamedQuery(name = "TransaccionBanco.findByFechaUpdate", query = "SELECT t FROM TransaccionBanco t WHERE t.fechaUpdate = :fechaUpdate"),
     @NamedQuery(name = "TransaccionBanco.findByReferencia", query = "SELECT t FROM TransaccionBanco t WHERE t.referencia = :referencia"),
     @NamedQuery(name = "TransaccionBanco.findByUsuarioCreate", query = "SELECT t FROM TransaccionBanco t WHERE t.usuarioCreate = :usuarioCreate"),
-    @NamedQuery(name = "TransaccionBanco.findByFechaCreate", query = "SELECT t FROM TransaccionBanco t WHERE t.fechaCreate = :fechaCreate"),
     @NamedQuery(name = "TransaccionBanco.findByUsuarioUpdate", query = "SELECT t FROM TransaccionBanco t WHERE t.usuarioUpdate = :usuarioUpdate"),
-    @NamedQuery(name = "TransaccionBanco.findByFechaUpdate", query = "SELECT t FROM TransaccionBanco t WHERE t.fechaUpdate = :fechaUpdate")})
+    @NamedQuery(name = "TransaccionBanco.findByValor", query = "SELECT t FROM TransaccionBanco t WHERE t.valor = :valor")})
 public class TransaccionBanco implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -48,59 +48,44 @@ public class TransaccionBanco implements Serializable {
     @NotNull
     @Column(name = "idtransaccion_banco")
     private Integer idtransaccionBanco;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "idcuenta")
-    private int idcuenta;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "idtipo_transaccion")
-    private int idtipoTransaccion;
-    @Basic(optional = false)
-    @NotNull
+    @Size(max = 255)
+    @Column(name = "descripcion")
+    private String descripcion;
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "valor")
-    private BigDecimal valor;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 80)
-    @Column(name = "descripcion")
-    private String descripcion;
-    @Size(max = 80)
-    @Column(name = "referencia")
-    private String referencia;
-    @Size(max = 45)
-    @Column(name = "usuario_create")
-    private String usuarioCreate;
     @Column(name = "fecha_create")
     @Temporal(TemporalType.DATE)
     private Date fechaCreate;
-    @Size(max = 45)
-    @Column(name = "usuario_update")
-    private String usuarioUpdate;
     @Column(name = "fecha_update")
     @Temporal(TemporalType.DATE)
     private Date fechaUpdate;
+    @Size(max = 255)
+    @Column(name = "referencia")
+    private String referencia;
+    @Size(max = 255)
+    @Column(name = "usuario_create")
+    private String usuarioCreate;
+    @Size(max = 255)
+    @Column(name = "usuario_update")
+    private String usuarioUpdate;
+    @Column(name = "valor")
+    private BigInteger valor;
+    @JoinColumn(name = "cuenta_banco_idcuenta", referencedColumnName = "idcuenta")
+    @ManyToOne(optional = false)
+    private CuentaBanco cuentaBancoIdcuenta;
+    @JoinColumn(name = "banco_idbanco", referencedColumnName = "idbanco")
+    @ManyToOne(optional = false)
+    private Banco bancoIdbanco;
+    @JoinColumn(name = "tipo_transaccion_idtipo_transaccion", referencedColumnName = "idtipo_transaccion")
+    @ManyToOne(optional = false)
+    private TipoTransaccion tipoTransaccionIdtipoTransaccion;
 
     public TransaccionBanco() {
     }
 
     public TransaccionBanco(Integer idtransaccionBanco) {
         this.idtransaccionBanco = idtransaccionBanco;
-    }
-
-    public TransaccionBanco(Integer idtransaccionBanco, int idcuenta, int idtipoTransaccion, Date fecha, BigDecimal valor, String descripcion) {
-        this.idtransaccionBanco = idtransaccionBanco;
-        this.idcuenta = idcuenta;
-        this.idtipoTransaccion = idtipoTransaccion;
-        this.fecha = fecha;
-        this.valor = valor;
-        this.descripcion = descripcion;
     }
 
     public Integer getIdtransaccionBanco() {
@@ -111,20 +96,12 @@ public class TransaccionBanco implements Serializable {
         this.idtransaccionBanco = idtransaccionBanco;
     }
 
-    public int getIdcuenta() {
-        return idcuenta;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setIdcuenta(int idcuenta) {
-        this.idcuenta = idcuenta;
-    }
-
-    public int getIdtipoTransaccion() {
-        return idtipoTransaccion;
-    }
-
-    public void setIdtipoTransaccion(int idtipoTransaccion) {
-        this.idtipoTransaccion = idtipoTransaccion;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public Date getFecha() {
@@ -135,20 +112,20 @@ public class TransaccionBanco implements Serializable {
         this.fecha = fecha;
     }
 
-    public BigDecimal getValor() {
-        return valor;
+    public Date getFechaCreate() {
+        return fechaCreate;
     }
 
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
+    public void setFechaCreate(Date fechaCreate) {
+        this.fechaCreate = fechaCreate;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public Date getFechaUpdate() {
+        return fechaUpdate;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setFechaUpdate(Date fechaUpdate) {
+        this.fechaUpdate = fechaUpdate;
     }
 
     public String getReferencia() {
@@ -167,14 +144,6 @@ public class TransaccionBanco implements Serializable {
         this.usuarioCreate = usuarioCreate;
     }
 
-    public Date getFechaCreate() {
-        return fechaCreate;
-    }
-
-    public void setFechaCreate(Date fechaCreate) {
-        this.fechaCreate = fechaCreate;
-    }
-
     public String getUsuarioUpdate() {
         return usuarioUpdate;
     }
@@ -183,12 +152,36 @@ public class TransaccionBanco implements Serializable {
         this.usuarioUpdate = usuarioUpdate;
     }
 
-    public Date getFechaUpdate() {
-        return fechaUpdate;
+    public BigInteger getValor() {
+        return valor;
     }
 
-    public void setFechaUpdate(Date fechaUpdate) {
-        this.fechaUpdate = fechaUpdate;
+    public void setValor(BigInteger valor) {
+        this.valor = valor;
+    }
+
+    public CuentaBanco getCuentaBancoIdcuenta() {
+        return cuentaBancoIdcuenta;
+    }
+
+    public void setCuentaBancoIdcuenta(CuentaBanco cuentaBancoIdcuenta) {
+        this.cuentaBancoIdcuenta = cuentaBancoIdcuenta;
+    }
+
+    public Banco getBancoIdbanco() {
+        return bancoIdbanco;
+    }
+
+    public void setBancoIdbanco(Banco bancoIdbanco) {
+        this.bancoIdbanco = bancoIdbanco;
+    }
+
+    public TipoTransaccion getTipoTransaccionIdtipoTransaccion() {
+        return tipoTransaccionIdtipoTransaccion;
+    }
+
+    public void setTipoTransaccionIdtipoTransaccion(TipoTransaccion tipoTransaccionIdtipoTransaccion) {
+        this.tipoTransaccionIdtipoTransaccion = tipoTransaccionIdtipoTransaccion;
     }
 
     @Override

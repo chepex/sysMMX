@@ -20,17 +20,17 @@
                           <p:autoComplete id="proveedor" minQueryLength="3" 
                                           value="#{pagoCompraController.proveedor}"                                         
                                          var="producto"
-                                         itemLabel="#{producto.nombre}" 
+                                         itemLabel="#{producto.nombre }" 
                                          itemValue="#{producto}"
                                          completeMethod="#{proveedorController.autoCompleteProveedor}" 
                                         converter="#{ProveedorControllerConverter}" 
                                                                                 
                                         effect="fade" >
-                              <p:ajax  event="itemSelect"  listener="#{pagoCompraController.consultaPendiente()}" update="@form" />
+                              <p:ajax  event="itemSelect"  listener="#{pagoCompraController.consultaPendiente()}" update="@form :growl" />
                         </p:autoComplete>  
                       
                 </p:panelGrid>
-                <p:panel header="#{bundle.ListPagoCompraTitle}">
+                <p:panel header="Facturas pendientes">
                     <p:dataTable id="datalist" value="#{pagoCompraController.lcompra}" var="item"
                                  selectionMode="single" selection="#{CompraController.selected}"
                                  paginator="true"
@@ -38,7 +38,7 @@
                                  rows="5"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
-
+                        <p:ajax event="rowDblselect" update=":PagoCompraCreateForm"  listener="#{pagoCompraController.prepareCreate()}"  oncomplete="PF('PagoCompraCreateDialog').show()" />    
                       
 
                         <p:column>
@@ -66,6 +66,7 @@
                         </p:column>                        
                        
                     </p:dataTable>
+                    Doble Click para realizar pago
                 </p:panel>
             </h:form>
 

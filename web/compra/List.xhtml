@@ -30,14 +30,28 @@
                     
                 </p:panelGrid>
                 <p:panel header="Compras" >
-                    <p:panelGrid columns="4"  style=" border-style: hidden !important;" rendered="#{compraController.selected != null}">
+                    <p:panelGrid columns="6"  style=" border-style: hidden !important;" rendered="#{compraController.selected != null}">
                         <p:outputLabel value="Proveedor" for="proveedorIdproveedor" />
-                        <p:selectOneMenu id="proveedorIdproveedor" filter="true" filterMatchMode="contains" value="#{compraController.selected.proveedorIdproveedor}" required="true" requiredMessage="#{bundle.EditCompraRequiredMessage_proveedorIdproveedor}">
-                            <f:selectItems value="#{proveedorController.itemsAvailableSelectOne}"
-                                           var="proveedorIdproveedorItem"
-                                           itemLabel="#{proveedorIdproveedorItem.nombre}"
-                                           itemValue="#{proveedorIdproveedorItem}"/>
-                        </p:selectOneMenu>
+                        <p:autoComplete id="proveedorIdproveedor" minQueryLength="3" 
+                                        value="#{compraController.selected.proveedorIdproveedor}"
+                                         var="proveedor"
+                                         itemLabel="#{proveedor.nombre}" 
+                                         itemValue="#{proveedor}"
+                                        completeMethod="#{proveedorController.autoCompleteProveedor}" 
+                                        converter="#{ProveedorControllerConverter}" 
+                                                                                
+                                        effect="fade" >
+                              <p:ajax  event="itemSelect"  listener="#{compraController.updateExistencia}" update="existencia vprecio" />
+                        </p:autoComplete>
+                        
+                        <p:outputLabel value="Tipo Pago" for="tipoPagoIdtipoPago" />
+                        <p:selectOneMenu id="tipoPagoIdtipoPago" value="#{compraController.selected.tipoPagoIdtipoPago}" required="true" requiredMessage="#{bundle.EditCompraRequiredMessage_tipoPagoIdtipoPago}">
+                            <f:selectItems value="#{tipoPagoController.itemsAvailableSelectOne}"
+                                           var="tipoPagoIdtipoPagoItem"
+                                           itemLabel="#{tipoPagoIdtipoPagoItem.nombre}"
+                                           itemValue="#{tipoPagoIdtipoPagoItem}"/>
+                        </p:selectOneMenu>                        
+                        
                          <p:outputLabel value="Factura" for="documento" />
                         <p:inputText id="documento" value="#{compraController.selected.documento}"    title="#{bundle.CreateCompraTitle_documento}" />
                     </p:panelGrid>

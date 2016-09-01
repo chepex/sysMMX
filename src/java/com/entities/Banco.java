@@ -18,13 +18,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author chepe
+ * @author mmixco
  */
 @Entity
 @Table(name = "banco")
@@ -32,13 +31,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Banco.findAll", query = "SELECT b FROM Banco b"),
     @NamedQuery(name = "Banco.findByIdbanco", query = "SELECT b FROM Banco b WHERE b.idbanco = :idbanco"),
-    @NamedQuery(name = "Banco.findByNombre", query = "SELECT b FROM Banco b WHERE b.nombre = :nombre"),
-    @NamedQuery(name = "Banco.findByDescripcion", query = "SELECT b FROM Banco b WHERE b.descripcion = :descripcion"),
     @NamedQuery(name = "Banco.findByActivo", query = "SELECT b FROM Banco b WHERE b.activo = :activo"),
-    @NamedQuery(name = "Banco.findByUsuarioCreate", query = "SELECT b FROM Banco b WHERE b.usuarioCreate = :usuarioCreate"),
+    @NamedQuery(name = "Banco.findByDescripcion", query = "SELECT b FROM Banco b WHERE b.descripcion = :descripcion"),
+    @NamedQuery(name = "Banco.findByNombreCodigo", query = "SELECT b FROM Banco b WHERE b.nombre like :nombre"),
+
     @NamedQuery(name = "Banco.findByFechaCreate", query = "SELECT b FROM Banco b WHERE b.fechaCreate = :fechaCreate"),
-    @NamedQuery(name = "Banco.findByUsuarioUpdate", query = "SELECT b FROM Banco b WHERE b.usuarioUpdate = :usuarioUpdate"),
-    @NamedQuery(name = "Banco.findByFechaUpdate", query = "SELECT b FROM Banco b WHERE b.fechaUpdate = :fechaUpdate")})
+    @NamedQuery(name = "Banco.findByFechaUpdate", query = "SELECT b FROM Banco b WHERE b.fechaUpdate = :fechaUpdate"),
+    @NamedQuery(name = "Banco.findByNombre", query = "SELECT b FROM Banco b WHERE b.nombre = :nombre"),
+    @NamedQuery(name = "Banco.findByUsuarioCreate", query = "SELECT b FROM Banco b WHERE b.usuarioCreate = :usuarioCreate"),
+    @NamedQuery(name = "Banco.findByUsuarioUpdate", query = "SELECT b FROM Banco b WHERE b.usuarioUpdate = :usuarioUpdate")})
 public class Banco implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,42 +47,32 @@ public class Banco implements Serializable {
     @Basic(optional = false)
     @Column(name = "idbanco")
     private Integer idbanco;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "nombre")
-    private String nombre;
-    @Size(max = 45)
+    @Column(name = "activo")
+    private Boolean activo;
+    @Size(max = 255)
     @Column(name = "descripcion")
     private String descripcion;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "activo")
-    private boolean activo;
-    @Size(max = 45)
-    @Column(name = "usuario_create")
-    private String usuarioCreate;
     @Column(name = "fecha_create")
     @Temporal(TemporalType.DATE)
     private Date fechaCreate;
-    @Size(max = 45)
-    @Column(name = "usuario_update")
-    private String usuarioUpdate;
     @Column(name = "fecha_update")
     @Temporal(TemporalType.DATE)
     private Date fechaUpdate;
+    @Size(max = 255)
+    @Column(name = "nombre")
+    private String nombre;
+    @Size(max = 255)
+    @Column(name = "usuario_create")
+    private String usuarioCreate;
+    @Size(max = 255)
+    @Column(name = "usuario_update")
+    private String usuarioUpdate;
 
     public Banco() {
     }
 
     public Banco(Integer idbanco) {
         this.idbanco = idbanco;
-    }
-
-    public Banco(Integer idbanco, String nombre, boolean activo) {
-        this.idbanco = idbanco;
-        this.nombre = nombre;
-        this.activo = activo;
     }
 
     public Integer getIdbanco() {
@@ -92,12 +83,12 @@ public class Banco implements Serializable {
         this.idbanco = idbanco;
     }
 
-    public String getNombre() {
-        return nombre;
+    public Boolean getActivo() {
+        return activo;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
     }
 
     public String getDescripcion() {
@@ -108,12 +99,28 @@ public class Banco implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public boolean getActivo() {
-        return activo;
+    public Date getFechaCreate() {
+        return fechaCreate;
     }
 
-    public void setActivo(boolean activo) {
-        this.activo = activo;
+    public void setFechaCreate(Date fechaCreate) {
+        this.fechaCreate = fechaCreate;
+    }
+
+    public Date getFechaUpdate() {
+        return fechaUpdate;
+    }
+
+    public void setFechaUpdate(Date fechaUpdate) {
+        this.fechaUpdate = fechaUpdate;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getUsuarioCreate() {
@@ -124,28 +131,12 @@ public class Banco implements Serializable {
         this.usuarioCreate = usuarioCreate;
     }
 
-    public Date getFechaCreate() {
-        return fechaCreate;
-    }
-
-    public void setFechaCreate(Date fechaCreate) {
-        this.fechaCreate = fechaCreate;
-    }
-
     public String getUsuarioUpdate() {
         return usuarioUpdate;
     }
 
     public void setUsuarioUpdate(String usuarioUpdate) {
         this.usuarioUpdate = usuarioUpdate;
-    }
-
-    public Date getFechaUpdate() {
-        return fechaUpdate;
-    }
-
-    public void setFechaUpdate(Date fechaUpdate) {
-        this.fechaUpdate = fechaUpdate;
     }
 
     @Override

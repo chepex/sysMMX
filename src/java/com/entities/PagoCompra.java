@@ -11,9 +11,9 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author chepe
+ * @author mmixco
  */
 @Entity
 @Table(name = "pago_compra")
@@ -33,9 +33,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "PagoCompra.findAll", query = "SELECT p FROM PagoCompra p"),
     @NamedQuery(name = "PagoCompra.findByIdpagoCompra", query = "SELECT p FROM PagoCompra p WHERE p.idpagoCompra = :idpagoCompra"),
-    @NamedQuery(name = "PagoCompra.findByIdcompra", query = "SELECT p FROM PagoCompra p WHERE p.idcompra = :idcompra"),
-    @NamedQuery(name = "PagoCompra.findByIdbanco", query = "SELECT p FROM PagoCompra p WHERE p.idbanco = :idbanco"),
-    @NamedQuery(name = "PagoCompra.findByIdcuenta", query = "SELECT p FROM PagoCompra p WHERE p.idcuenta = :idcuenta"),
     @NamedQuery(name = "PagoCompra.findByValor", query = "SELECT p FROM PagoCompra p WHERE p.valor = :valor"),
     @NamedQuery(name = "PagoCompra.findByFecha", query = "SELECT p FROM PagoCompra p WHERE p.fecha = :fecha"),
     @NamedQuery(name = "PagoCompra.findByUsuarioCreate", query = "SELECT p FROM PagoCompra p WHERE p.usuarioCreate = :usuarioCreate"),
@@ -45,29 +42,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class PagoCompra implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "idpago_compra")
     private Integer idpagoCompra;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "idcompra")
-    private int idcompra;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "idbanco")
-    private BigDecimal idbanco;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "idcuenta")
-    private int idcuenta;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "valor")
     private BigDecimal valor;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
@@ -83,6 +64,15 @@ public class PagoCompra implements Serializable {
     @Column(name = "fecha_update")
     @Temporal(TemporalType.DATE)
     private Date fechaUpdate;
+    @JoinColumn(name = "cuenta_banco_idcuenta", referencedColumnName = "idcuenta")
+    @ManyToOne(optional = false)
+    private CuentaBanco cuentaBancoIdcuenta;
+    @JoinColumn(name = "banco_idbanco", referencedColumnName = "idbanco")
+    @ManyToOne(optional = false)
+    private Banco bancoIdbanco;
+    @JoinColumn(name = "compra_idcompra", referencedColumnName = "idcompra")
+    @ManyToOne(optional = false)
+    private Compra compraIdcompra;
 
     public PagoCompra() {
     }
@@ -91,45 +81,12 @@ public class PagoCompra implements Serializable {
         this.idpagoCompra = idpagoCompra;
     }
 
-    public PagoCompra(Integer idpagoCompra, int idcompra, BigDecimal idbanco, int idcuenta, BigDecimal valor, Date fecha) {
-        this.idpagoCompra = idpagoCompra;
-        this.idcompra = idcompra;
-        this.idbanco = idbanco;
-        this.idcuenta = idcuenta;
-        this.valor = valor;
-        this.fecha = fecha;
-    }
-
     public Integer getIdpagoCompra() {
         return idpagoCompra;
     }
 
     public void setIdpagoCompra(Integer idpagoCompra) {
         this.idpagoCompra = idpagoCompra;
-    }
-
-    public int getIdcompra() {
-        return idcompra;
-    }
-
-    public void setIdcompra(int idcompra) {
-        this.idcompra = idcompra;
-    }
-
-    public BigDecimal getIdbanco() {
-        return idbanco;
-    }
-
-    public void setIdbanco(BigDecimal idbanco) {
-        this.idbanco = idbanco;
-    }
-
-    public int getIdcuenta() {
-        return idcuenta;
-    }
-
-    public void setIdcuenta(int idcuenta) {
-        this.idcuenta = idcuenta;
     }
 
     public BigDecimal getValor() {
@@ -178,6 +135,30 @@ public class PagoCompra implements Serializable {
 
     public void setFechaUpdate(Date fechaUpdate) {
         this.fechaUpdate = fechaUpdate;
+    }
+
+    public CuentaBanco getCuentaBancoIdcuenta() {
+        return cuentaBancoIdcuenta;
+    }
+
+    public void setCuentaBancoIdcuenta(CuentaBanco cuentaBancoIdcuenta) {
+        this.cuentaBancoIdcuenta = cuentaBancoIdcuenta;
+    }
+
+    public Banco getBancoIdbanco() {
+        return bancoIdbanco;
+    }
+
+    public void setBancoIdbanco(Banco bancoIdbanco) {
+        this.bancoIdbanco = bancoIdbanco;
+    }
+
+    public Compra getCompraIdcompra() {
+        return compraIdcompra;
+    }
+
+    public void setCompraIdcompra(Compra compraIdcompra) {
+        this.compraIdcompra = compraIdcompra;
     }
 
     @Override

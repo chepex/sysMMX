@@ -11,7 +11,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author chepe
+ * @author mmixco
  */
 @Stateless
 public class TransaccionBancoFacade extends AbstractFacade<TransaccionBanco> {

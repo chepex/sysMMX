@@ -99,33 +99,39 @@ public class SB_inventario {
        2- cantidad       
        */
        
-        List<InvDetm> detInv = new ArrayList<InvDetm>(); 
-        
-        Documento doc = documentoFacade.find(Integer.parseInt(documento));
-        InvMov inv = new InvMov(1);
-        inv.setFecha(new Date());
-        inv.setBodegaIdbodega(new Bodega(1));
-        inv.setDocumentoIddocumento(doc);
-        inv.setNumReferencia(numReferencia );
-        inv.setUsuarioIdusuario(new Usuario(1));
-         
-        
-        for(Object[] obj: lObject){
-             InvDetm invd = new InvDetm(1);
-             String idP = obj[0].toString();
-             String cant = obj[1].toString();
-             System.out.println("idProducto"+idP);
-             System.out.println("cantidad"+cant);
-             Producto p= productoFacade.find(Integer.parseInt( idP));
-             invd.setCantidad( Integer.parseInt(cant));
-             invd.setInvMovIdinvMov(inv);
-             invd.setProductoIdproducto(p);
-             detInv.add(invd);
-        }
-        inv.setInvDetmList(detInv);
-        actulizaExistencia( inv);
-        
-        invMovFacade.edit(inv);
+   
+            List<InvDetm> detInv = new ArrayList<InvDetm>(); 
+
+            Documento doc = documentoFacade.find(Integer.parseInt(documento));
+            if(doc==null){
+                return "Favor crear un documento de ingreso";
+            }
+            InvMov inv = new InvMov(1);
+            inv.setFecha(new Date());
+            inv.setBodegaIdbodega(new Bodega(1));
+            inv.setDocumentoIddocumento(doc);
+            inv.setNumReferencia(numReferencia );
+            inv.setUsuarioIdusuario(new Usuario(1));
+
+
+            for(Object[] obj: lObject){
+                 InvDetm invd = new InvDetm(1);
+                 String idP = obj[0].toString();
+                 String cant = obj[1].toString();
+                 System.out.println("idProducto"+idP);
+                 System.out.println("cantidad"+cant);
+                 Producto p= productoFacade.find(Integer.parseInt( idP));
+                 invd.setCantidad( Integer.parseInt(cant));
+                 invd.setInvMovIdinvMov(inv);
+                 invd.setProductoIdproducto(p);
+                 detInv.add(invd);
+            }
+            inv.setInvDetmList(detInv);
+            actulizaExistencia( inv);
+
+            invMovFacade.edit(inv);
+   
+       
        
         return "ok";
    }   

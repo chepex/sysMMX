@@ -35,15 +35,9 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTransaccionBancoTitle_idcuenta}"/>
+                                <h:outputText value="#{bundle.ListTransaccionBancoTitle_descripcion}"/>
                             </f:facet>
-                            <h:outputText value="#{item.idcuenta}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTransaccionBancoTitle_idtipoTransaccion}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idtipoTransaccion}"/>
+                            <h:outputText value="#{item.descripcion}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -55,15 +49,19 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTransaccionBancoTitle_valor}"/>
+                                <h:outputText value="#{bundle.ListTransaccionBancoTitle_fechaCreate}"/>
                             </f:facet>
-                            <h:outputText value="#{item.valor}"/>
+                            <h:outputText value="#{item.fechaCreate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTransaccionBancoTitle_descripcion}"/>
+                                <h:outputText value="#{bundle.ListTransaccionBancoTitle_fechaUpdate}"/>
                             </f:facet>
-                            <h:outputText value="#{item.descripcion}"/>
+                            <h:outputText value="#{item.fechaUpdate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -79,25 +77,33 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTransaccionBancoTitle_fechaCreate}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.fechaCreate}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTransaccionBancoTitle_usuarioUpdate}"/>
                             </f:facet>
                             <h:outputText value="#{item.usuarioUpdate}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTransaccionBancoTitle_fechaUpdate}"/>
+                                <h:outputText value="#{bundle.ListTransaccionBancoTitle_valor}"/>
                             </f:facet>
-                            <h:outputText value="#{item.fechaUpdate}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
+                            <h:outputText value="#{item.valor}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTransaccionBancoTitle_cuentaBancoIdcuenta}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cuentaBancoIdcuenta}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTransaccionBancoTitle_bancoIdbanco}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.bancoIdbanco}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTransaccionBancoTitle_tipoTransaccionIdtipoTransaccion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tipoTransaccionIdtipoTransaccion}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{transaccionBancoController.prepareCreate}" update=":TransaccionBancoCreateForm" oncomplete="PF('TransaccionBancoCreateDialog').show()"/>

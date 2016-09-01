@@ -5,13 +5,15 @@
  */
 package com.entities;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
- * @author chepe
+ * @author mmixco
  */
 @Stateless
 public class BancoFacade extends AbstractFacade<Banco> {
@@ -26,5 +28,15 @@ public class BancoFacade extends AbstractFacade<Banco> {
     public BancoFacade() {
         super(Banco.class);
     }
+    
+        public List<Banco> findByNombreCodigo(String  nombre) {
+        TypedQuery<Banco> q = null;
+         
+             q = em.createNamedQuery("Banco.findByNombreCodigo",Banco.class)               
+                .setParameter("nombre", "%"+nombre+"%");
+              
+        return q.getResultList();
+    }        
+        
     
 }

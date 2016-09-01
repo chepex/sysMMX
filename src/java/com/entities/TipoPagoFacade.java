@@ -5,16 +5,18 @@
  */
 package com.entities;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
  * @author mmixco
  */
 @Stateless
-public class TipoTransaccionFacade extends AbstractFacade<TipoTransaccion> {
+public class TipoPagoFacade extends AbstractFacade<TipoPago> {
     @PersistenceContext(unitName = "sysMMXPU")
     private EntityManager em;
 
@@ -23,8 +25,16 @@ public class TipoTransaccionFacade extends AbstractFacade<TipoTransaccion> {
         return em;
     }
 
-    public TipoTransaccionFacade() {
-        super(TipoTransaccion.class);
+    public TipoPagoFacade() {
+        super(TipoPago.class);
     }
+    
+    
+    @Override
+    public List<TipoPago> findAll() {
+        TypedQuery<TipoPago> q = null;         
+             q = em.createNamedQuery("TipoPago.findByActivo",TipoPago.class) ;   
+        return q.getResultList();
+    }      
     
 }

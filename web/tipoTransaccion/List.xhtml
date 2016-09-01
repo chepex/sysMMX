@@ -35,6 +35,28 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTipoTransaccionTitle_activo}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.activo}" disabled="true"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTipoTransaccionTitle_fechaCreate}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaCreate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTipoTransaccionTitle_fechaUpdate}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaUpdate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTipoTransaccionTitle_nombre}"/>
                             </f:facet>
                             <h:outputText value="#{item.nombre}"/>
@@ -47,37 +69,15 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTipoTransaccionTitle_activo}"/>
-                            </f:facet>
-                            <p:selectBooleanCheckbox value="#{item.activo}" disabled="true"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTipoTransaccionTitle_usuarioCreate}"/>
                             </f:facet>
                             <h:outputText value="#{item.usuarioCreate}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTipoTransaccionTitle_fechaCreate}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.fechaCreate}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTipoTransaccionTitle_usuarioUpdate}"/>
                             </f:facet>
                             <h:outputText value="#{item.usuarioUpdate}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTipoTransaccionTitle_fechaUpdate}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.fechaUpdate}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoTransaccionController.prepareCreate}" update=":TipoTransaccionCreateForm" oncomplete="PF('TipoTransaccionCreateDialog').show()"/>

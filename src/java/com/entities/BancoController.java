@@ -41,6 +41,7 @@ public class BancoController implements Serializable {
     }
 
     protected void initializeEmbeddableKey() {
+        selected.setIdbanco(1);
     }
 
     private BancoFacade getFacade() {
@@ -155,5 +156,11 @@ public class BancoController implements Serializable {
         }
 
     }
+    
+    public List<Banco> autoCompleteBanco(String valor) {
+        
+        return getFacade().findByNombreCodigo(valor);
+        
+    }          
 
 }

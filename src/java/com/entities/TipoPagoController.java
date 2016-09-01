@@ -17,46 +17,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@ManagedBean(name = "pagoCompraController")
+@ManagedBean(name = "tipoPagoController")
 @SessionScoped
-public class PagoCompraController implements Serializable {
+public class TipoPagoController implements Serializable {
 
     @EJB
-    private com.entities.PagoCompraFacade ejbFacade;
-    @EJB
-    private com.entities.CompraFacade compraFacade;    
-    private List<PagoCompra> items = null;
-    private List<Compra> lcompra = null;     
-    private PagoCompra selected;
-    private Proveedor proveedor;
+    private com.entities.TipoPagoFacade ejbFacade;
+    private List<TipoPago> items = null;
+    private TipoPago selected;
 
-    public PagoCompraController() {
+    public TipoPagoController() {
     }
 
-    public List<Compra> getLcompra() {
-        return lcompra;
-    }
-
-    public void setLcompra(List<Compra> lcompra) {
-        this.lcompra = lcompra;
-    }
-
-    
-    
-    public Proveedor getProveedor() {
-        return proveedor;
-    }
-
-    public void setProveedor(Proveedor proveedor) {
-        this.proveedor = proveedor;
-    }
-
-    
-    public PagoCompra getSelected() {
+    public TipoPago getSelected() {
         return selected;
     }
 
-    public void setSelected(PagoCompra selected) {
+    public void setSelected(TipoPago selected) {
         this.selected = selected;
     }
 
@@ -66,36 +43,36 @@ public class PagoCompraController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private PagoCompraFacade getFacade() {
+    private TipoPagoFacade getFacade() {
         return ejbFacade;
     }
 
-    public PagoCompra prepareCreate() {
-        selected = new PagoCompra();
+    public TipoPago prepareCreate() {
+        selected = new TipoPago();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("PagoCompraCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TipoPagoCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("PagoCompraUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TipoPagoUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("PagoCompraDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TipoPagoDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<PagoCompra> getItems() {
+    public List<TipoPago> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -130,24 +107,24 @@ public class PagoCompraController implements Serializable {
         }
     }
 
-    public List<PagoCompra> getItemsAvailableSelectMany() {
+    public List<TipoPago> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<PagoCompra> getItemsAvailableSelectOne() {
+    public List<TipoPago> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = PagoCompra.class)
-    public static class PagoCompraControllerConverter implements Converter {
+    @FacesConverter(forClass = TipoPago.class)
+    public static class TipoPagoControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            PagoCompraController controller = (PagoCompraController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "pagoCompraController");
+            TipoPagoController controller = (TipoPagoController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tipoPagoController");
             return controller.getFacade().find(getKey(value));
         }
 
@@ -168,25 +145,15 @@ public class PagoCompraController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof PagoCompra) {
-                PagoCompra o = (PagoCompra) object;
-                return getStringKey(o.getIdpagoCompra());
+            if (object instanceof TipoPago) {
+                TipoPago o = (TipoPago) object;
+                return getStringKey(o.getIdtipoPago());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), PagoCompra.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TipoPago.class.getName()});
                 return null;
             }
         }
 
     }
-    
-    
-    public void consultaPendiente(){
-   
-    lcompra = compraFacade.findByProveedorPendiente(this.proveedor);
-        if(lcompra.isEmpty()){
-         JsfUtil.addErrorMessage("No se encontraron facturas pendientes");
-        }
-   
-    }    
 
 }
