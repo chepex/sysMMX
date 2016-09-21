@@ -33,7 +33,15 @@
                                            var="clienteIdclienteItem"
                                            itemLabel="#{clienteIdclienteItem.nombre}"
                                            itemValue="#{clienteIdclienteItem}"/>
-                        </p:selectOneMenu>                          
+                        </p:selectOneMenu>    
+                        
+                    <p:outputLabel value="Tipo Pago" for="tipoPagoIdtipoPago" />
+                        <p:selectOneMenu id="tipoPagoIdtipoPago" value="#{facturaController.selected.tipoPagoIdtipoPago}" required="true" requiredMessage="#{bundle.EditCompraRequiredMessage_tipoPagoIdtipoPago}">
+                            <f:selectItems value="#{tipoPagoController.itemsAvailableSelectOne}"
+                                           var="tipoPagoIdtipoPagoItem"
+                                           itemLabel="#{tipoPagoIdtipoPagoItem.nombre}"
+                                           itemValue="#{tipoPagoIdtipoPagoItem}"/>
+                        </p:selectOneMenu>                           
                             
                         <p:outputLabel value="#{bundle.CreateFacturaLabel_documento}" for="documento" />    
                         <p:inputText id="documento" value="#{facturaController.selected.documento}" title="#{bundle.CreateFacturaTitle_documento}" />

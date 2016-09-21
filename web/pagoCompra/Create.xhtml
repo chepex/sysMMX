@@ -8,11 +8,11 @@
 
     <ui:composition>
 
-        <p:dialog id="PagoCompraCreateDlg" widgetVar="PagoCompraCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreatePagoCompraTitle}">
+        <p:dialog id="PagoCompraCreateDlg" widgetVar="PagoCompraCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Crear pago ">
             <h:form id="PagoCompraCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{pagoCompraController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreatePagoCompraLabel_idbanco}" for="idbanco" />
+                        <p:outputLabel value="Banco" for="idbanco" />
                         <p:autoComplete id="idbanco" minQueryLength="3" 
                                         value="#{pagoCompraController.selected.bancoIdbanco}"                                         
                                         var="banco"
@@ -27,7 +27,7 @@
                         
                         
                         
-                        <p:outputLabel value="Banco" for="bancoIdbanco" />
+                        <p:outputLabel value="Cuenta" for="bancoIdbanco" />
                         <p:selectOneMenu id="bancoIdbanco" value="#{pagoCompraController.selected.cuentaBancoIdcuenta}" required="true" requiredMessage="#{bundle.EditCuentaBancoRequiredMessage_bancoIdbanco}">
                             <f:selectItems value="#{pagoCompraController.lcuentaBanco}"
                                            var="cuentaBancoItem"

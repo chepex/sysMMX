@@ -15,51 +15,48 @@
 
         <ui:define name="body">
             <h:form id="PagoFacturaListForm">
+                   <p:panelGrid columns="2" >
+                     <p:outputLabel value="Cliente" for="cliente" />
+                          <p:autoComplete id="cliente" minQueryLength="3" 
+                                        value="#{pagoFacturaController.cliente}"                                         
+                                        var="cliente"
+                                        itemLabel="#{cliente.nombre }" 
+                                        itemValue="#{cliente}"
+                                        completeMethod="#{clienteController.autoCompleteCliente(valor)}" 
+                                        converter="#{ClienteControllerConverter}" 
+                                        effect="fade" >
+                              <p:ajax  event="itemSelect"  listener="#{pagoFacturaController.consultaPendiente()}" update="@form :growl" />
+                        </p:autoComplete>  
+                      
+                </p:panelGrid>
                 <p:panel header="#{bundle.ListPagoFacturaTitle}">
-                    <p:dataTable id="datalist" value="#{pagoFacturaController.items}" var="item"
-                                 selectionMode="single" selection="#{pagoFacturaController.selected}"
+                    <p:dataTable id="datalist" value="#{pagoFacturaController.lfactura}" var="item"
+                                 selectionMode="single" selection="#{pagoFacturaController.selectedFactura}"
                                  paginator="true"
-                                 rowKey="#{item.idpagoFactura}"
+                                 rowKey="#{item.idfactura}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowSelect"   update="@form" listener="#{pagoFacturaController.consultaPagos()}" />
+                        <p:ajax event="rowUnselect" update="pagarButton"/>
+                        
 
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPagoFacturaTitle_idpagoFactura}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idpagoFactura}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPagoFacturaTitle_idfactura}"/>
+                                <h:outputText value="Factura"/>
                             </f:facet>
                             <h:outputText value="#{item.idfactura}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPagoFacturaTitle_idbanco}"/>
+                                <h:outputText value="Documento"/>
                             </f:facet>
-                            <h:outputText value="#{item.idbanco}"/>
+                            <h:outputText value="#{item.documento}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPagoFacturaTitle_idcuenta}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idcuenta}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPagoFacturaTitle_valor}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.valor}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPagoFacturaTitle_fecha}"/>
+                                <h:outputText value="Fecha"/>
                             </f:facet>
                             <h:outputText value="#{item.fecha}">
                                 <f:convertDateTime pattern="MM/dd/yyyy" />
@@ -67,51 +64,72 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPagoFacturaTitle_usuarioCreate}"/>
+                                <h:outputText value="Saldo"/>
                             </f:facet>
-                            <h:outputText value="#{item.usuarioCreate}"/>
+                            <h:outputText value="#{item.saldo}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPagoFacturaTitle_fechaCreate}"/>
+                                <h:outputText value="Total"/>
                             </f:facet>
-                            <h:outputText value="#{item.fechaCreate}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
+                            <h:outputText value="#{item.total}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPagoFacturaTitle_usuarioUpdate}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.usuarioUpdate}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPagoFacturaTitle_fechaUpdate}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.fechaUpdate}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPagoFacturaTitle_pagoFacturacol}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.pagoFacturacol}"/>
-                        </p:column>
+   
+                      
+                         
                         <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{pagoFacturaController.prepareCreate}" update=":PagoFacturaCreateForm" oncomplete="PF('PagoFacturaCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":PagoFacturaViewForm" oncomplete="PF('PagoFacturaViewDialog').show()" disabled="#{empty pagoFacturaController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":PagoFacturaEditForm" oncomplete="PF('PagoFacturaEditDialog').show()" disabled="#{empty pagoFacturaController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{pagoFacturaController.destroy}" update=":growl,datalist" disabled="#{empty pagoFacturaController.selected}"/>
+                            <p:commandButton id="pagarButton" icon="ui-icon-plus"  disabled="#{empty pagoFacturaController.selectedFactura}"  value="Pagar" actionListener="#{pagoFacturaController.prepareCreate}" update=":PagoFacturaCreateForm" oncomplete="PF('PagoFacturaCreateDialog').show()"/>
+                            
+                            
                         </f:facet>
                     </p:dataTable>
                 </p:panel>
+                
+                <p:panel header ="Pagos realizados">
+                      <p:dataTable id="datalistPagos" value="#{pagoFacturaController.items}" var="item"
+                                 selectionMode="single" selection="#{pagoFacturaController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.idpagoFactura}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+                          
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Banco"/>
+                            </f:facet>
+                            <h:outputText value="#{item.bancoIdbanco.nombre}"/>
+                        </p:column>                          
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Cuenta"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cuentaBancoIdcuenta.numero}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPagoCompraTitle_fecha}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fecha}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>                      
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPagoCompraTitle_valor}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.valor}"/>
+                        </p:column>
+                       
+                      
+                    </p:dataTable>
+                    
+                </p:panel>                
             </h:form>
 
             <ui:include src="Create.xhtml"/>
-            <ui:include src="Edit.xhtml"/>
-            <ui:include src="View.xhtml"/>
+       
         </ui:define>
     </ui:composition>
 

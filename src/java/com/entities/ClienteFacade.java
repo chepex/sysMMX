@@ -35,6 +35,15 @@ public class ClienteFacade extends AbstractFacade<Cliente> {
              q = em.createNamedQuery("Cliente.findByActivo",Cliente.class) ;   
         return q.getResultList();
     }     
+    
+    public List<Cliente> findByNombreCodigo(String  nombre) {
+        TypedQuery<Cliente> q = null;
+     
+             q = em.createNamedQuery("Cliente.findByNombreCodigo",Cliente.class)               
+                .setParameter("nombre", "%"+nombre+"%");
+              
+        return q.getResultList();
+    }     
         
     
 }

@@ -5,6 +5,7 @@ import com.entities.util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 import java.util.List;
 import java.util.ResourceBundle;
@@ -29,10 +30,21 @@ public class ClienteController implements Serializable {
     private List<Cliente> items = null;
     private Cliente selected;
     private Double porcentajeLimite;
+    private String valorBuscar;
     
 
     public ClienteController() {
     }
+
+    public String getValorBuscar() {
+        return valorBuscar;
+    }
+
+    public void setValorBuscar(String valorBuscar) {
+        this.valorBuscar = valorBuscar;
+    }
+    
+    
 
     public Double getPorcentajeLimite() {
         return porcentajeLimite;
@@ -92,9 +104,9 @@ public class ClienteController implements Serializable {
     }
 
     public List<Cliente> getItems() {
-        if (items == null) {
+      /*  if (items == null) {
             items = getFacade().findAll();
-        }
+        }*/
         return items;
     }
 
@@ -188,7 +200,23 @@ public class ClienteController implements Serializable {
         return vlimite;
     }
     
-  
+    public List<Cliente> autoCompleteCliente(String valor) {
+        
+        return getFacade().findByNombreCodigo(valor);
+        
+    }   
 
+    public void buscar(){
+    
+        this.items= this.ejbFacade.findByNombreCodigo(valorBuscar);
+        selected = null;
+    }
+    
+    public void limpiar(){
+    
+        this.items = new ArrayList<>();
+        selected = null;
+    }
+    
 }
 

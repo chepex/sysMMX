@@ -22,40 +22,41 @@
         <p:growl id="growl" life="3000" />
 
         <p:layout fullPage="true" style="padding: 0em !important; height: 27px;">
-            <p:layoutUnit position="north" header="masaa" style="padding: 0em !important; height: 27px;" >
+            <p:layoutUnit position="north" header="Mi empresa" style="padding: 0em !important; height: 27px;" >
              
             </p:layoutUnit>
 
             <p:layoutUnit position="west" resizable="true" size="200" minSize="40" maxSize="200">
                 
       <h:form id="menuForm">
-        <p:panelMenu id="mprincipal" style="padding: 0em !important; height: 27px;"     >
-                        <p:menuitem value="#{bundle.Home}" outcome="/dashboard/List.xhtml"  icon="ui-icon-home"/>
-                        <p:submenu label="Mantenimientos">
-                            <p:menuitem value="Producto"   icon="fa fa-plus"  outcome="/producto/List.xhtml"    />
-                            <p:menuitem value="Categoria"  outcome="/categoria/List.xhtml" />                            
-                            <p:menuitem value="Rol" outcome="/rol/List.xhtml" />
-                            <p:menuitem value="Usuario"  outcome="/usuario/List.xhtml" />                            
-                            <p:menuitem value="Correlativos" outcome="/correlativo/List.xhtml" icon="ui-icon-home" />
-                        </p:submenu>
-                        <p:submenu label="Compras">
-                            <p:menuitem value="Proveedor" outcome="/proveedor/List.xhtml" />
-                            <p:menuitem value="Compra" outcome="/compra/List.xhtml" />    
-                            <p:menuitem value="Pago Proveedor" outcome="/pagoCompra/List.xhtml" />
-                        </p:submenu>
-                        <p:submenu label="Ventas">
-                            <p:menuitem value="Cliente" outcome="/cliente/List.xhtml" />
-                            <p:menuitem value="Factura" outcome="/factura/List.xhtml" />
-                        </p:submenu>  
-                        <p:submenu label="Inventario">
-                            <p:menuitem value="Documento" outcome="/documento/List.xhtml" />
-                            <p:menuitem value="Bodega" outcome="/bodega/List.xhtml" />
-                            <p:menuitem value="InvMov" outcome="/invMov/List.xhtml" />
-                            <p:menuitem value="kardex" outcome="/invMov/kardex.xhtml" />
-                        </p:submenu>   
-                        <f:facet name="options">
-                            <p:commandButton id="salir" icon="ui-icon-power" value="#{SSUSUARIO}" actionListener="#{loginBean.logout()}"></p:commandButton>
-                        </f:facet>
+        <p:panelMenu id="mprincipal"  style="padding: 0em !important; height: 27px;"  >                        
+            <p:submenu label="Mantenimientos"  >
+                <p:menuitem value="Producto"   icon="fa fa-plus"  outcome="/producto/List.xhtml"    />
+                <p:menuitem value="Categoria"  outcome="/categoria/List.xhtml" />                            
+                <p:menuitem value="Rol" outcome="/rol/List.xhtml" />
+                <p:menuitem value="Usuario"  outcome="/usuario/List.xhtml" />                            
+                <p:menuitem value="Correlativos" outcome="/correlativo/List.xhtml" icon="ui-icon-home" />
+            </p:submenu>
+            <p:submenu label="Compras">
+                <p:menuitem value="Proveedor" outcome="/proveedor/List.xhtml" />
+                <p:menuitem value="Compra" outcome="/compra/List.xhtml" />    
+                <p:menuitem value="Pago Proveedor" outcome="/pagoCompra/List.xhtml" />
+            </p:submenu>
+            <p:submenu label="Ventas">
+                <p:menuitem value="Cliente" outcome="/cliente/List.xhtml" />
+                <p:menuitem value="Factura" outcome="/factura/List.xhtml" />
+                <p:menuitem value="Pago Factura" outcome="/pagoFactura/List.xhtml" />
+
+            </p:submenu>  
+            <p:submenu label="Inventario">
+                <p:menuitem value="Documento" outcome="/documento/List.xhtml" />
+                <p:menuitem value="Bodega" outcome="/bodega/List.xhtml" />
+                <p:menuitem value="InvMov" outcome="/invMov/List.xhtml" />
+                <p:menuitem value="kardex" outcome="/invMov/kardex.xhtml" />
+            </p:submenu>   
+            <f:facet name="options">
+                <p:commandButton id="salir" icon="ui-icon-power" value="#{SSUSUARIO}" actionListener="#{loginBean.logout()}"></p:commandButton>
+            </f:facet>
         </p:panelMenu>
                 </h:form>
     </p:layoutUnit>

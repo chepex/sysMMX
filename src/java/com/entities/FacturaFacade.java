@@ -123,7 +123,14 @@ public List<Factura> findByClienteFecha(Date fi, Date ff, Cliente client) {
        q = em.createNamedQuery("Factura.findByProducto",Factura.class)
             .setParameter("producto", p.getIdproducto());
        return q.getResultList();
-    }      
+    }    
+    
+    public List<Factura> findByClientePendiente(Cliente c) {
+       TypedQuery<Factura> q = null;
+       q = em.createNamedQuery("Factura.findByClientePendiente",Factura.class)
+            .setParameter("cliente", c.getIdcliente());
+       return q.getResultList();
+    }         
     
     
     
