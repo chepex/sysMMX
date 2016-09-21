@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Rol.findByIdrol", query = "SELECT r FROM Rol r WHERE r.idrol = :idrol"),
     @NamedQuery(name = "Rol.findByNombre", query = "SELECT r FROM Rol r WHERE r.nombre = :nombre"),
     @NamedQuery(name = "Rol.findByDescripn", query = "SELECT r FROM Rol r WHERE r.descripn = :descripn"),
-    @NamedQuery(name = "Rol.findByActivo", query = "SELECT r FROM Rol r WHERE r.activo = :activo"),
+    @NamedQuery(name = "Rol.findByActivo", query = "SELECT r FROM Rol r WHERE r.activo = true"),
     @NamedQuery(name = "Rol.findByUsuarioCreate", query = "SELECT r FROM Rol r WHERE r.usuarioCreate = :usuarioCreate"),
     @NamedQuery(name = "Rol.findByFechaCreate", query = "SELECT r FROM Rol r WHERE r.fechaCreate = :fechaCreate"),
     @NamedQuery(name = "Rol.findByUsuarioUpdate", query = "SELECT r FROM Rol r WHERE r.usuarioUpdate = :usuarioUpdate"),

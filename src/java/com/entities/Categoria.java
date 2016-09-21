@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Categoria.findAll", query = "SELECT c FROM Categoria c"),
     @NamedQuery(name = "Categoria.findByIdcategoria", query = "SELECT c FROM Categoria c WHERE c.idcategoria = :idcategoria"),
     @NamedQuery(name = "Categoria.findByNombre", query = "SELECT c FROM Categoria c WHERE c.nombre = :nombre"),
-    @NamedQuery(name = "Categoria.findByActivo", query = "SELECT c FROM Categoria c WHERE c.activo = :activo"),
+    @NamedQuery(name = "Categoria.findByActivo", query = "SELECT c FROM Categoria c WHERE c.activo = true"),
     @NamedQuery(name = "Categoria.findByUsuarioCreate", query = "SELECT c FROM Categoria c WHERE c.usuarioCreate = :usuarioCreate"),
     @NamedQuery(name = "Categoria.findByFechaCreate", query = "SELECT c FROM Categoria c WHERE c.fechaCreate = :fechaCreate"),
     @NamedQuery(name = "Categoria.findByUsuarioUpdate", query = "SELECT c FROM Categoria c WHERE c.usuarioUpdate = :usuarioUpdate"),

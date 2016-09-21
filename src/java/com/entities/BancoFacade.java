@@ -36,7 +36,14 @@ public class BancoFacade extends AbstractFacade<Banco> {
                 .setParameter("nombre", "%"+nombre+"%");
               
         return q.getResultList();
-    }        
+    }     
+        
+    @Override
+    public List<Banco> findAll() {
+        TypedQuery<Banco> q = null;         
+             q = em.createNamedQuery("Banco.findByActivo",Banco.class) ;   
+        return q.getResultList();
+    }           
         
     
 }
