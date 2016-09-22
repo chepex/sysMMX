@@ -29,7 +29,9 @@ public class CompraController implements Serializable {
     @EJB
     private com.entities.CompraFacade ejbFacade;
     @EJB
-    private com.entities.CorrelativoFacade correlativoFacade;    
+    private com.entities.CorrelativoFacade correlativoFacade;   
+    @EJB
+    private com.entities.ProveedorFacade proveedorFacade;      
     @EJB
     private com.entities.UsuarioFacade usuarioFacade;    
     @EJB
@@ -187,7 +189,15 @@ public class CompraController implements Serializable {
         /*Credito*/
         if(selected.getTipoPagoIdtipoPago().getIdtipoPago().equals(2)){
             selected.setSaldo(this.selected.getTotal());
+            System.out.println("saldo--->"+selected.getSaldo());
+            System.out.println("saldo-->"+selected.getProveedorIdproveedor().getSaldo());
+            selected.getProveedorIdproveedor().setSaldo(selected.getProveedorIdproveedor().getSaldo().add(selected.getSaldo()));
+            System.out.println("proveedor"+selected.getProveedorIdproveedor());
+            System.out.println("saldo-->"+selected.getProveedorIdproveedor().getSaldo());
+            
         }        
+        
+        proveedorFacade.edit(selected.getProveedorIdproveedor());
         //Registrar Entrada
         String msgDocumento = sb_inventario.createDocumento(selected.getDocumento(), lobjt,"1");
         

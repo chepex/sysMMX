@@ -5,9 +5,11 @@
  */
 package com.entities;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -26,5 +28,18 @@ public class PagoFacturaFacade extends AbstractFacade<PagoFactura> {
     public PagoFacturaFacade() {
         super(PagoFactura.class);
     }
+    
+    public List<PagoFactura> findByCompra(Factura f) {
+       TypedQuery<PagoFactura> q = null;
+       q = em.createNamedQuery("PagoFactura.findByIdfactura",PagoFactura.class)
+            .setParameter("factura", f.getIdfactura());
+
+       return q.getResultList();
+    }      
+    
+   
+    
+    
+    
     
 }

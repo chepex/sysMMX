@@ -15,6 +15,12 @@
 
         <ui:define name="body">
             <h:form id="ClienteListForm">
+                <p:panelGrid  columns="4">
+                    <p:outputLabel>Nombre</p:outputLabel>
+                    <p:inputText value="#{clienteController.valorBuscar}"></p:inputText>
+                    <p:commandButton actionListener="#{clienteController.buscar()}" update="@form"  value="Consultar"/>
+                    <p:commandButton actionListener="#{clienteController.limpiar()}" update="@form"  value="Limpiar"/>
+                </p:panelGrid>
                 <p:panel header="Clientes">
                     <p:dataTable id="datalist" value="#{clienteController.items}" var="item"
                                  selectionMode="single" selection="#{clienteController.selected}"

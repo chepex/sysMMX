@@ -4,7 +4,6 @@ import com.entities.util.JsfUtil;
 import com.entities.util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -29,6 +28,8 @@ public class PagoCompraController implements Serializable {
     private com.entities.CompraFacade compraFacade;   
     @EJB
     private com.entities.CuentaBancoFacade cuentaBancoFacade;       
+    @EJB
+    private com.entities.ProveedorFacade proveedorFacade;           
     private List<PagoCompra> items = null;
     private List<Compra> lcompra = null;     
     private List<CuentaBanco> lcuentaBanco = null;       
@@ -100,6 +101,8 @@ public class PagoCompraController implements Serializable {
 
     public PagoCompra prepareCreate() {
         selected = new PagoCompra();
+        
+        this.lcuentaBanco = null;
         initializeEmbeddableKey();
         return selected;
     }
@@ -113,7 +116,10 @@ public class PagoCompraController implements Serializable {
         selectedCompra.setSaldo(selectedCompra.getSaldo().subtract(selected.getValor()));        
         selected.setCompraIdcompra(this.selectedCompra);
         selected.setFecha(new Date());
-      compraFacade.edit(selectedCompra);
+        selectedCompra.getProveedorIdproveedor().setSaldo(selectedCompra.getProveedorIdproveedor().getSaldo().subtract(selected.getValor()));
+        compraFacade.edit(selectedCompra);
+        proveedorFacade.edit(selectedCompra.getProveedorIdproveedor());
+        
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("PagoCompraCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.

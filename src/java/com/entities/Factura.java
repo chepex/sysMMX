@@ -42,6 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Factura.findByIdclienteFecha", query = "SELECT f FROM Factura f WHERE f.clienteIdcliente.idcliente = :cliente and f.fecha between :fi and :ff"),  
     @NamedQuery(name = "Factura.findByDocumento", query = "SELECT f FROM Factura f WHERE f.documento = :documento"),
     @NamedQuery(name = "Factura.findByProducto", query = "SELECT f FROM Factura f, FacturaDet d WHERE f.idfactura = d.facturaIdfactura.idfactura and d.productoIdproducto.idproducto = :producto"),
+    @NamedQuery(name = "Factura.findByClientePendiente", query = "SELECT f FROM Factura f WHERE f.saldo > 0 and f.clienteIdcliente.idcliente = :cliente "),    
     @NamedQuery(name = "Factura.findByFecha", query = "SELECT f FROM Factura f WHERE f.fecha = :fecha"),
     @NamedQuery(name = "Factura.findByCantidad", query = "SELECT f FROM Factura f WHERE f.cantidad = :cantidad"),
     @NamedQuery(name = "Factura.findByIva", query = "SELECT f FROM Factura f WHERE f.iva = :iva"),
@@ -71,6 +72,8 @@ public class Factura implements Serializable {
     private BigDecimal iva;
     @Column(name = "retencion")
     private BigDecimal retencion;
+    @Column(name = "saldo")
+    private BigDecimal saldo;    
     @Column(name = "total")
     private BigDecimal total;
     @Column(name = "sub_total")
@@ -95,10 +98,33 @@ public class Factura implements Serializable {
     private Cliente clienteIdcliente;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "facturaIdfactura")
     private List<FacturaDet> facturaDetList;
+    @JoinColumn(name = "tipo_pago_idtipo_pago", referencedColumnName = "idtipo_pago")
+    @ManyToOne(optional = false)
+    private TipoPago tipoPagoIdtipoPago;    
 
     public Factura() {
     }
 
+    public TipoPago getTipoPagoIdtipoPago() {
+        return tipoPagoIdtipoPago;
+    }
+
+    public void setTipoPagoIdtipoPago(TipoPago tipoPagoIdtipoPago) {
+        this.tipoPagoIdtipoPago = tipoPagoIdtipoPago;
+    }
+    
+    
+
+    public BigDecimal getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(BigDecimal saldo) {
+        this.saldo = saldo;
+    }
+
+    
+    
     public Factura(Integer idfactura) {
         this.idfactura = idfactura;
     }

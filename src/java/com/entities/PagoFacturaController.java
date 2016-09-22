@@ -4,6 +4,7 @@ import com.entities.util.JsfUtil;
 import com.entities.util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -23,12 +24,59 @@ public class PagoFacturaController implements Serializable {
 
     @EJB
     private com.entities.PagoFacturaFacade ejbFacade;
+    @EJB
+    private com.entities.FacturaFacade facturaFacade; 
+    @EJB
+    private com.entities.CuentaBancoFacade cuentaBancoFacade;      
     private List<PagoFactura> items = null;
     private PagoFactura selected;
+    private Cliente cliente;
+    private List<Factura> lfactura ;
+    private Factura selectedFactura ;
+    private List<CuentaBanco> lcuentaBanco = null;     
 
     public PagoFacturaController() {
     }
 
+    public List<CuentaBanco> getLcuentaBanco() {
+        return lcuentaBanco;
+    }
+
+    public void setLcuentaBanco(List<CuentaBanco> lcuentaBanco) {
+        this.lcuentaBanco = lcuentaBanco;
+    }
+
+    
+    public Factura getSelectedFactura() {
+        return selectedFactura;
+    }
+
+    public void setSelectedFactura(Factura selectedFactura) {
+        this.selectedFactura = selectedFactura;
+    }
+
+    
+    
+    public List<Factura> getLfactura() {
+        return lfactura;
+    }
+
+    public void setLfactura(List<Factura> lfactura) {
+        this.lfactura = lfactura;
+    }
+
+    
+    
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    
+    
     public PagoFactura getSelected() {
         return selected;
     }
@@ -41,6 +89,7 @@ public class PagoFacturaController implements Serializable {
     }
 
     protected void initializeEmbeddableKey() {
+        this.selected.setIdpagoFactura(0);
     }
 
     private PagoFacturaFacade getFacade() {
@@ -48,12 +97,17 @@ public class PagoFacturaController implements Serializable {
     }
 
     public PagoFactura prepareCreate() {
-        selected = new PagoFactura();
+        selected = new PagoFactura();        
+        this.lcuentaBanco = null;
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
+        selected.setFacturaIdfactura(selectedFactura);
+        selected.setFecha(new Date());
+        
+        
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("PagoFacturaCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -154,6 +208,33 @@ public class PagoFacturaController implements Serializable {
             }
         }
 
+    }
+    
+    public void consultaPendiente(){
+        System.out.println(" aui--->");
+    lfactura = facturaFacade.findByClientePendiente(this.cliente);
+      System.out.println(" aui--->"+lfactura);
+        if(lfactura.isEmpty()){
+            JsfUtil.addErrorMessage("No se encontraron facturas pendientes");
+        }
+   
+    }      
+
+    public void consultaCuenta(){
+   
+    lcuentaBanco = cuentaBancoFacade.findByIdbanco(this.selected.getBancoIdbanco());
+        if(lcuentaBanco.isEmpty()){
+         JsfUtil.addErrorMessage("No se encontraron cuentas asociados a ese banco");
+        }
+   
+    }      
+
+
+    public void consultaPagos(){
+        if(this.selectedFactura!=null){
+            items= this.ejbFacade.findByCompra(this.selectedFactura);
+        }
+        
     }
 
 }
